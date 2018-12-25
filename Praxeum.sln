@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{258B66F5-299C-4299-9939-A2BAADFF9FC2}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Downloads\sample.json = ..\..\..\Downloads\sample.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.FunctionApp", "Praxeum.FunctionApp\Praxeum.FunctionApp.csproj", "{3FAB37C0-A494-46CD-B7F0-A8E40720C571}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.FunctionApp.Tests", "Praxeum.FunctionApp.Tests\Praxeum.FunctionApp.Tests.csproj", "{5ABEAC42-8B5D-4947-AC51-E1B56966581C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FAB37C0-A494-46CD-B7F0-A8E40720C571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAB37C0-A494-46CD-B7F0-A8E40720C571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAB37C0-A494-46CD-B7F0-A8E40720C571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAB37C0-A494-46CD-B7F0-A8E40720C571}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ABEAC42-8B5D-4947-AC51-E1B56966581C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABEAC42-8B5D-4947-AC51-E1B56966581C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ABEAC42-8B5D-4947-AC51-E1B56966581C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABEAC42-8B5D-4947-AC51-E1B56966581C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EE9AE0B-B200-42BC-8E68-799F98FC8735}
+	EndGlobalSection
+EndGlobal
