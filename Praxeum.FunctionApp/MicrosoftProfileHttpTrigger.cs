@@ -13,7 +13,7 @@ namespace Praxeum.FunctionApp
     {
         [FunctionName("MicrosoftProfileHttpTrigger")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "learners")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "learners")] HttpRequestMessage req,
             TraceWriter log)
         {
             log.Info("C# HTTP trigger function processed a request.");
