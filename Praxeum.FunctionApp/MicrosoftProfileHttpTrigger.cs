@@ -13,7 +13,7 @@ namespace Praxeum.FunctionApp
     {
         [FunctionName("MicrosoftProfileHttpTrigger")]
         public static async Task<HttpResponseMessage> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "learners")] HttpRequestMessage req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "learners")] HttpRequestMessage req,
             TraceWriter log)
         {
             log.Info("C# HTTP trigger function processed a request.");
@@ -40,7 +40,10 @@ namespace Praxeum.FunctionApp
             var microsoftProfileScraper =
                 new MicrosoftProfileScraper();
 
-            return req.CreateResponse(HttpStatusCode.OK, microsoftProfileScraper.FetchProfile(name));
+            var microsoftProfile = 
+                microsoftProfileScraper.FetchProfile(name);
+
+            return req.CreateResponse(HttpStatusCode.OK, microsoftProfile);
         }
     }
 }
