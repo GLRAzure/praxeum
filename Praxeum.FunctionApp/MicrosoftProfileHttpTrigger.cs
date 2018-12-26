@@ -40,7 +40,7 @@ namespace Praxeum.FunctionApp
             var microsoftProfileScraper =
                 new MicrosoftProfileScraper();
 
-            return req.CreateResponse(HttpStatusCode.OK, "Hello " + name);
+            return req.CreateResponse(HttpStatusCode.OK, microsoftProfileScraper.FetchProfile(name));
         }
     }
 }
