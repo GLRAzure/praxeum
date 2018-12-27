@@ -6,6 +6,9 @@ namespace Praxeum.FunctionApp.Data
 {
     public class Learner
     {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+
         [JsonProperty(PropertyName = "displayName")]
         public string DisplayName { get; set; }
 
@@ -27,8 +30,12 @@ namespace Praxeum.FunctionApp.Data
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
+        [JsonProperty(PropertyName = "modifiedOn")]
+        public DateTime ModifiedOn { get; set; }
+
         public Learner()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.HasSeenMicrosoftPrivacyNotice = true;
             this.ProgressStatus = new LearnerProgressStatus();
             this.Achievements = new List<LearnerAchievement>();
