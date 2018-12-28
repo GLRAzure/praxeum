@@ -3,7 +3,7 @@ using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.LeaderBoards
 {
-    public class LeaderBoardDeleteById : IRequest
+    public class LeaderBoardDeleteById
     {
         [SwaggerExclude]
         public Guid Id { get; set; }

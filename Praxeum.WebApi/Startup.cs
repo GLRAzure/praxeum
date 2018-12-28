@@ -41,7 +41,7 @@ namespace Praxeum.WebApi
 
                 c.EnableAnnotations();
 
-                c.SchemaFilter<SwaggerExcludeSchemaFilter>();               
+                c.SchemaFilter<SwaggerExcludeSchemaFilter>();
                 c.DocumentFilter<SwaggerTagDescriptionsDocumentFilter>(); // Enforces sort order and includes descriptions
 
                 c.IgnoreObsoleteActions();
@@ -52,12 +52,15 @@ namespace Praxeum.WebApi
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.Configure<AzureTableStorageOptions>(
-                Configuration.GetSection(nameof(AzureTableStorageOptions)));
+            services.Configure<AzureCosmosDbOptions>(
+                Configuration.GetSection(nameof(AzureCosmosDbOptions)));
 
             services.AddTransient<ILeaderBoardHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAddHandler>();
             services.AddTransient<ILeaderBoardHandler<LeaderBoardFetchById, LeaderBoardFetchedById>, LeaderBoardFetchByIdHandler>();
             services.AddTransient<ILeaderBoardHandler<LeaderBoardFetchList, IEnumerable<LeaderBoardFetchedList>>, LeaderBoardFetchListHandler>();
+            services.AddTransient<ILeaderBoardHandler<LeaderBoardDeleteById, LeaderBoardDeletedById>, LeaderBoardDeleteByIdHandler>();
+            services.AddTransient<ILeaderBoardHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById>, LeaderBoardUpdateByIdHandler>();
+    
             services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
 
             Mapper.Initialize(
@@ -65,12 +68,12 @@ namespace Praxeum.WebApi
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
-                    
+
                     cfg.AddProfile<LeaderBoardProfile>();
                 });
- 
+
             Mapper.AssertConfigurationIsValid();
-       }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

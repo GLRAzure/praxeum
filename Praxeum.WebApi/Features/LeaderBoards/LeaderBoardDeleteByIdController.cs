@@ -10,10 +10,10 @@ namespace Praxeum.WebApi.Features.LeaderBoards
     [ApiController]
     public class LeaderBoardDeleteByIdController : ControllerBase
     {
-        private readonly IRequestHandler<LeaderBoardDeleteById, LeaderBoardDeletedById> _leaderBoardDeleteByIdHandler;
+        private readonly ILeaderBoardHandler<LeaderBoardDeleteById, LeaderBoardDeletedById> _leaderBoardDeleteByIdHandler;
 
         public LeaderBoardDeleteByIdController(
-            IRequestHandler<LeaderBoardDeleteById, LeaderBoardDeletedById> leaderBoardDeleteByIdHandler)
+            ILeaderBoardHandler<LeaderBoardDeleteById, LeaderBoardDeletedById> leaderBoardDeleteByIdHandler)
         {
             _leaderBoardDeleteByIdHandler = leaderBoardDeleteByIdHandler;
         }
@@ -21,7 +21,7 @@ namespace Praxeum.WebApi.Features.LeaderBoards
         [HttpDelete("{id}", Name = "DeleteLeaderBoard")]
         [ProducesResponseType(204)]
         [ProducesResponseType(401)]
-        [SwaggerOperation(Tags = new[] { "LeaderBoards" })]
+        [SwaggerOperation(Tags = new[] { "Leader Boards" })]
         public async Task<IActionResult> DeleteByIdAsync(
            [FromRoute] Guid id)
         {

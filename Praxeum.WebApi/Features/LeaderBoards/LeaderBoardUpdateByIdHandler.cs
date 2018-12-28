@@ -1,22 +1,17 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.LeaderBoards
 {
-    public class LeaderBoardUpdateByIdHandler : IRequestHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById>
+    public class LeaderBoardUpdateByIdHandler : ILeaderBoardHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById>
     {
         private readonly ILeaderBoardRepository _leaderBoardRepository;
-        private readonly IAzureQueueStorageEventPublishService _eventPublishService;
 
         public LeaderBoardUpdateByIdHandler(
-            ILeaderBoardRepository leaderBoardRepository,
-            IAzureQueueStorageEventPublishService eventPublishService)
+            ILeaderBoardRepository leaderBoardRepository)
         {
             _leaderBoardRepository =
                 leaderBoardRepository;
-            _eventPublishService =
-                eventPublishService;
         }
 
         public async Task<LeaderBoardUpdatedById> ExecuteAsync(
@@ -34,10 +29,6 @@ namespace Praxeum.WebApi.Features.LeaderBoards
 
             var leaderBoardUpdatedById =
                 Mapper.Map(leaderBoard, new LeaderBoardUpdatedById());
-
-            await _eventPublishService.PublishAsync(
-                "leaderBoard.updated", 
-                leaderBoardUpdatedById);
 
             return leaderBoardUpdatedById;
         }

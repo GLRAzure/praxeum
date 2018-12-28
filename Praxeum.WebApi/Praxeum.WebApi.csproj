@@ -14,14 +14,6 @@
     <Compile Remove="Data\Learner.cs" />
     <Compile Remove="Data\LearnerAchievement.cs" />
     <Compile Remove="Data\LearnerProgressStatus.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardDeleteById.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardDeleteByIdController.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardDeleteByIdHandler.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardDeletedById.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardUpdateById.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardUpdateByIdController.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardUpdateByIdHandler.cs" />
-    <Compile Remove="Features\LeaderBoards\LeaderBoardUpdatedById.cs" />
   </ItemGroup>
 
   <ItemGroup>

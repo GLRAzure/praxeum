@@ -11,10 +11,10 @@ namespace Praxeum.WebApi.Features.LeaderBoards
     [ApiController]
     public class LeaderBoardUpdateByIdController : ControllerBase
     {
-        private readonly IRequestHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById> _leaderBoardUpdateByIdHandler;
+        private readonly ILeaderBoardHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById> _leaderBoardUpdateByIdHandler;
 
         public LeaderBoardUpdateByIdController(
-            IRequestHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById> leaderBoardUpdateByIdHandler)
+            ILeaderBoardHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById> leaderBoardUpdateByIdHandler)
         {
             _leaderBoardUpdateByIdHandler = leaderBoardUpdateByIdHandler;
         }
@@ -23,7 +23,7 @@ namespace Praxeum.WebApi.Features.LeaderBoards
         [ProducesResponseType(200, Type = typeof(LeaderBoardUpdatedById))]
         [ProducesResponseType(400, Type = typeof(ModelStateDictionary))]
         [ProducesResponseType(401)]
-        [SwaggerOperation(Tags = new[] { "LeaderBoards" })]
+        [SwaggerOperation(Tags = new[] { "Leader Boards" })]
         public async Task<IActionResult> UpdateByIdAsync(
             [FromRoute] Guid id,
             [FromBody] LeaderBoardUpdateById leaderBoardUpdateById)

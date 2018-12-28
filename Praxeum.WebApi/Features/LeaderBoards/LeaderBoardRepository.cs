@@ -4,95 +4,99 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Praxeum.WebApi.Data;
 using Praxeum.WebApi.Helpers;
-using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos;
 
 namespace Praxeum.WebApi.Features.LeaderBoards
 {
-    public class LeaderBoardRepository : AzureTableStorageRepository, ILeaderBoardRepository
+    public class LeaderBoardRepository : AzureCosmosDbRepository, ILeaderBoardRepository
     {
         public LeaderBoardRepository(
-            IOptions<AzureTableStorageOptions> azureTableStorageOptions) : base(azureTableStorageOptions)
+            IOptions<AzureCosmosDbOptions> azureCosmosDbOptions) : base(azureCosmosDbOptions)
         {
         }
 
         public async Task<LeaderBoard> AddAsync(
-            LeaderBoard leaderBoard)
+       LeaderBoard leaderBoard)
         {
-            var cloudTable =
-                _cloudTableClient.GetTableReference("leaderboards");
+            var leaderBoardContainer =
+               _cosmosDatabase.Containers["leaderboards"];
 
-            var tableOperation =
-                TableOperation.Insert(leaderBoard);
+            var leaderBoardDocument =
+                await leaderBoardContainer.Items.CreateItemAsync<LeaderBoard>(
+                    leaderBoard.Id.ToString(),
+                    leaderBoard);
 
-            var tableResult =
-                await cloudTable.ExecuteAsync(
-                    tableOperation);
-
-            leaderBoard =
-                (LeaderBoard)tableResult.Result;
-
-            return leaderBoard;
+            return leaderBoardDocument.Resource;
         }
 
-        public Task<LeaderBoard> DeleteByIdAsync(
+        public async Task<LeaderBoard> DeleteByIdAsync(
             Guid id)
         {
-            throw new NotImplementedException();
+            var leaderBoardContainer =
+               _cosmosDatabase.Containers["leaderboards"];
+
+            var leaderBoardDocument =
+                await leaderBoardContainer.Items.DeleteItemAsync<LeaderBoard>(
+                    id.ToString(),
+                    id.ToString());
+
+            return leaderBoardDocument.Resource;
         }
 
         public async Task<LeaderBoard> FetchByIdAsync(
             Guid id)
         {
-            var cloudTable =
-                _cloudTableClient.GetTableReference("leaderboards");
+            var leaderBoardContainer =
+               _cosmosDatabase.Containers["leaderboards"];
 
-            var tableOperation =
-                TableOperation.Retrieve<LeaderBoard>(id.ToString(), id.ToString());
+            var leaderBoardDocument =
+                await leaderBoardContainer.Items.ReadItemAsync<LeaderBoard>(
+                    id.ToString(),
+                    id.ToString());
 
-            var tableResult =
-                await cloudTable.ExecuteAsync(
-                    tableOperation);
-
-            var leaderBoard =
-                (LeaderBoard)tableResult.Result;
-
-            return leaderBoard;
+            return leaderBoardDocument.Resource;
         }
 
         public async Task<IEnumerable<LeaderBoard>> FetchListAsync()
         {
-            var cloudTable =
-                _cloudTableClient.GetTableReference("leaderboards");
+            var leaderBoardContainer =
+                _cosmosDatabase.Containers["leaderboards"];
 
-            var tableQuery =
-                new TableQuery<LeaderBoard>();
+            var query =
+                $"SELECT * FROM lb";
 
-            TableContinuationToken continuationToken = null;
+            var queryDefinition =
+                new CosmosSqlQueryDefinition(query);
 
-            var leaderBoardList =
-                new List<LeaderBoard>();
+            var leaderBoards =
+                leaderBoardContainer.Items.CreateItemQuery<LeaderBoard>(
+                    queryDefinition, maxConcurrency: 2);
 
-            do
+            var leaderBoardList = new List<LeaderBoard>();
+
+            while (leaderBoards.HasMoreResults)
             {
-                var tableQueryResult =
-                    await cloudTable.ExecuteQuerySegmentedAsync(tableQuery, continuationToken);
-
                 leaderBoardList.AddRange(
-                    tableQueryResult.Results);
-
-                continuationToken = 
-                    tableQueryResult.ContinuationToken;
-
-            } while (continuationToken != null);
+                    await leaderBoards.FetchNextSetAsync());
+            };
 
             return leaderBoardList;
         }
 
-        public Task<LeaderBoard> UpdateByIdAsync(
+        public async Task<LeaderBoard> UpdateByIdAsync(
             Guid id,
             LeaderBoard leaderBoard)
         {
-            throw new NotImplementedException();
+            var leaderBoardContainer =
+               _cosmosDatabase.Containers["leaderboards"];
+
+            var leaderBoardDocument =
+                await leaderBoardContainer.Items.ReplaceItemAsync<LeaderBoard>(
+                    id.ToString(),
+                    id.ToString(),
+                    leaderBoard);
+
+            return leaderBoardDocument.Resource;
         }
     }
 }
