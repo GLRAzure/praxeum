@@ -4,10 +4,11 @@ using Praxeum.FunctionApp.Data;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Helpers
 {
-    public class MicrosoftProfileScraper
+    public class MicrosoftProfileScraper : IMicrosoftProfileScraper
     {
         public const string DISPLAY_NAME_SELECTOR = "#profile-section nav .title";
         public const string USER_NAME_SELECTOR = "#profile-section .card-content > div > div.is-size-7";
@@ -19,14 +20,14 @@ namespace Praxeum.FunctionApp.Helpers
         public const string LEVEL_SELECTOR = ".card > .columns > .column.is-one-third .title.is-size-1";
         public const string EXPERIENCE_SELECTOR = ".card > .columns > .column.is-one-third div > p.is-size-8";
 
-        public Learner FetchProfile(
+        public async Task<MicrosoftProfile> FetchProfileAsync(
              string userPrincipalName)
         {
-            var learner =
-                new Learner();
+            var microsoftProfile =
+                new MicrosoftProfile();
 
             var web = new HtmlWeb();
-            var doc = web.Load("https://techprofile.microsoft.com/en-us/" + userPrincipalName);
+            var doc = await web.LoadFromWebAsync("https://techprofile.microsoft.com/en-us/" + userPrincipalName);
 
             var html = doc.DocumentNode;
 
@@ -35,13 +36,13 @@ namespace Praxeum.FunctionApp.Helpers
             nodes =
                 html.CssSelect(DISPLAY_NAME_SELECTOR);
 
-            learner.DisplayName =
+            microsoftProfile.DisplayName =
                 nodes.First().InnerText;
 
             nodes =
                 html.CssSelect(USER_NAME_SELECTOR);
 
-            learner.UserName =
+            microsoftProfile.UserName =
                 nodes.First().InnerText;
 
             nodes =
@@ -54,7 +55,7 @@ namespace Praxeum.FunctionApp.Helpers
                 createdOn =
                     createdOn.Replace("Member Since", "");
 
-                learner.CreatedOn = DateTime.Parse(createdOn);
+                microsoftProfile.CreatedOn = DateTime.Parse(createdOn);
             }
 
             nodes =
@@ -63,7 +64,7 @@ namespace Praxeum.FunctionApp.Helpers
             foreach (var node in nodes)
             {
                 var achievement =
-                    new LearnerAchievement();
+                    new MicrosoftProfileAchievement();
 
                 achievement.Type = "badge";
 
@@ -87,13 +88,13 @@ namespace Praxeum.FunctionApp.Helpers
                         DateTime.Parse(childNode.InnerText);
                 }
 
-                learner.Achievements.Add(achievement);
+                microsoftProfile.Achievements.Add(achievement);
             }
 
             nodes =
                 html.CssSelect(LEVEL_SELECTOR);
 
-            learner.ProgressStatus.CurrentLevel =
+            microsoftProfile.ProgressStatus.CurrentLevel =
                 int.Parse(nodes.First().InnerText);
 
             nodes =
@@ -105,17 +106,17 @@ namespace Praxeum.FunctionApp.Helpers
             experience =
                 experience.Replace("XP", "").Trim();
 
-            learner.ProgressStatus.CurrentLevelPointsEarned =
+            microsoftProfile.ProgressStatus.CurrentLevelPointsEarned =
                 int.Parse(experience.Split('/')[0]);
-            learner.ProgressStatus.TotalPoints =
+            microsoftProfile.ProgressStatus.TotalPoints =
                 int.Parse(experience.Split('/')[1]);
 
-            learner.ProgressStatus.BadgesEarned =
-                learner.Achievements.Count(x => x.Type == "badge");
-            learner.ProgressStatus.TrophiesEarned =
-                learner.Achievements.Count(x => x.Type == "trophy");
+            microsoftProfile.ProgressStatus.BadgesEarned =
+                microsoftProfile.Achievements.Count(x => x.Type == "badge");
+            microsoftProfile.ProgressStatus.TrophiesEarned =
+                microsoftProfile.Achievements.Count(x => x.Type == "trophy");
 
-            return learner;
+            return microsoftProfile;
         }
     }
 }

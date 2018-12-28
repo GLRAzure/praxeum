@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Praxeum.FunctionApp\Praxeum.FunctionApp.csproj" />
+    <ProjectReference Include="..\Praxeum.WebApi\Praxeum.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

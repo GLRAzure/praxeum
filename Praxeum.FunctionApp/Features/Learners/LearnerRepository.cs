@@ -1,13 +1,14 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Praxeum.FunctionApp.Data;
 using Praxeum.FunctionApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Praxeum.FunctionApp.Data
+namespace Praxeum.FunctionApp.Features.Learners
 {
-    public class LearnerRepository : AzureCosmosDbRepository
+    public class LearnerRepository : AzureCosmosDbRepository, ILearnerRepository
     {
         public LearnerRepository() : base(new AzureCosmosDbOptions())
         {
@@ -32,7 +33,21 @@ namespace Praxeum.FunctionApp.Data
             return learnerDocument.Resource;
         }
 
-        public async Task<Learner> FetchAsync(
+        public async Task<Learner> FetchByIdAsync(
+            Guid id)
+        {
+            var learnerContainer =
+               _cosmosDatabase.Containers["learners"];
+
+            var learnerDocument =
+                await learnerContainer.Items.ReadItemAsync<Learner>(
+                    id.ToString(), 
+                    id.ToString());
+
+            return learnerDocument.Resource;
+        }
+
+        public async Task<Learner> FetchByUserNameAsync(
             string userName)
         {
             var learnerContainer =
@@ -70,21 +85,6 @@ namespace Praxeum.FunctionApp.Data
 
             var learnerDocument =
                 await learnerContainer.Items.UpsertItemAsync<Learner>(
-                    learner.Id.ToString(),
-                    learner);
-
-            return learnerDocument.Resource;
-        }
-
-        public async Task<Learner> UpdateAsync(
-            Learner learner)
-        {
-            var learnerContainer =
-               _cosmosDatabase.Containers["learners"];
-
-            var learnerDocument =
-                await learnerContainer.Items.ReplaceItemAsync<Learner>(
-                    learner.Id.ToString(),
                     learner.Id.ToString(),
                     learner);
 

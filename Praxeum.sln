@@ -5,12 +5,17 @@ VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{258B66F5-299C-4299-9939-A2BAADFF9FC2}"
 	ProjectSection(SolutionItems) = preProject
+		api.yaml = api.yaml
 		..\..\..\Downloads\sample.json = ..\..\..\Downloads\sample.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.FunctionApp", "Praxeum.FunctionApp\Praxeum.FunctionApp.csproj", "{DA43D4B0-A350-4D74-863B-A6DF22B6ACA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.FunctionApp.Tests", "Praxeum.FunctionApp.Tests\Praxeum.FunctionApp.Tests.csproj", "{2238A553-8299-4BB5-B7B1-F22F6691E0A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.FunctionApp.Tests", "Praxeum.FunctionApp.Tests\Praxeum.FunctionApp.Tests.csproj", "{2238A553-8299-4BB5-B7B1-F22F6691E0A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.WebApi", "Praxeum.WebApi\Praxeum.WebApi.csproj", "{E0874A16-57AE-4E41-9F3D-967006458DE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.WebApi.Tests", "Praxeum.WebApi.Tests\Praxeum.WebApi.Tests.csproj", "{177924A9-E198-4816-BD2B-6C0814D33010}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +31,14 @@ Global
 		{2238A553-8299-4BB5-B7B1-F22F6691E0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2238A553-8299-4BB5-B7B1-F22F6691E0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2238A553-8299-4BB5-B7B1-F22F6691E0A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0874A16-57AE-4E41-9F3D-967006458DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0874A16-57AE-4E41-9F3D-967006458DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0874A16-57AE-4E41-9F3D-967006458DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0874A16-57AE-4E41-9F3D-967006458DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{177924A9-E198-4816-BD2B-6C0814D33010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{177924A9-E198-4816-BD2B-6C0814D33010}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{177924A9-E198-4816-BD2B-6C0814D33010}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{177924A9-E198-4816-BD2B-6C0814D33010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

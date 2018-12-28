@@ -2,7 +2,7 @@
 
 namespace Praxeum.FunctionApp.Data
 {
-    public class LearnerProgressStatus
+    public class MicrosoftProfileProgressStatus
     {
         [JsonProperty(PropertyName = "totalPoints")]
         public int TotalPoints { get; set; }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Praxeum.FunctionApp.Data
 {
-    public class Learner
+    public class MicrosoftProfile
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -22,23 +22,20 @@ namespace Praxeum.FunctionApp.Data
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
         [JsonProperty(PropertyName = "progressStatus")]
-        public LearnerProgressStatus ProgressStatus { get; set; }
+        public MicrosoftProfileProgressStatus ProgressStatus { get; set; }
 
         [JsonProperty(PropertyName = "achievements")]
-        public ICollection<LearnerAchievement> Achievements { get; set; }
+        public ICollection<MicrosoftProfileAchievement> Achievements { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
-        [JsonProperty(PropertyName = "modifiedOn")]
-        public DateTime ModifiedOn { get; set; }
-
-        public Learner()
+        public MicrosoftProfile()
         {
             this.Id = Guid.NewGuid().ToString();
             this.HasSeenMicrosoftPrivacyNotice = true;
-            this.ProgressStatus = new LearnerProgressStatus();
-            this.Achievements = new List<LearnerAchievement>();
+            this.ProgressStatus = new MicrosoftProfileProgressStatus();
+            this.Achievements = new List<MicrosoftProfileAchievement>();
         }
     }
 }

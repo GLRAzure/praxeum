@@ -4,7 +4,22 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Features\LeaderBoards\**" />
+    <Compile Remove="Features\Learners\**" />
+    <EmbeddedResource Remove="Features\LeaderBoards\**" />
+    <EmbeddedResource Remove="Features\Learners\**" />
+    <None Remove="Features\LeaderBoards\**" />
+    <None Remove="Features\Learners\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Data\LeaderBoard.cs" />
+    <Compile Remove="Data\LeaderBoardLearner.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.1" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
     <PackageReference Include="ScrapySharp" Version="3.0.0" />
   </ItemGroup>

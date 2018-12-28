@@ -3,7 +3,7 @@ using System;
 
 namespace Praxeum.FunctionApp.Data
 {
-    public class LearnerAchievement
+    public class MicrosoftProfileAchievement
     {
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
