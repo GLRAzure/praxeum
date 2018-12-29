@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace Praxeum.WebApi.Data
+namespace Praxeum.FunctionApp.Data
 {
-    public class Learner
+    public class MicrosoftProfile
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "displayName")]
         public string DisplayName { get; set; }
@@ -22,26 +22,20 @@ namespace Praxeum.WebApi.Data
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
         [JsonProperty(PropertyName = "progressStatus")]
-        public LearnerProgressStatus ProgressStatus { get; set; }
+        public MicrosoftProfileProgressStatus ProgressStatus { get; set; }
 
         [JsonProperty(PropertyName = "achievements")]
-        public ICollection<LearnerAchievement> Achievements { get; set; }
+        public ICollection<MicrosoftProfileAchievement> Achievements { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
-        [JsonProperty(PropertyName = "expiresOn")]
-        public DateTime ExpiresOn { get; set; }
-
-        [JsonIgnore]
-        public bool IsExpired => this.ExpiresOn == null || this.ExpiresOn <= DateTime.UtcNow;
-
-        public Learner()
+        public MicrosoftProfile()
         {
-            this.Id = Guid.NewGuid();
+            this.Id = Guid.NewGuid().ToString();
             this.HasSeenMicrosoftPrivacyNotice = true;
-            this.ProgressStatus = new LearnerProgressStatus();
-            this.Achievements = new List<LearnerAchievement>();
+            this.ProgressStatus = new MicrosoftProfileProgressStatus();
+            this.Achievements = new List<MicrosoftProfileAchievement>();
         }
     }
 }

@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Learner.cs" />
-    <Compile Remove="Data\LearnerAchievement.cs" />
-    <Compile Remove="Data\LearnerProgressStatus.cs" />
+    <Compile Remove="Data\MicrosoftProfile.cs" />
+    <Compile Remove="Data\MicrosoftProfileAchievement.cs" />
+    <Compile Remove="Data\MicrosoftProfileStatus.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +25,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Learners\" />
   </ItemGroup>
 
 </Project>
