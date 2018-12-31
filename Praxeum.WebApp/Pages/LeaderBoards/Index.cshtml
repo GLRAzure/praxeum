@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Leader Boards";
+}
+
+<h1>Leader Boards</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var leaderBoard in Model.LeaderBoards)
+        {
+        <tr>
+            <td><a asp-page="Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="Create" class="btn btn-primary"><i class="fal fa-plus"></i><span>Add Leader Board</span></a>

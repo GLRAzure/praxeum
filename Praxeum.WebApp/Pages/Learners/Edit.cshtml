@@ -1,0 +1,24 @@
+﻿@page "/Teams/{id:Guid}/Edit"
+@model EditModel
+@{
+    ViewData["Title"] = "Edit Team";
+}
+
+<h1>Edit Team</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Team.Name"></label>
+        <input asp-for="Team.Name" class="form-control" />
+        <span asp-validation-for="Team.Name" class="text-danger"></span>
+    </div>
+    <div class="form-check">
+        <input asp-for="Team.Name" type="checkbox" class="form-check-input">
+        <label asp-for="Team.IsActive" class="form-check-label"></label>
+        <span asp-validation-for="Team.IsActive" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="Team.Id" />
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-page="Details">Cancel</a>
+</form>

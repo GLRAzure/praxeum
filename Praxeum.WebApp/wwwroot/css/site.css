@@ -1,0 +1,14 @@
+header {
+    margin-bottom: 2rem;
+}
+
+i + span,
+svg + span,
+td > a + a {
+    margin-left: .5rem;
+}
+
+.form-group > label {
+    font-size: .75rem;
+    font-weight: bold;
+}

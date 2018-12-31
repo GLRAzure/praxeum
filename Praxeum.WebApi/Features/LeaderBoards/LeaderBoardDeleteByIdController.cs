@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Praxeum.WebApi.Features.LeaderBoards
 {
+    [Authorize]
     [Route("api/leaderBoards")]
     [Produces("application/json")]
     [ApiController]
