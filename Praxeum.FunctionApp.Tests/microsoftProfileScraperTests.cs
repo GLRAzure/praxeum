@@ -17,7 +17,7 @@ namespace Tests
                 new MicrosoftProfileScraper();
 
             var result =
-                microsoftProfileScraper.FetchProfile("mattruma");
+                microsoftProfileScraper.FetchProfileAsync("mattruma").Result;
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.DisplayName);
