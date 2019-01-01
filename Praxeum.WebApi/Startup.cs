@@ -40,39 +40,6 @@ namespace Praxeum.WebApi
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                options.Authority = Configuration["AzureAdB2COptions:Authority"];
-                options.Audience = Configuration["AzureAdB2COptions:Audience"];
-
-                options.IncludeErrorDetails = true;
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        // Grab the raw value of the token, and store it as a claim so we can retrieve it again later in the request pipeline
-                        // Have a look at the ValuesController.UserInformation() method to see how to retrieve it and use it to retrieve the
-                        // user's information from the /userinfo endpoint
-                        if (context.SecurityToken is JwtSecurityToken token)
-                        {
-                            if (context.Principal.Identity is ClaimsIdentity identity)
-                            {
-                                identity.AddClaim(new Claim("access_token", token.RawData));
-                            }
-                        }
-
-                        return Task.FromResult(0);
-                    },
-                    OnAuthenticationFailed = AuthenticationFailed
-                };
-            });
 
             services.AddSwaggerGen(c =>
             {
@@ -162,19 +129,7 @@ namespace Praxeum.WebApi
             });
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
             app.UseMvc();
-        }
-
-        private Task AuthenticationFailed(AuthenticationFailedContext arg)
-        {
-            // For debugging purposes only!
-            var s = $"AuthenticationFailed: {arg.Exception.Message}";
-
-            arg.Response.ContentLength = s.Length;
-            arg.Response.Body.Write(Encoding.UTF8.GetBytes(s), 0, s.Length);
-
-            return Task.FromResult(0);
         }
     }
 }

@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,8 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using Praxeum.WebApp.Helpers;
-using System;
 using System.IO;
 
 namespace Praxeum.WebApp
@@ -33,23 +31,8 @@ namespace Praxeum.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddAzureAdB2C(options => Configuration.Bind("AzureAdB2COptions", options))
-            .AddCookie();
-
-            // Adds a default in-memory implementation of IDistributedCache.
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(4);
-            });
+            services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
+                .AddAzureADB2C(options => Configuration.Bind("AzureAdB2COptions", options));
 
             services
                 .AddMvc()
@@ -87,11 +70,11 @@ namespace Praxeum.WebApp
                     });
             }
 
-            app.UseSession();
+            app.UseCookiePolicy();
+
             app.UseAuthentication();
+
             app.UseMvc();
-            app.UseMvcWithDefaultRoute(); // Need this to map to controller routes
-            app.UseCookiePolicy(); // Need this to be after app.UseMvc(), think it is related to https://github.com/aspnet/Mvc/issues/8233
         }
     }
 }
