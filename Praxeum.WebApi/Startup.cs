@@ -37,9 +37,7 @@ namespace Praxeum.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+                .AddMvc();
 
             services.AddSwaggerGen(c =>
             {
