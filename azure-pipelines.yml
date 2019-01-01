@@ -23,7 +23,7 @@ steps:
   inputs:
     command: publish
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    projects: Praxeum.WebApp/Praxeum.WebApp.csproj
+    projects: Praxeum.WebApi/Praxeum.WebApi.csproj
     publishWebProjects: false
     modifyOutputPath: true
     zipAfterPublish: true
