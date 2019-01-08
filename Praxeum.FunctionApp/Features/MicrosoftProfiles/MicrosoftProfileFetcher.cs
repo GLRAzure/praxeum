@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Features.MicrosoftProfiles
 {
-    public class MicrosoftProfileFetchHandler
+    public class MicrosoftProfileFetcher : IHandler<MicrosoftProfileFetch, MicrosoftProfileFetched>
     {
         private readonly IMicrosoftProfileScraper _microsoftProfileScraper;
 
-        public MicrosoftProfileFetchHandler() : this(new MicrosoftProfileScraper())
+        public MicrosoftProfileFetcher() : this(new MicrosoftProfileScraper())
         {
         }
 
-        public MicrosoftProfileFetchHandler(
+        public MicrosoftProfileFetcher(
             IMicrosoftProfileScraper microsoftProfileScraper)
         {
             _microsoftProfileScraper =

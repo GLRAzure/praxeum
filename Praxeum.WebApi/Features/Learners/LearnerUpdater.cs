@@ -2,45 +2,46 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
+using Praxeum.WebApi.Data;
 using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerUpdateByIdHandler : ILearnerHandler<LearnerUpdateById, LearnerUpdatedById>
+    public class LearnerUpdater : IHandler<LearnerUpdate, LearnerUpdated>
     {
         private readonly IOptions<LearnerOptions> _learnerOptions;
-        private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IMicrosoftProfileFetcher _microsoftProfileFetcher;
         private readonly ILearnerRepository _learnerRepository;
 
-        public LearnerUpdateByIdHandler(
+        public LearnerUpdater(
             IOptions<LearnerOptions> learnerOptions,
-            IMicrosoftProfileRepository microsoftProfileRepository,
+            IMicrosoftProfileFetcher microsoftProfileFetcher,
             ILearnerRepository learnerRepository)
         {
             _learnerOptions =
                 learnerOptions;
-            _microsoftProfileRepository =
-                microsoftProfileRepository;
+            _microsoftProfileFetcher =
+                microsoftProfileFetcher;
             _learnerRepository =
                 learnerRepository;
         }
 
-        public async Task<LearnerUpdatedById> ExecuteAsync(
-            LearnerUpdateById learnerUpdateById)
+        public async Task<LearnerUpdated> ExecuteAsync(
+            LearnerUpdate learnerUpdate)
         {
             var learner =
                 await _learnerRepository.FetchByIdAsync(
-                    learnerUpdateById.Id);
+                    learnerUpdate.Id);
 
             if (learner == null)
             {
-                throw new NullReferenceException($"Learner {learnerUpdateById.Id} does not exist.");
+                throw new NullReferenceException($"Learner {learnerUpdate.Id} does not exist.");
             }
 
-            Mapper.Map(learnerUpdateById, learner);
+            Mapper.Map(learnerUpdate, learner);
 
             var microsoftProfile =
-                _microsoftProfileRepository.FetchProfileAsync(learner.UserName);
+                _microsoftProfileFetcher.FetchProfileAsync(learner.UserName);
 
             learner =
                 Mapper.Map(microsoftProfile, learner);
@@ -51,15 +52,15 @@ namespace Praxeum.WebApi.Features.Learners
 
             learner =
                 await _learnerRepository.UpdateByIdAsync(
-                    learnerUpdateById.Id,
+                    learnerUpdate.Id,
                     learner);
 
-            var learnerUpdatedById =
-                Mapper.Map(learner, new LearnerUpdatedById());
+            var learnerUpdated =
+                Mapper.Map(learner, new LearnerUpdated());
 
-            learnerUpdatedById.IsCached = false;
+            learnerUpdated.IsCached = false;
 
-            return learnerUpdatedById;
+            return learnerUpdated;
         }
     }
 }

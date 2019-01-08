@@ -1,23 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Praxeum.WebApi.Features.LeaderBoards;
 using Praxeum.WebApi.Features.Learners;
 using Praxeum.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
@@ -62,36 +51,16 @@ namespace Praxeum.WebApi
             services.Configure<LearnerOptions>(
                 Configuration.GetSection(nameof(LearnerOptions)));
 
-            services.Configure<MicrosoftProfileOptions>(
-                Configuration.GetSection(nameof(MicrosoftProfileOptions)));
+            services.Configure<MicrosoftProfileFetcherOptions>(
+                Configuration.GetSection(nameof(MicrosoftProfileFetcherOptions)));
 
-            services.AddTransient<IMicrosoftProfileRepository, MicrosoftProfileRepository>();
-
-            // Leader Boards
-            services.AddTransient<ILeaderBoardHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAddHandler>();
-            services.AddTransient<ILeaderBoardHandler<LeaderBoardFetchById, LeaderBoardFetchedById>, LeaderBoardFetchByIdHandler>();
-            services.AddTransient<ILeaderBoardHandler<LeaderBoardFetchList, IEnumerable<LeaderBoardFetchedList>>, LeaderBoardFetchListHandler>();
-            services.AddTransient<ILeaderBoardHandler<LeaderBoardDeleteById, LeaderBoardDeletedById>, LeaderBoardDeleteByIdHandler>();
-            services.AddTransient<ILeaderBoardHandler<LeaderBoardUpdateById, LeaderBoardUpdatedById>, LeaderBoardUpdateByIdHandler>();
-    
-            services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
-
-            // Learners
-            services.AddTransient<ILearnerHandler<LearnerAdd, LearnerAdded>, LearnerAddHandler>();
-            services.AddTransient<ILearnerHandler<LearnerFetchById, LearnerFetchedById>, LearnerFetchByIdHandler>();
-            services.AddTransient<ILearnerHandler<LearnerFetchList, IEnumerable<LearnerFetchedList>>, LearnerFetchListHandler>();
-            services.AddTransient<ILearnerHandler<LearnerDeleteById, LearnerDeletedById>, LearnerDeleteByIdHandler>();
-            services.AddTransient<ILearnerHandler<LearnerUpdateById, LearnerUpdatedById>, LearnerUpdateByIdHandler>();
-    
-            services.AddTransient<ILearnerRepository, LearnerRepository>();
+            services.UseLearnerServices();
 
             Mapper.Initialize(
                 cfg =>
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
-
-                    cfg.AddProfile<LeaderBoardProfile>();
                     cfg.AddProfile<LearnerProfile>();
               });
 

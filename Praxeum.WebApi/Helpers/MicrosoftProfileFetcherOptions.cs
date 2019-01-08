@@ -2,7 +2,7 @@
 
 namespace Praxeum.WebApi.Helpers
 {
-    public class MicrosoftProfileOptions
+    public class MicrosoftProfileFetcherOptions
     {
         public string ApiEndpoint { get; set; }
     }

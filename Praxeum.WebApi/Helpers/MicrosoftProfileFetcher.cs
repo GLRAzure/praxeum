@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Praxeum.WebApi.Helpers
 {
-    public class MicrosoftProfileRepository : IMicrosoftProfileRepository
+    public class MicrosoftProfileFetcher : IMicrosoftProfileFetcher
     {
-        private readonly IOptions<MicrosoftProfileOptions> _microsoftProfileOptions;
+        private readonly IOptions<MicrosoftProfileFetcherOptions> _microsoftProfileFetcherOptions;
         private readonly HttpClient _httpClient;
 
-        public MicrosoftProfileRepository(
-            IOptions<MicrosoftProfileOptions> microsoftProfileOptions)
+        public MicrosoftProfileFetcher(
+            IOptions<MicrosoftProfileFetcherOptions> microsoftProfileFetcherOptions)
         {
-            _microsoftProfileOptions =
-                microsoftProfileOptions;
+            _microsoftProfileFetcherOptions =
+                microsoftProfileFetcherOptions;
 
             _httpClient =
                 new HttpClient();
 
-            _httpClient.BaseAddress = new Uri(_microsoftProfileOptions.Value.ApiEndpoint);
+            _httpClient.BaseAddress = new Uri(_microsoftProfileFetcherOptions.Value.ApiEndpoint);
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));

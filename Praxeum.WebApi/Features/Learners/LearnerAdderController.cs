@@ -8,14 +8,14 @@ namespace Praxeum.WebApi.Features.Learners
     [Route("api/learners")]
     [Produces("application/json")]
     [ApiController]
-    public class LearnerAddController : ControllerBase
+    public class LearnerAdderController : ControllerBase
     {
-        private readonly ILearnerHandler<LearnerAdd, LearnerAdded> _learnerAddHandler;
+        private readonly IHandler<LearnerAdd, LearnerAdded> _learnerAdder;
 
-        public LearnerAddController(
-            ILearnerHandler<LearnerAdd, LearnerAdded> learnerAddHandler)
+        public LearnerAdderController(
+            IHandler<LearnerAdd, LearnerAdded> learnerAdder)
         {
-            _learnerAddHandler = learnerAddHandler;
+            _learnerAdder = learnerAdder;
         }
 
         [HttpPost(Name = "AddLearner")]
@@ -32,7 +32,7 @@ namespace Praxeum.WebApi.Features.Learners
             }
 
             var learnerAdded =
-                await _learnerAddHandler.ExecuteAsync(learnerAdd);
+                await _learnerAdder.ExecuteAsync(learnerAdd);
 
             return CreatedAtRoute("FetchLearner", new { id = learnerAdded.Id }, learnerAdded);
         }

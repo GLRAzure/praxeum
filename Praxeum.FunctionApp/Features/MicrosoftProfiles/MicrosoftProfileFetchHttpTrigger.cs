@@ -16,8 +16,6 @@ namespace Praxeum.FunctionApp.Features.Learners
             string name,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
             if (string.IsNullOrWhiteSpace(name))
             {
                 return new BadRequestObjectResult("Please pass a name on the query string or in the request body");
@@ -29,11 +27,11 @@ namespace Praxeum.FunctionApp.Features.Learners
                     UserName = name
                 };
 
-            var microsoftProfileFetchHandler =
-                new MicrosoftProfileFetchHandler();
+            var microsoftProfileFetcher =
+                new MicrosoftProfileFetcher();
 
             var microsoftProfileFetched =
-                await microsoftProfileFetchHandler.ExecuteAsync(
+                await microsoftProfileFetcher.ExecuteAsync(
                     microsoftProfileFetch);
 
             return new OkObjectResult(microsoftProfileFetched);

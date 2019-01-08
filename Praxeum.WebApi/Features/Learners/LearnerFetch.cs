@@ -3,7 +3,7 @@ using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerDeleteById
+    public class LearnerFetch
     {
         [SwaggerExclude]
         public Guid Id { get; set; }

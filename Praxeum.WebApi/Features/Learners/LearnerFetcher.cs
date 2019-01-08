@@ -7,38 +7,38 @@ using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerFetchByIdHandler : ILearnerHandler<LearnerFetchById, LearnerFetchedById>
+    public class LearnerFetcher : IHandler<LearnerFetch, LearnerFetched>
     {
         private readonly IOptions<LearnerOptions> _learnerOptions;
-        private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IMicrosoftProfileFetcher _microsoftProfileFetcher;
         private readonly ILearnerRepository _learnerRepository;
 
-        public LearnerFetchByIdHandler(
+        public LearnerFetcher(
             IOptions<LearnerOptions> learnerOptions,
-            IMicrosoftProfileRepository microsoftProfileRepository,
+            IMicrosoftProfileFetcher microsoftProfileFetcher,
             ILearnerRepository learnerRepository)
         {
             _learnerOptions =
                 learnerOptions;
-            _microsoftProfileRepository =
-                microsoftProfileRepository;
+            _microsoftProfileFetcher =
+                microsoftProfileFetcher;
             _learnerRepository =
                 learnerRepository;
         }
 
-        public async Task<LearnerFetchedById> ExecuteAsync(
-            LearnerFetchById learnerFetchById)
+        public async Task<LearnerFetched> ExecuteAsync(
+            LearnerFetch learnerFetch)
         {
             var learner =
                 await _learnerRepository.FetchByIdAsync(
-                    learnerFetchById.Id);
+                    learnerFetch.Id);
 
             bool isCached = true;
 
             if (learner.IsExpired)
             {
                 var microsoftProfile =
-                    _microsoftProfileRepository.FetchProfileAsync(learner.UserName);
+                    _microsoftProfileFetcher.FetchProfileAsync(learner.UserName);
 
                 learner =
                     Mapper.Map(microsoftProfile, new Learner());
@@ -55,12 +55,12 @@ namespace Praxeum.WebApi.Features.Learners
                 isCached = false;
            }
 
-            var learnerFetchedById =
-                Mapper.Map(learner, new LearnerFetchedById());
+            var learnerFetched =
+                Mapper.Map(learner, new LearnerFetched());
 
-            learnerFetchedById.IsCached = isCached;
+            learnerFetched.IsCached = isCached;
 
-            return learnerFetchedById;
+            return learnerFetched;
         }
     }
 }

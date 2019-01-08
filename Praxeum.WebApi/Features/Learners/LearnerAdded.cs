@@ -2,7 +2,7 @@
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerAdded : LearnerFetchedById
+    public class LearnerAdded : LearnerFetched
     {
     }
 }

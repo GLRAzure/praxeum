@@ -8,10 +8,10 @@ namespace Praxeum.WebApi.Features.Learners
     {
         public LearnerProfile()
         {
-            CreateMap<Learner, LearnerDeletedById>();
-            CreateMap<Learner, LearnerFetchedList>()
+            CreateMap<Learner, LearnerDeleted>();
+            CreateMap<Learner, LearnerListed>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
-            CreateMap<Learner, LearnerFetchedById>()
+            CreateMap<Learner, LearnerFetched>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
             CreateMap<MicrosoftProfile, Learner>()
                 .ForMember(d => d.Id, o => o.Ignore())
@@ -22,9 +22,6 @@ namespace Praxeum.WebApi.Features.Learners
                 .ForMember(d => d.ExpiresOn, o => o.Ignore());
             CreateMap<Learner, LearnerAdded>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
-            //CreateMap<LearnerUpdateById, Learner>()
-            //    .ForMember(d => d.CreatedOn, o => o.Ignore());
-            //CreateMap<Learner, LearnerUpdatedById>();
         }
     }
 }

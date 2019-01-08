@@ -7,21 +7,21 @@ using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerAddHandler : ILearnerHandler<LearnerAdd, LearnerAdded>
+    public class LearnerAdder : IHandler<LearnerAdd, LearnerAdded>
     {
         private readonly IOptions<LearnerOptions> _learnerOptions;
-        private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IMicrosoftProfileFetcher _microsoftProfileFetcher;
         private readonly ILearnerRepository _learnerRepository;
 
-        public LearnerAddHandler(
+        public LearnerAdder(
             IOptions<LearnerOptions> learnerOptions,
-            IMicrosoftProfileRepository microsoftProfileRepository,
+            IMicrosoftProfileFetcher microsoftProfileFetcher,
             ILearnerRepository learnerRepository)
         {
             _learnerOptions =
                 learnerOptions;
-            _microsoftProfileRepository =
-                microsoftProfileRepository;
+            _microsoftProfileFetcher =
+                microsoftProfileFetcher;
             _learnerRepository =
                 learnerRepository;
         }
@@ -41,7 +41,7 @@ namespace Praxeum.WebApi.Features.Learners
             }
 
             var microsoftProfile =
-                await _microsoftProfileRepository.FetchProfileAsync(learnerAdd.Name);
+                await _microsoftProfileFetcher.FetchProfileAsync(learnerAdd.Name);
 
             learner =
                 Mapper.Map(microsoftProfile, learner);

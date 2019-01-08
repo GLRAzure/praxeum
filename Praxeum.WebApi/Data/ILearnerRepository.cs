@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Praxeum.WebApi.Data;
 
-namespace Praxeum.WebApi.Features.Learners
+namespace Praxeum.WebApi.Data
 {
     public interface ILearnerRepository
     {

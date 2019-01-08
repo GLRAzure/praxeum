@@ -8,26 +8,26 @@ namespace Praxeum.WebApi.Features.Learners
     [Route("api/learners")]
     [Produces("application/json")]
     [ApiController]
-    public class LearnerDeleteByIdController : ControllerBase
+    public class LearnerDeleterController : ControllerBase
     {
-        private readonly ILearnerHandler<LearnerDeleteById, LearnerDeletedById> _learnerDeleteByIdHandler;
+        private readonly IHandler<LearnerDelete, LearnerDeleted> _learnerDeleter;
 
-        public LearnerDeleteByIdController(
-            ILearnerHandler<LearnerDeleteById, LearnerDeletedById> learnerDeleteByIdHandler)
+        public LearnerDeleterController(
+            IHandler<LearnerDelete, LearnerDeleted> learnerDeleter)
         {
-            _learnerDeleteByIdHandler = learnerDeleteByIdHandler;
+            _learnerDeleter = learnerDeleter;
         }
 
         [HttpDelete("{id}", Name = "DeleteLearner")]
         [ProducesResponseType(204)]
         [ProducesResponseType(401)]
         [SwaggerOperation(Tags = new[] { "Learners" })]
-        public async Task<IActionResult> DeleteByIdAsync(
+        public async Task<IActionResult> DeleteAsync(
            [FromRoute] Guid id)
         {
-            var learnerDeletedById =
-                await _learnerDeleteByIdHandler.ExecuteAsync(
-                    new LearnerDeleteById
+            var learnerDeleted =
+                await _learnerDeleter.ExecuteAsync(
+                    new LearnerDelete
                     {
                         Id = id
                     });

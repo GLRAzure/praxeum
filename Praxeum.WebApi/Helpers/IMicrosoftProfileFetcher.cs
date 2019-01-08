@@ -2,7 +2,7 @@
 
 namespace Praxeum.WebApi.Helpers
 {
-    public interface IMicrosoftProfileRepository
+    public interface IMicrosoftProfileFetcher
     {
         Task<MicrosoftProfile> FetchProfileAsync(
              string userName);

@@ -3,13 +3,13 @@ using Praxeum.WebApi.Data;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerFetchedById : Learner
+    public class LearnerFetched : Learner
     {
         [JsonProperty(Order = 1)]
 
         public bool IsCached { get; set; }
 
-        public LearnerFetchedById()
+        public LearnerFetched()
         {
             this.IsCached = false;
         }

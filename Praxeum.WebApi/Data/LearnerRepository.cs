@@ -7,7 +7,7 @@ using Praxeum.WebApi.Helpers;
 using Microsoft.Azure.Cosmos;
 using System.Linq;
 
-namespace Praxeum.WebApi.Features.Learners
+namespace Praxeum.WebApi.Data
 {
     public class LearnerRepository : AzureCosmosDbRepository, ILearnerRepository
     {

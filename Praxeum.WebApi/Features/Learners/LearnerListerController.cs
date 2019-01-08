@@ -9,25 +9,25 @@ namespace Praxeum.WebApi.Features.Learners
     [Route("api/learners")]
     [Produces("application/json")]
     [ApiController]
-    public class LearnerFetchListController : ControllerBase
+    public class LearnerListerController : ControllerBase
     {
-        private readonly ILearnerHandler<LearnerFetchList, IEnumerable<LearnerFetchedList>> _learnerFetchListHandler;
+        private readonly IHandler<LearnerList, IEnumerable<LearnerListed>> _learnerLister;
 
-        public LearnerFetchListController(
-            ILearnerHandler<LearnerFetchList, IEnumerable<LearnerFetchedList>> learnerFetchListHandler)
+        public LearnerListerController(
+            IHandler<LearnerList, IEnumerable<LearnerListed>> learnerLister)
         {
-            _learnerFetchListHandler = learnerFetchListHandler;
+            _learnerLister = learnerLister;
         }
 
         [HttpGet(Name = "FetchLearners")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<LearnerFetchedList>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<LearnerListed>))]
         [ProducesResponseType(401)]
         [SwaggerOperation(Tags = new[] { "Learners" })]
         public async Task<IActionResult> FetchListAsync()
         {
             var learnerFetched =
-                await _learnerFetchListHandler.ExecuteAsync(
-                    new LearnerFetchList());
+                await _learnerLister.ExecuteAsync(
+                    new LearnerList());
 
             return Ok(learnerFetched);
         }

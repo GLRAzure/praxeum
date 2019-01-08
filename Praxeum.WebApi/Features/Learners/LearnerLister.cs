@@ -2,30 +2,31 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Praxeum.WebApi.Data;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerFetchListHandler : ILearnerHandler<LearnerFetchList, IEnumerable<LearnerFetchedList>>
+    public class LearnerLister : IHandler<LearnerList, IEnumerable<LearnerListed>>
     {
         private readonly ILearnerRepository _learnerRepository;
 
-        public LearnerFetchListHandler(
+        public LearnerLister(
             ILearnerRepository learnerFetchListRepository)
         {
             _learnerRepository =
                 learnerFetchListRepository;
         }
 
-        public async Task<IEnumerable<LearnerFetchedList>> ExecuteAsync(
-            LearnerFetchList learnerFetchList)
+        public async Task<IEnumerable<LearnerListed>> ExecuteAsync(
+            LearnerList learnerFetchList)
         {
-            var learnerList =
+            var learners =
                 await _learnerRepository.FetchListAsync();
 
-            var learnerFetchedList =
-                learnerList.Select(x => Mapper.Map(x, new LearnerFetchedList()));
+            var learnerListed =
+                learners.Select(x => Mapper.Map(x, new LearnerListed()));
 
-            return learnerFetchedList;
+            return learnerListed;
         }
     }
 }
