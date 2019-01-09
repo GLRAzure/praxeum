@@ -21,9 +21,9 @@ namespace Praxeum.WebApi.Helpers
                 new HttpClient();
 
             _httpClient.BaseAddress = new Uri(_microsoftProfileFetcherOptions.Value.ApiEndpoint);
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
+
+            _httpClient.DefaultRequestHeaders.Add(
+                "Ocp-Apim-Subscription-Key", _microsoftProfileFetcherOptions.Value.ApiKey);
         }
 
         public async Task<MicrosoftProfile> FetchProfileAsync(
@@ -32,14 +32,14 @@ namespace Praxeum.WebApi.Helpers
             MicrosoftProfile microsoftProfile = null;
 
             var response =
-                await _httpClient.GetAsync($"profiles/microsoft/{userName}");
+                await _httpClient.GetAsync($"microsoft/profiles/{userName}");
 
             if (response.IsSuccessStatusCode)
             {
-                microsoftProfile = 
+                microsoftProfile =
                     await response.Content.ReadAsAsync<MicrosoftProfile>();
             }
-   
+
             return microsoftProfile;
         }
     }
