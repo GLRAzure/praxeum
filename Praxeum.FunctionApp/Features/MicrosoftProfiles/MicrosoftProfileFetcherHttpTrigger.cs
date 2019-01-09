@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
-    public static class MicrosoftProfileFetchHttpTrigger
+    public static class MicrosoftProfileFetcherHttpTrigger
     {
-        [FunctionName("MicrosoftProfileFetchHttpTrigger")]
+        [FunctionName("MicrosoftProfileFetcherHttpTrigger")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "profiles/microsoft/{name}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "microsoft/profiles/{name}")] HttpRequest req,
             string name,
             ILogger log)
         {

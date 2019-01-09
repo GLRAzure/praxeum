@@ -10,16 +10,16 @@ namespace Praxeum.FunctionApp.Features.MicrosoftProfiles
         }
 
         public MicrosoftProfileFetched(
-            MicrosoftProfile profile)
+            MicrosoftProfile microsoftProfile)
         {
-            this.Id = profile.Id;
-            this.DisplayName = profile.DisplayName;
-            this.UserPrincipalName = profile.UserPrincipalName;
-            this.UserName = profile.UserName;
-            this.HasSeenMicrosoftPrivacyNotice = profile.HasSeenMicrosoftPrivacyNotice;
-            this.ProgressStatus = profile.ProgressStatus;
-            this.Achievements = profile.Achievements;
-            this.CreatedOn = profile.CreatedOn;
+            this.Id = microsoftProfile.Id;
+            this.DisplayName = microsoftProfile.DisplayName;
+            this.UserPrincipalName = microsoftProfile.UserPrincipalName;
+            this.UserName = microsoftProfile.UserName;
+            this.HasSeenMicrosoftPrivacyNotice = microsoftProfile.HasSeenMicrosoftPrivacyNotice;
+            this.ProgressStatus = microsoftProfile.ProgressStatus;
+            this.Achievements = microsoftProfile.Achievements;
+            this.CreatedOn = microsoftProfile.CreatedOn;
         }
     }
 }
