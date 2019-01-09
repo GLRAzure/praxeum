@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AutoMapper;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Praxeum.WebApi.Features.LeaderBoards;
 using Praxeum.WebApi.Features.Learners;
 using Praxeum.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
@@ -53,7 +53,10 @@ namespace Praxeum.WebApi
 
             services.Configure<MicrosoftProfileFetcherOptions>(
                 Configuration.GetSection(nameof(MicrosoftProfileFetcherOptions)));
+            
+            services.AddTransient<IMicrosoftProfileFetcher, MicrosoftProfileFetcher>();
 
+            services.UseLeaderBoardServices();
             services.UseLearnerServices();
 
             Mapper.Initialize(

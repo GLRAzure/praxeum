@@ -2,7 +2,7 @@
 
 namespace Praxeum.WebApi.Features.LeaderBoards
 {
-    public class LeaderBoardAdded : LeaderBoardFetchedById
+    public class LeaderBoardAdded : LeaderBoardFetched
     {
     }
 }

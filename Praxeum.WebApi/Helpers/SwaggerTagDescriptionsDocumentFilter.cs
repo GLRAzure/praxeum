@@ -8,7 +8,8 @@ namespace Praxeum.WebApi.Helpers
         public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
         {
             swaggerDoc.Tags = new[] {
-                new Tag { Name = "Leader Boards"}
+                new Tag { Name = "Leader Boards"},
+                new Tag { Name = "Learners"}
             };
         }
     }

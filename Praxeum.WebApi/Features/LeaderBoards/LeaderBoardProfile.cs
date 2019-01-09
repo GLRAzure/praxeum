@@ -7,18 +7,18 @@ namespace Praxeum.WebApi.Features.LeaderBoards
     {
         public LeaderBoardProfile()
         {
-            CreateMap<LeaderBoard, LeaderBoardDeletedById>();
-            CreateMap<LeaderBoard, LeaderBoardFetchedList>();
-            CreateMap<LeaderBoard, LeaderBoardFetchedById>();
+            CreateMap<LeaderBoard, LeaderBoardDeleted>();
+            CreateMap<LeaderBoard, LeaderBoardListed>();
+            CreateMap<LeaderBoard, LeaderBoardFetched>();
             CreateMap<LeaderBoardAdd, LeaderBoard>()
                 .ForMember(d => d.Learners, o => o.Ignore())
                 .ForMember(d => d.IsActive, o => o.Ignore())
                 .ForMember(d => d.CreatedOn, o => o.Ignore());
             CreateMap<LeaderBoard, LeaderBoardAdded>();
-            CreateMap<LeaderBoardUpdateById, LeaderBoard>()
+            CreateMap<LeaderBoardUpdate, LeaderBoard>()
                 .ForMember(d => d.Learners, o => o.Ignore())
                 .ForMember(d => d.CreatedOn, o => o.Ignore());
-            CreateMap<LeaderBoard, LeaderBoardUpdatedById>();
+            CreateMap<LeaderBoard, LeaderBoardUpdated>();
         }
     }
 }

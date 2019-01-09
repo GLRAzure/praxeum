@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
-    public static class MicrosoftCourseFetchHttpTrigger
+    public static class MicrosoftCourseFetcherHttpTrigger
     {
-        [FunctionName("MicrosoftCourseFetchHttpTrigger")]
+        [FunctionName("MicrosoftCourseFetcherHttpTrigger")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "microsoft/courses/{id}")] HttpRequest req,
             string id,
