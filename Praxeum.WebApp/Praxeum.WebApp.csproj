@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\LeaderBoards\**" />
-    <Content Remove="Pages\LeaderBoards\**" />
-    <EmbeddedResource Remove="Pages\LeaderBoards\**" />
-    <None Remove="Pages\LeaderBoards\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Models\LearnerAchievement.cs" />
     <Compile Remove="Models\LearnerProgressStatus.cs" />
     <Compile Remove="Pages\Learners\Delete.cshtml.cs" />
@@ -28,10 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Pages\LeaderBoards\Create.cshtml" />
+    <None Include="Pages\LeaderBoards\Details.cshtml" />
+    <None Include="Pages\LeaderBoards\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\LeaderBoards\Learners\" />
   </ItemGroup>
 
 </Project>

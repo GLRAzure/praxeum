@@ -53,7 +53,7 @@ namespace Praxeum.WebApi
 
             services.Configure<MicrosoftProfileFetcherOptions>(
                 Configuration.GetSection(nameof(MicrosoftProfileFetcherOptions)));
-            
+
             services.AddTransient<IMicrosoftProfileFetcher, MicrosoftProfileFetcher>();
 
             services.UseLeaderBoardServices();
@@ -64,8 +64,9 @@ namespace Praxeum.WebApi
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
+                    cfg.AddProfile<LeaderBoardProfile>();
                     cfg.AddProfile<LearnerProfile>();
-              });
+                });
 
             Mapper.AssertConfigurationIsValid();
         }

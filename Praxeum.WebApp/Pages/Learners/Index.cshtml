@@ -10,8 +10,8 @@
     <thead>
         <tr>
             <td>Name</td>
-            <td>Level</td>
-            <td>Points</td>
+            <td class="text-center">Level</td>
+            <td class="text-center">Points</td>
             <td></td>
         </tr>
     </thead>
@@ -19,9 +19,9 @@
         @foreach (var learner in Model.Learners)
         {
         <tr>
-            <td>@learner.DisplayName</td>
-            <td>@learner.ProgressStatus.CurrentLevel</td>
-            <td>@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
+            <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
+            <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
+            <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
             <td><a href="https://techprofile.microsoft.com/@learner.UserName">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
         </tr>
         }

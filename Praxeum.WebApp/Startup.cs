@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using Praxeum.WebApp.Helpers;
 using System.IO;
 
 namespace Praxeum.WebApp
@@ -33,6 +34,10 @@ namespace Praxeum.WebApp
 
             services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
                 .AddAzureADB2C(options => Configuration.Bind("AzureAdB2COptions", options));
+
+            services.Configure<AzureAdB2COptions>(
+                Configuration.GetSection(
+                    nameof(AzureAdB2COptions)));
 
             services
                 .AddMvc();

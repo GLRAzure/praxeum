@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Praxeum.WebApp</title>
+    <title>@ViewData["Title"] - Azure Ladders</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.min.css" />
@@ -22,17 +22,17 @@
         <link rel="stylesheet"
               href="~/css/site.min.css"
               asp-append-version="true" />
-        <script src="https://pro.fontawesome.com/releases/v5.6.3/js/all.js" 
+        <script src="https://pro.fontawesome.com/releases/v5.6.3/js/all.js"
                 asp-fallback-src="~/vendor/@@fortawesome/fontawesome-pro/js/all.min.js"
                 asp-fallback-test="window.jQuery"
-                integrity="sha384-4Gm0M5DjJ0zGaEtLu0ztNIoHWiuJ5rKiaVlpZKeNqXAW49eIIa2ymxb3C4c3uEXR" 
+                integrity="sha384-4Gm0M5DjJ0zGaEtLu0ztNIoHWiuJ5rKiaVlpZKeNqXAW49eIIa2ymxb3C4c3uEXR"
                 crossorigin="anonymous"></script>
     </environment>
 </head>
 <body>
 
     <header class="navbar navbar-expand-md navbar-light bg-light">
-        <a asp-page="/Index" class="navbar-brand">Praxeum</a>
+        <a asp-page="/Index" class="navbar-brand">Azure Ladders</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,6 +41,7 @@
                 <a class="nav-item nav-link" asp-page="/Index">Home</a>
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <a class="nav-item nav-link" asp-page="/LeaderBoards/Index">Ladders</a>
                     <a class="nav-item nav-link" asp-page="/Learners/Index">Learners</a>
                 }
             </div>
@@ -50,11 +51,14 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - Praxeum</p>
-        </footer>
     </div>
+
+    <footer>
+        <div class="container">
+            <hr />
+            <p>&copy; 2018 - Microsoft</p>
+        </div>
+    </footer>
 
     <environment include="Development">
         <script src="~/vendor/jquery/dist/jquery.js"></script>
