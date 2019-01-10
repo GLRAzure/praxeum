@@ -24,9 +24,10 @@ namespace Praxeum.WebApi.Features.LeaderBoards
 
             Mapper.Map(leaderBoardUpdate, leaderBoard);
 
-            leaderBoard = await _leaderBoardRepository.UpdateByIdAsync(
-                leaderBoardUpdate.Id, 
-                leaderBoard);
+            leaderBoard =
+                await _leaderBoardRepository.UpdateByIdAsync(
+                    leaderBoardUpdate.Id,
+                    leaderBoard);
 
             var leaderBoardUpdated =
                 Mapper.Map(leaderBoard, new LeaderBoardUpdated());

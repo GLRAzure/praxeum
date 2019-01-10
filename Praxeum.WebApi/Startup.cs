@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Praxeum.WebApi.Features.LeaderBoards;
+using Praxeum.WebApi.Features.LeaderBoards.Learners;
 using Praxeum.WebApi.Features.Learners;
 using Praxeum.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
@@ -57,6 +58,7 @@ namespace Praxeum.WebApi
             services.AddTransient<IMicrosoftProfileFetcher, MicrosoftProfileFetcher>();
 
             services.UseLeaderBoardServices();
+            services.UseLeaderBoardLearnerServices();
             services.UseLearnerServices();
 
             Mapper.Initialize(
@@ -65,6 +67,7 @@ namespace Praxeum.WebApi
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<LeaderBoardProfile>();
+                    cfg.AddProfile<LeaderBoardLearnerProfile>();
                     cfg.AddProfile<LearnerProfile>();
                 });
 

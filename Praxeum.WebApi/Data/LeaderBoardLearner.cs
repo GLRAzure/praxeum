@@ -1,10 +1,14 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace Praxeum.WebApi.Data
 {
     public class LeaderBoardLearner
     {
         [JsonProperty(PropertyName = "id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
+
+        [JsonProperty(PropertyName = "learnerId")]
+        public Guid LearnerId { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Praxeum.WebApi.Data
     {
         Task<Learner> AddAsync(
             Learner learner);
-        
+
         Task<Learner> AddOrUpdateAsync(
             Learner learner);
 
@@ -23,6 +23,9 @@ namespace Praxeum.WebApi.Data
             string userName);
 
         Task<IEnumerable<Learner>> FetchListAsync();
+
+        Task<IEnumerable<Learner>> FetchListAsync(
+            Guid[] ids);
 
         Task<Learner> UpdateByIdAsync(
             Guid id,

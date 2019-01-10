@@ -9,6 +9,7 @@ namespace Praxeum.WebApi.Helpers
         {
             swaggerDoc.Tags = new[] {
                 new Tag { Name = "Leader Boards"},
+                new Tag { Name = "Leader Board Learners"},
                 new Tag { Name = "Learners"}
             };
         }
