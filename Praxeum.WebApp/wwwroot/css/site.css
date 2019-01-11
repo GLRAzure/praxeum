@@ -7,3 +7,7 @@ svg + span,
 td > a + a {
     margin-left: .5rem;
 }
+
+footer {
+    margin-top: 2rem;
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -45,6 +46,9 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
 
                 this.LeaderBoard =
                      JsonConvert.DeserializeObject<LeaderBoardDetailsModel>(content);
+
+                this.LeaderBoard.Learners =
+                    this.LeaderBoard.Learners.OrderBy(x => x.DisplayNameAndUserName).ToList();
             }
 
             return Page();

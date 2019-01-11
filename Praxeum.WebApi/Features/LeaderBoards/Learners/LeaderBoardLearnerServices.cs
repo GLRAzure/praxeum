@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Praxeum.WebApi.Data;
-using System.Collections.Generic;
 
 namespace Praxeum.WebApi.Features.LeaderBoards.Learners
 {
@@ -10,7 +8,7 @@ namespace Praxeum.WebApi.Features.LeaderBoards.Learners
             this IServiceCollection services)
         {
             services.AddTransient<IHandler<LeaderBoardLearnerAdd, LeaderBoardLearnerAdded>, LeaderBoardLearnerAdder>();
-            //services.AddTransient<IHandler<LeaderBoardLearnerDelete, LeaderBoardLearnerDeleted>, LeaderBoardLearnerDeleter>();
+            services.AddTransient<IHandler<LeaderBoardLearnerDelete, LeaderBoardLearnerDeleted>, LeaderBoardLearnerDeleter>();
             services.AddTransient<IHandler<LeaderBoardLearnerFetch, LeaderBoardLearnerFetched>, LeaderBoardLearnerFetcher>();
        }
     }

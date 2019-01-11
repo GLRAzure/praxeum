@@ -7,6 +7,8 @@ namespace Praxeum.WebApp.Models
     {
         public Guid Id { get; set; }
 
+        public string DisplayNameAndUserName => $"{this.DisplayName} ({this.UserName})"; 
+
         public string DisplayName { get; set; }
 
         public string UserPrincipalName { get; set; }

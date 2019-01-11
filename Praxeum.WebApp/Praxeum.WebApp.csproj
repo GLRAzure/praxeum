@@ -33,8 +33,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\LeaderBoards\Learners\" />
-  </ItemGroup>
-
 </Project>
