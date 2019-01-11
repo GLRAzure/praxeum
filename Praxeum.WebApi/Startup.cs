@@ -4,6 +4,7 @@ using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Praxeum.WebApi.Features.LeaderBoards;
@@ -27,7 +28,7 @@ namespace Praxeum.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc();
+                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);;
 
             services.AddSwaggerGen(c =>
             {
