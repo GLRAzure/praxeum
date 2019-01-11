@@ -29,25 +29,7 @@
                 crossorigin="anonymous"></script>
     </environment>
 </head>
-<body>
-
-    <header class="navbar navbar-expand-md navbar-light bg-light">
-        <a asp-page="/Index" class="navbar-brand">Azure Ladders</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" asp-page="/Index">Home</a>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a class="nav-item nav-link" asp-page="/LeaderBoards/Index">Leader Boards</a>
-                    <a class="nav-item nav-link" asp-page="/Learners/Index">Learners</a>
-                }
-            </div>
-            <partial name="_LoginPartial" />
-        </div>
-    </header>
+<body class="public-leaderboard">
 
     <div class="container body-content">
         @RenderBody()
