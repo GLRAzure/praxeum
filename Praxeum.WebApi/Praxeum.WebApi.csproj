@@ -10,11 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\MicrosoftProfile.cs" />
-    <Compile Remove="Data\MicrosoftProfileAchievement.cs" />
-    <Compile Remove="Data\MicrosoftProfileStatus.cs" />
-    <Compile Remove="Features\LeaderBoards\ILeaderBoardHandler.cs" />
-    <Compile Remove="Features\Learners\ILearnerHandler.cs" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
