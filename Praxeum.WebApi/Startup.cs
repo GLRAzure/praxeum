@@ -31,22 +31,22 @@ namespace Praxeum.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Praxeum API", Version = "v1" });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info { Title = "Praxeum API", Version = "v1" });
 
-                c.EnableAnnotations();
+            //    c.EnableAnnotations();
 
-                c.SchemaFilter<SwaggerExcludeSchemaFilter>();
-                c.DocumentFilter<SwaggerTagDescriptionsDocumentFilter>(); // Enforces sort order and includes descriptions
+            //    c.SchemaFilter<SwaggerExcludeSchemaFilter>();
+            //    c.DocumentFilter<SwaggerTagDescriptionsDocumentFilter>(); // Enforces sort order and includes descriptions
 
-                c.IgnoreObsoleteActions();
+            //    c.IgnoreObsoleteActions();
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            //    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            //    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-                c.IncludeXmlComments(xmlPath);
-            });
+            //    c.IncludeXmlComments(xmlPath);
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,18 +63,18 @@ namespace Praxeum.WebApi
 
             app.UseStaticFiles();
 
-            app.UseSwagger();
+            //app.UseSwagger();
 
-            app.UseSwaggerUI(c =>
-            {
-                c.DocumentTitle = "Praxeum Api Explorer";
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.DocumentTitle = "Praxeum Api Explorer";
 
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Praxeum V1");
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Praxeum V1");
 
-                c.InjectStylesheet("/swagger-ui/custom.css");
+            //    c.InjectStylesheet("/swagger-ui/custom.css");
 
-                c.EnableFilter();
-            });
+            //    c.EnableFilter();
+            //});
 
             app.UseHttpsRedirection();
             app.UseMvc();
