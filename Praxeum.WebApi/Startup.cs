@@ -24,6 +24,9 @@ namespace Praxeum.WebApi
 
         public IConfiguration Configuration { get; }
 
+        // https://github.com/aspnet/AspNetCore/tree/bfec2c14be1e65f7dd361a43950d4c848ad0cd35/src/Azure/AzureAD
+        // http://bitoftech.net/2016/08/31/integrate-azure-ad-b2c-asp-net-mvc-web-app/
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {

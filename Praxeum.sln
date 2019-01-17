@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.WebApp.Tests", "Pra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.WebApp", "Praxeum.WebApp\Praxeum.WebApp.csproj", "{2D794B1C-2B5D-4B22-8CBE-688300EB4247}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praxeum.WebApi", "Praxeum.WebApi\Praxeum.WebApi.csproj", "{64BB293D-E947-44C3-855E-67CD3E268850}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.WebApi", "Praxeum.WebApi\Praxeum.WebApi.csproj", "{64BB293D-E947-44C3-855E-67CD3E268850}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
