@@ -12,9 +12,9 @@ using System;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
-    public static class LearnersUpdatedHttpTrigger
+    public static class LearnerListUpdaterHttpTrigger
     {
-        static LearnersUpdatedHttpTrigger()
+        static LearnerListUpdaterHttpTrigger()
         {
             Mapper.Initialize(
                 cfg =>
@@ -27,7 +27,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             Mapper.AssertConfigurationIsValid();
         }
 
-        [FunctionName("LearnersUpdatedHttpTrigger")]
+        [FunctionName("LearnerListUpdaterHttpTrigger")]
         public static async Task<IActionResult> Run(
              [HttpTrigger(AuthorizationLevel.Function, "put", Route = "learners")] HttpRequest req,
              ILogger log)
