@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Collections.Generic;
 
 namespace Praxeum.WebApp.Models
@@ -24,6 +25,9 @@ namespace Praxeum.WebApp.Models
         public DateTime CreatedOn { get; set; }
 
         public DateTime LastModifiedOn { get; set; }
+
+        // https://github.com/Humanizr/Humanizer#humanize-datetime
+        public string LastModifiedOnHumanized => this.LastModifiedOn.Humanize();
 
         public bool IsExpired => this.LastModifiedOn == null || this.LastModifiedOn <= DateTime.UtcNow;
 

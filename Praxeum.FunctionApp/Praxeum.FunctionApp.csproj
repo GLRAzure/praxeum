@@ -11,6 +11,8 @@
   <ItemGroup>
     <Compile Remove="Data\LeaderBoard.cs" />
     <Compile Remove="Data\LeaderBoardLearner.cs" />
+    <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserter.cs" />
+    <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserterTimerTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
