@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Azure Skills Challenges</title>
-
+    <link rel="icon"
+          type="image/png"
+          href="~/images/azure-logo-small.png">
     <environment include="Development">
         <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -32,7 +34,10 @@
 <body>
 
     <header class="navbar navbar-expand-md navbar-light bg-light">
-        <a asp-page="/Index" class="navbar-brand">Azure Skills Challenge</a>
+        <a asp-page="/Index" class="navbar-brand">
+            <img src="~/images/azure-logo.png" height="30" class="d-inline-block align-top" alt="Azure Logo" />
+            <span>Azure Skills Challenge</span>
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>

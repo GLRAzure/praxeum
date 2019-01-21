@@ -46,7 +46,10 @@ namespace Praxeum.WebApp.Areas.Public.Pages.LeaderBoards
                      JsonConvert.DeserializeObject<LeaderBoardDetailsModel>(content);
 
                 this.LeaderBoard.Learners =
-                    this.LeaderBoard.Learners.OrderByDescending(x => x.ProgressStatus.TotalPoints).ToList();
+                    this.LeaderBoard.Learners
+                        .OrderByDescending(x => x.ProgressStatus.TotalPoints)
+                            .ThenByDescending(x => x.ProgressStatus.CurrentLevelPointsEarned)
+                                .ToList();
             }
 
             return Page();
