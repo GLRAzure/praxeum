@@ -35,25 +35,25 @@ namespace Praxeum.WebApi.Features.Learners
 
             bool isCached = true;
 
-            if (learner.IsExpired)
-            {
-                var microsoftProfile =
-                    _microsoftProfileFetcher.FetchProfileAsync(learner.UserName);
+           // if (learner.LastModifiedOn)
+           // {
+           //     var microsoftProfile =
+           //         _microsoftProfileFetcher.FetchProfileAsync(learner.UserName);
 
-                learner =
-                    Mapper.Map(microsoftProfile, new Learner());
+           //     learner =
+           //         Mapper.Map(microsoftProfile, new Learner());
 
-                learner.ExpiresOn =
-                    DateTime.UtcNow.AddMinutes(
-                        _learnerOptions.Value.CacheExpiresInMinutes);
+           //     learner.LastModifiedOn =
+           //         DateTime.UtcNow.AddMinutes(
+           //             _learnerOptions.Value.CacheExpiresInMinutes);
 
-                learner =
-                    await _learnerRepository.UpdateByIdAsync(
-                        learner.Id,
-                        learner);
+           //     learner =
+           //         await _learnerRepository.UpdateByIdAsync(
+           //             learner.Id,
+           //             learner);
 
-                isCached = false;
-           }
+           //     isCached = false;
+           //}
 
             var learnerFetched =
                 Mapper.Map(learner, new LearnerFetched());

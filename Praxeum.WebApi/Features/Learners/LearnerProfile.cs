@@ -15,11 +15,11 @@ namespace Praxeum.WebApi.Features.Learners
                 .ForMember(d => d.IsCached, o => o.Ignore());
             CreateMap<MicrosoftProfile, Learner>()
                 .ForMember(d => d.Id, o => o.Ignore())
-                .ForMember(d => d.ExpiresOn, o => o.Ignore());
+                .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<MicrosoftProfile, LearnerAdded>()
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.IsCached, o => o.Ignore())
-                .ForMember(d => d.ExpiresOn, o => o.Ignore());
+                .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<Learner, LearnerAdded>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
         }

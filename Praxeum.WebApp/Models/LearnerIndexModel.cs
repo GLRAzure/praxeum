@@ -23,9 +23,9 @@ namespace Praxeum.WebApp.Models
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime ExpiresOn { get; set; }
+        public DateTime LastModifiedOn { get; set; }
 
-        public bool IsExpired => this.ExpiresOn == null || this.ExpiresOn <= DateTime.UtcNow;
+        public bool IsExpired => this.LastModifiedOn == null || this.LastModifiedOn <= DateTime.UtcNow;
 
         public class LearnerAchievement
         {

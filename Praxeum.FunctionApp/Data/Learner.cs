@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Praxeum.WebApi.Data
+namespace Praxeum.FunctionApp.Data
 {
     public class Learner
     {

@@ -46,9 +46,8 @@ namespace Praxeum.WebApi.Features.Learners
             learner =
                 Mapper.Map(microsoftProfile, learner);
 
-            learner.ExpiresOn =
-                DateTime.UtcNow.AddMinutes(
-                    _learnerOptions.Value.CacheExpiresInMinutes);
+            learner.LastModifiedOn =
+                learner.CreatedOn;
 
             learner =
                 await _learnerRepository.AddOrUpdateAsync(
