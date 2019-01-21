@@ -106,7 +106,17 @@ namespace Praxeum.WebApp
                                     new ProfileService(Configuration);
 
                                 var profile =
-                                    await profileService.AddOrUpdateAsync(context.Principal);
+                                    await profileService.GetAsync(context.Principal);
+
+                                if (profile == null)
+                                {
+                                    profile =
+                                        await profileService.AddAsync(context.Principal);
+                                } else
+                                {
+                                    profile =
+                                        await profileService.UpdateAsync(context.Principal, profile);
+                                }
 
                                 foreach(var role in profile.Roles.Split(','))
                                 {

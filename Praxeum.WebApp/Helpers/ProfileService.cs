@@ -18,7 +18,7 @@ namespace Praxeum.WebApp.Helpers
             _configuration = configuration;
         }
 
-        public async Task<Profile> AddOrUpdateAsync(
+        public async Task<Profile> AddAsync(
             ClaimsPrincipal principal)
         {
             var cloudStorageAccount = CloudStorageAccount.Parse(
@@ -64,10 +64,62 @@ namespace Praxeum.WebApp.Helpers
             profile.Email =
                 emailsClaim.Value;
 
-            var insertOrReplaceOperation =
-                TableOperation.InsertOrReplace(profile);
+            var insertOperation =
+                TableOperation.Insert(profile);
 
-            await cloudTable.ExecuteAsync(insertOrReplaceOperation);
+            await cloudTable.ExecuteAsync(insertOperation);
+
+            return profile;
+        }
+
+        public async Task<Profile> UpdateAsync(
+            ClaimsPrincipal principal,
+            Profile profile)
+        {
+            var cloudStorageAccount = CloudStorageAccount.Parse(
+               _configuration.GetValue<string>("AzureStorageOptions:ConnectionString"));
+
+            var cloudTableClient =
+                cloudStorageAccount.CreateCloudTableClient();
+
+            var cloudTable =
+                cloudTableClient.GetTableReference("profiles");
+
+            await cloudTable.CreateIfNotExistsAsync();
+
+            var nameIdentifierClaim =
+                principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+            if (nameIdentifierClaim == null)
+            {
+                throw new NullReferenceException($"Missing '{ClaimTypes.NameIdentifier}' claim.");
+            }
+
+            var nameClaim =
+                principal.Claims.SingleOrDefault(x => x.Type == "name");
+
+            if (nameClaim == null)
+            {
+                throw new NullReferenceException($"Missing 'name' claim.");
+            }
+
+            var emailsClaim =
+                principal.Claims.SingleOrDefault(x => x.Type == "emails");
+
+            if (emailsClaim == null)
+            {
+                throw new NullReferenceException($"Missing 'emails' claim.");
+            }
+
+            profile.Name =
+                nameClaim.Value;
+            profile.Email =
+                emailsClaim.Value;
+
+            var replaceOperation =
+                TableOperation.Replace(profile);
+
+            await cloudTable.ExecuteAsync(replaceOperation);
 
             return profile;
         }
