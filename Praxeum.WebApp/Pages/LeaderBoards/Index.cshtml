@@ -15,11 +15,14 @@
     <tbody>
         @foreach (var leaderBoard in Model.LeaderBoards)
         {
-        <tr>
-            <td><a asp-page="Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a></td>
-        </tr>
+            <tr>
+                <td><a asp-page="Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a></td>
+            </tr>
         }
     </tbody>
 </table>
 
-<a asp-page="Create" class="btn btn-primary"><i class="fal fa-plus"></i><span>Add Ladder</span></a>
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="Create" class="btn btn-primary"><i class="fal fa-plus"></i><span>Add Leader Board</span></a>
+}

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Data;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
@@ -9,9 +11,10 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
 {
+    [Authorize(Roles = "Administrator")]
     public class RemoveModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly AzureAdB2COptions _azureAdB2COptions;
 
         [BindProperty]
         public LeaderBoardLearnerRemoveModel Learner { get; set; }
@@ -19,7 +22,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
         public RemoveModel(
            IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _azureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public IActionResult OnGet(
@@ -46,7 +49,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.DeleteAsync($"{_azureAdB2COptions.Value.ApiUrl}/leaderboards/{leaderBoardId}/learners/{learnerId}");
+                    await httpClient.DeleteAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{leaderBoardId}/learners/{learnerId}");
 
                 response.EnsureSuccessStatusCode();
 

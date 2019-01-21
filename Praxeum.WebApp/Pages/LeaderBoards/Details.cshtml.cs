@@ -15,7 +15,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
     [Authorize]
     public class DetailsModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly AzureAdB2COptions _azureAdB2COptions;
 
         [BindProperty]
         public LeaderBoardDetailsModel LeaderBoard { get; set; }
@@ -23,7 +23,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
         public DetailsModel(
             IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _azureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public async Task<IActionResult> OnGetAsync(
@@ -37,7 +37,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.Value.ApiUrl}/leaderboards/{id}");
+                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{id}");
 
                 response.EnsureSuccessStatusCode();
 

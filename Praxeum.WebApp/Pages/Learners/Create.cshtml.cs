@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
@@ -9,9 +10,10 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.Learners
 {
+    [Authorize(Roles = "Administrator")]
     public class CreateModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly AzureAdB2COptions _azureAdB2COptions;
 
         [BindProperty]
         public LearnerCreateModel Learner { get; set; }
@@ -19,7 +21,7 @@ namespace Praxeum.WebApp.Pages.Learners
         public CreateModel(
            IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _azureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public IActionResult OnGet()
@@ -37,7 +39,7 @@ namespace Praxeum.WebApp.Pages.Learners
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.Value.ApiUrl}/learners", this.Learner);
+                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/learners", this.Learner);
 
                 response.EnsureSuccessStatusCode();
 

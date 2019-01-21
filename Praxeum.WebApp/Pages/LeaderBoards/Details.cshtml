@@ -25,9 +25,12 @@
     </div>
 </form>
 
-<a asp-page="Edit" class="btn btn-primary"><i class="fal fa-pencil"></i><span>Edit</span></a>
-<a asp-page="Delete" class="btn btn-link">Delete</a>
-<a asp-page="Index" class="btn btn-link">Cancel</a>
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="Edit" class="btn btn-primary"><i class="fal fa-pencil"></i><span>Edit</span></a>
+    <a asp-page="Delete" class="btn btn-link">Delete</a>
+    <a asp-page="Index" class="btn btn-link">Cancel</a>
+}
 
 <h2 class="mt-4">Learners</h2>
 
@@ -38,7 +41,10 @@
             <th class="text-center">Level</th>
             <th class="text-center">Points</th>
             <th></th>
-            <th><i class="fal fa-trash"></i></th>
+            @if (this.User.IsInRole("Administrator"))
+            {
+                <th><i class="fal fa-trash"></i></th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -49,7 +55,10 @@
                 <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
                 <td><a href="https://techprofile.microsoft.com/@learner.UserName">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
-                <td><a asp-page="./Learners/Remove" asp-route-leaderBoardId="@Model.LeaderBoard.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fal fa-trash"></i></a></td>
+                @if (this.User.IsInRole("Administrator"))
+                {
+                    <td><a asp-page="./Learners/Remove" asp-route-leaderBoardId="@Model.LeaderBoard.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fal fa-trash"></i></a></td>
+                }
             </tr>
         }
     </tbody>
@@ -59,4 +68,7 @@
     <p>No learners have been added to this leader board. Would you like to <a>add a learner</a> to this leader board?</p>
 }
 
-<a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fal fa-plus"></i><span>Add Learner</span></a>
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fal fa-plus"></i><span>Add Learner</span></a>
+}

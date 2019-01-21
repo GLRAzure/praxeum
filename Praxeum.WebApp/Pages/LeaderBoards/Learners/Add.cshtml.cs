@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,9 +14,10 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
 {
+    [Authorize(Roles = "Administrator")]
     public class AddModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly AzureAdB2COptions _azureAdB2COptions;
 
         public SelectList AvailableLearners { get; set; }
 
@@ -25,7 +27,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
         public AddModel(
            IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _azureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public async Task<IActionResult> OnGet(
@@ -55,7 +57,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.Value.ApiUrl}/leaderboards/{leaderBoardId}/learners", this.Learner);
+                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{leaderBoardId}/learners", this.Learner);
 
                 response.EnsureSuccessStatusCode();
 
@@ -74,7 +76,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.Value.ApiUrl}/learners");
+                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners");
 
                 response.EnsureSuccessStatusCode();
 

@@ -13,14 +13,14 @@ namespace Praxeum.WebApp.Pages.Learners
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly AzureAdB2COptions _azureAdB2COptions;
 
         public IList<LearnerIndexModel> Learners { get; private set; }
 
         public IndexModel(
             IOptions<AzureAdB2COptions> azureAdB2COptions)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _azureAdB2COptions = azureAdB2COptions.Value;
         }
 
         public async Task OnGetAsync()
@@ -28,7 +28,7 @@ namespace Praxeum.WebApp.Pages.Learners
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.Value.ApiUrl}/learners");
+                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners");
 
                 response.EnsureSuccessStatusCode();
 
