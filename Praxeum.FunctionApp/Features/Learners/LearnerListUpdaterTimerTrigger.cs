@@ -36,9 +36,6 @@ namespace Praxeum.FunctionApp.Features.Learners
             var learnerListUpdate =
                 new LearnerListUpdate();
 
-            learnerListUpdate.LastModifiedOn = DateTime.UtcNow.SubtractMinutes(
-                Convert.ToInt32(Environment.GetEnvironmentVariable("LearnerListUpdaterTimerTrigger:LastModifiedDateInMinutes")));
-
             log.LogInformation(
                 JsonConvert.SerializeObject(learnerListUpdate));
 
