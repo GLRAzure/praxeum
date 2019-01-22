@@ -32,7 +32,7 @@ namespace Praxeum.FunctionApp.Features.Learners
         {
             var learners =
                 await _learnerRepository.FetchListExpiredAsync(
-                    learnerListUpdate.ExpiresOn);
+                    learnerListUpdate.LastModifiedOn);
 
             var learnerListUpdated =
                 new LearnerListUpdated();

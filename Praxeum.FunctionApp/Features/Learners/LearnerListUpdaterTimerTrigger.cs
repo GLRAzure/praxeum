@@ -11,7 +11,7 @@ namespace Praxeum.FunctionApp.Features.Learners
     {
         [FunctionName("LearnerListUpdaterTimerTrigger")]
         public static async Task Run(
-            [TimerTrigger("%LearnerListUpdaterTimerTrigger:ScheduleExpression%")]TimerInfo myTimer, 
+            [TimerTrigger("%LearnerListUpdaterTimerTrigger:ScheduleExpression%")]TimerInfo myTimer,
             ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
@@ -27,6 +27,9 @@ namespace Praxeum.FunctionApp.Features.Learners
 
             var learnerListUpdate =
                 new LearnerListUpdate();
+
+            learnerListUpdate.LastModifiedOn = DateTime.UtcNow.SubtractMinutes(
+                Convert.ToInt32(Environment.GetEnvironmentVariable("LearnerListUpdaterTimerTrigger:LastModifiedDateInMinutes")));
 
             var learnerListUpdated =
                 await learnerListUpdater.ExecuteAsync(

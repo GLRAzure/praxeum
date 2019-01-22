@@ -9,7 +9,7 @@ namespace Praxeum.FunctionApp.Data
         Task<IEnumerable<Learner>> FetchListAsync();
 
         Task<IEnumerable<Learner>> FetchListExpiredAsync(
-            DateTime expiresOn);
+            DateTime lastModifiedOn);
 
         Task<Learner> UpdateByIdAsync(
             Guid id,

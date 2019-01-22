@@ -40,19 +40,19 @@ namespace Praxeum.FunctionApp.Data
         }
 
         public async Task<IEnumerable<Learner>> FetchListExpiredAsync(
-            DateTime expiresOn)
+            DateTime lastModifiedOn)
         {
             var learnerContainer =
                 _cosmosDatabase.Containers["learners"];
 
             var query =
-                $"SELECT * FROM l WHERE l.lastModifiedOn <= @expiresOn";
+                $"SELECT * FROM l WHERE l.lastModifiedOn <= @lastModifiedOn";
 
             var queryDefinition =
                 new CosmosSqlQueryDefinition(query);
 
             queryDefinition.UseParameter(
-                "@expiresOn", expiresOn);
+                "@lastModifiedOn", lastModifiedOn);
 
             var learners =
                 learnerContainer.Items.CreateItemQuery<Learner>(
