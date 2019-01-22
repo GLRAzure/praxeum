@@ -10,7 +10,7 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.Learners
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly AzureAdB2COptions _azureAdB2COptions;
