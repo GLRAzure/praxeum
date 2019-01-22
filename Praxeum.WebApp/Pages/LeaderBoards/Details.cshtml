@@ -21,13 +21,13 @@
     }
     <div class="form-group">
         <label>Share</label>
-        <p class="form-control-static">https://@Request.Host/Public/LeaderBoards/@Model.LeaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@Model.LeaderBoard.Id" target="_blank"><i class="fal fa-external-link"></i></a></p>
+        <p class="form-control-static">https://@Request.Host/Public/LeaderBoards/@Model.LeaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@Model.LeaderBoard.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a></p>
     </div>
 </form>
 
 @if (this.User.IsInRole("Administrator"))
 {
-    <a asp-page="Edit" class="btn btn-primary"><i class="fal fa-pencil"></i><span>Edit</span></a>
+    <a asp-page="Edit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
     <a asp-page="Delete" class="btn btn-link">Delete</a>
     <a asp-page="Index" class="btn btn-link">Cancel</a>
 }
@@ -43,7 +43,7 @@
             <th></th>
             @if (this.User.IsInRole("Administrator"))
             {
-                <th><i class="fal fa-trash"></i></th>
+                <th><i class="fas fa-trash-alt"></i></th>
             }
         </tr>
     </thead>
@@ -54,10 +54,10 @@
                 <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
-                <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
+                <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                 @if (this.User.IsInRole("Administrator"))
                 {
-                    <td><a asp-page="./Learners/Remove" asp-route-leaderBoardId="@Model.LeaderBoard.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fal fa-trash"></i></a></td>
+                    <td><a asp-page="./Learners/Remove" asp-route-leaderBoardId="@Model.LeaderBoard.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fas fa-trash-alt"></i></a></td>
                 }
             </tr>
         }
@@ -76,5 +76,5 @@
 
 @if (this.User.IsInRole("Administrator"))
 {
-    <a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fal fa-plus"></i><span>Add Learner</span></a>
+    <a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fas fa-plus"></i><span>Add Learner</span></a>
 }

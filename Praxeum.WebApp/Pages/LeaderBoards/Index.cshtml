@@ -19,7 +19,7 @@
                 <td>
                     <a asp-page="Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a>
                     <div class="d-block">
-                        https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id" target="_blank"><i class="fal fa-external-link"></i></a>
+                        https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </td>
             </tr>
@@ -29,5 +29,5 @@
 
 @if (this.User.IsInRole("Administrator"))
 {
-    <a asp-page="Create" class="btn btn-primary"><i class="fal fa-plus"></i><span>Add Leader Board</span></a>
+    <a asp-page="Create" class="btn btn-primary"><i class="fas fa-plus"></i><span>Add Leader Board</span></a>
 }

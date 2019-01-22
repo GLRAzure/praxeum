@@ -24,7 +24,7 @@
                     <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
                     <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
                     <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
-                    <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
+                    <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                 </tr>
             }
         </tbody>
@@ -49,7 +49,7 @@
                     <td>
                         <a asp-page="/LeaderBoards/Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a>
                         <div class="d-block">
-                            https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id" target="_blank"><i class="fal fa-external-link"></i></a>
+                            https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -59,7 +59,7 @@
 
     @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Administrator"))
     {
-        <a asp-page="/LeaderBoards/Create" class="btn btn-primary"><i class="fal fa-plus"></i><span>Add Leader Board</span></a>
+        <a asp-page="/LeaderBoards/Create" class="btn btn-primary"><i class="fas fa-plus"></i><span>Add Leader Board</span></a>
     }
 
 </section>

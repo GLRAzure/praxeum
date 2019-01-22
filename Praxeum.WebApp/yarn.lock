@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-pro@^5.6.3":
+"@fortawesome/fontawesome-free@^5.6.3":
   version "5.6.3"
-  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-pro/-/fontawesome-pro-5.6.3.tgz#f45b1573735e9a0bd75a1334fdf710e979708316"
-  integrity sha512-GEnSpbwxSU/aM/zxo6xu70ALnUc8aYaerb+yGIgiAgVZJnQLyBmEHga60857RdPZIPk8N6e95EkbhcQon5XClw==
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.6.3.tgz#61c122c420d7a91613f393d6a06e5a4c6ae6abf3"
+  integrity sha512-s5PLdI9NYgjBvfrv6rhirPHlAHWx+Sfo/IjsAeiXYfmemC/GSjwsyz1wLnGPazbLPXWfk62ks980o9AmsxYUEQ==
 
 bootstrap@^4.2.1:
   version "4.2.1"
