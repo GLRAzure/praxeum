@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Praxeum.FuncApp.Features.Learners;
 using Praxeum.FunctionApp.Data;
 using Praxeum.FunctionApp.Helpers;
 
@@ -15,6 +18,10 @@ namespace Praxeum.FunctionApp.Features.Learners
             ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            
+            // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
+            var mapper = 
+                LearnerProfile.CreateMapper();
 
             var azureCosmosDbOptions =
                 new AzureCosmosDbOptions();
@@ -22,6 +29,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             var learnerListUpdater =
                 new LearnerListUpdater(
                     log,
+                    mapper,
                     new MicrosoftProfileScraper(),
                     new LearnerRepository(azureCosmosDbOptions));
 
@@ -30,6 +38,9 @@ namespace Praxeum.FunctionApp.Features.Learners
 
             learnerListUpdate.LastModifiedOn = DateTime.UtcNow.SubtractMinutes(
                 Convert.ToInt32(Environment.GetEnvironmentVariable("LearnerListUpdaterTimerTrigger:LastModifiedDateInMinutes")));
+
+            log.LogInformation(
+                JsonConvert.SerializeObject(learnerListUpdate));
 
             var learnerListUpdated =
                 await learnerListUpdater.ExecuteAsync(

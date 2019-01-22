@@ -9,30 +9,22 @@ using Praxeum.FuncApp.Features.Learners;
 using Praxeum.FunctionApp.Helpers;
 using Praxeum.FunctionApp.Data;
 using System;
+using Newtonsoft.Json;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
     public static class LearnerListUpdaterHttpTrigger
     {
-        static LearnerListUpdaterHttpTrigger()
-        {
-            Mapper.Initialize(
-                cfg =>
-                {
-                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
-
-                    cfg.AddProfile<LearnerProfile>();
-                });
-
-            Mapper.AssertConfigurationIsValid();
-        }
-
         [FunctionName("LearnerListUpdaterHttpTrigger")]
         public static async Task<IActionResult> Run(
              [HttpTrigger(AuthorizationLevel.Function, "put", Route = "learners")] HttpRequest req,
              ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
+            
+            // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
+            var mapper = 
+                LearnerProfile.CreateMapper();
 
             var azureCosmosDbOptions =
                 new AzureCosmosDbOptions();
@@ -40,6 +32,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             var learnerListUpdater =
                 new LearnerListUpdater(
                     log,
+                    mapper,
                     new MicrosoftProfileScraper(),
                     new LearnerRepository(azureCosmosDbOptions));
 
@@ -56,6 +49,9 @@ namespace Praxeum.FunctionApp.Features.Learners
                     Convert.ToInt32(Environment.GetEnvironmentVariable("LearnerListUpdaterTimerTrigger:LastModifiedDateInMinutes")));
             }
 
+            log.LogInformation(
+                JsonConvert.SerializeObject(learnerListUpdate));
+ 
             var learnerListUpdated =
                 await learnerListUpdater.ExecuteAsync(
                     learnerListUpdate);

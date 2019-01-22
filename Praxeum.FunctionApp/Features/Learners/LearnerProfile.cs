@@ -11,5 +11,19 @@ namespace Praxeum.FuncApp.Features.Learners
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
         }
+
+        public static IMapper CreateMapper()
+        {
+            var mapperConfiguration = 
+                new MapperConfiguration(cfg =>
+                {
+                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+
+                    cfg.AddProfile<LearnerProfile>();
+                });
+            
+            return 
+                mapperConfiguration.CreateMapper();
+        }
     }
 }

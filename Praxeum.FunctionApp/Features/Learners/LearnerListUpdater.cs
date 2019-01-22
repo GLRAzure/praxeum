@@ -11,18 +11,22 @@ namespace Praxeum.FunctionApp.Features.Learners
     public class LearnerListUpdater : IHandler<LearnerListUpdate, LearnerListUpdated>
     {
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
         private readonly IMicrosoftProfileScraper _microsoftProfileScraper;
         private readonly ILearnerRepository _learnerRepository;
 
         public LearnerListUpdater(
             ILogger logger,
+            IMapper mapper,
             IMicrosoftProfileScraper microsoftProfileScraper,
             ILearnerRepository learnerRepository)
         {
             _logger =
                 logger;
+            _mapper =
+               mapper;
             _microsoftProfileScraper =
-                microsoftProfileScraper;
+                 microsoftProfileScraper;
             _learnerRepository =
                 learnerRepository;
         }
@@ -45,7 +49,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                 _logger.LogInformation(
                     JsonConvert.SerializeObject(microsoftProfile));
 
-                Mapper.Map(microsoftProfile, learner);
+                _mapper.Map(microsoftProfile, learner);
 
                 learner.LastModifiedOn =
                     DateTime.UtcNow;
@@ -53,7 +57,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                 _logger.LogInformation(
                     $"Updating '{microsoftProfile.UserName}'...");
 
-                var learnerUpdated = 
+                var learnerUpdated =
                     await _learnerRepository.UpdateByIdAsync(
                         learner.Id,
                         learner);
