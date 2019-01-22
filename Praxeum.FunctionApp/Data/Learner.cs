@@ -21,6 +21,9 @@ namespace Praxeum.FunctionApp.Data
         [JsonProperty(PropertyName = "hasSeenMicrosoftPrivacyNotice")]
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
+        [JsonProperty(PropertyName = "rank")]
+        public int Rank { get; set; }
+
         [JsonProperty(PropertyName = "progressStatus")]
         public LearnerProgressStatus ProgressStatus { get; set; }
 

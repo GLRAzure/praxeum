@@ -23,11 +23,30 @@ namespace Praxeum.WebApi.Features.Learners
         [ProducesResponseType(200, Type = typeof(IEnumerable<LearnerListed>))]
         [ProducesResponseType(401)]
         [SwaggerOperation(Tags = new[] { "Learners" })]
-        public async Task<IActionResult> FetchListAsync()
+        public async Task<IActionResult> FetchListAsync(
+            [FromQuery] LearnerList learnerList)
         {
             var learnerFetched =
                 await _learnerLister.ExecuteAsync(
-                    new LearnerList());
+                    learnerList);
+
+            return Ok(learnerFetched);
+        }
+
+        [HttpGet("top/{numberOfRecords}", Name = "FetchTopLearners")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<LearnerListed>))]
+        [ProducesResponseType(401)]
+        [SwaggerOperation(Tags = new[] { "Learners" })]
+        public async Task<IActionResult> FetchTopListAsync(
+            [FromRoute] int? numberOfRecords = 20)
+        {
+            var learnerFetched =
+                await _learnerLister.ExecuteAsync(
+                    new LearnerList
+                    {
+                        MaximumRecords = numberOfRecords,
+                        OrderBy = "l.rank DESC"
+                    });
 
             return Ok(learnerFetched);
         }

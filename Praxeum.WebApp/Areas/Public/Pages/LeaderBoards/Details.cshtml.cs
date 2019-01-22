@@ -47,9 +47,8 @@ namespace Praxeum.WebApp.Areas.Public.Pages.LeaderBoards
 
                 this.LeaderBoard.Learners =
                     this.LeaderBoard.Learners
-                        .OrderByDescending(x => x.ProgressStatus.TotalPoints)
-                            .ThenByDescending(x => x.ProgressStatus.CurrentLevelPointsEarned)
-                                .ToList();
+                        .OrderByDescending(x => x.Rank)                            .ThenByDescending(x => x.ProgressStatus.CurrentLevelPointsEarned)
+                            .ToList();
             }
 
             return Page();

@@ -54,7 +54,7 @@
                 <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
-                <td><a href="https://techprofile.microsoft.com/@learner.UserName">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
+                <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fal fa-external-link"></i></a></td>
                 @if (this.User.IsInRole("Administrator"))
                 {
                     <td><a asp-page="./Learners/Remove" asp-route-leaderBoardId="@Model.LeaderBoard.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fal fa-trash"></i></a></td>
@@ -65,7 +65,13 @@
 </table>
 @if (Model.LeaderBoard.Learners == null || Model.LeaderBoard.Learners.Count == 0)
 {
-    <p>No learners have been added to this leader board. Would you like to <a>add a learner</a> to this leader board?</p>
+    <p>
+        No learners have been added to this leader board.
+        @if (this.User.IsInRole("Administrator"))
+        {
+            <text>Would you like to<a>add a learner</a> to this leader board?</text>
+        }
+    </p>
 }
 
 @if (this.User.IsInRole("Administrator"))

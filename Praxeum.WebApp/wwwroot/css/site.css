@@ -6,6 +6,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.h1, h1 {
+    font-size: 2.0rem;
+}
+
 header {
     margin-bottom: 2rem;
 }
@@ -124,3 +128,13 @@ a,
     .btn-outline-primary.focus {
         box-shadow: 0 0 0 3px rgba(54, 114, 181, 0.5);
     }
+
+
+section + section {
+    margin-top: 2rem;
+}
+
+
+h1 + table {
+    margin-top: 2rem;
+}

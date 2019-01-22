@@ -10,7 +10,6 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly AzureAdB2COptions _azureAdB2COptions;

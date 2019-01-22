@@ -14,9 +14,11 @@ namespace Praxeum.WebApi.Features.Learners
             CreateMap<Learner, LearnerFetched>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
             CreateMap<MicrosoftProfile, Learner>()
+                .ForMember(d => d.Rank, o => o.MapFrom(s => s.ProgressStatus.CurrentLevelPointsEarned + s.ProgressStatus.TotalPoints))
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<MicrosoftProfile, LearnerAdded>()
+                .ForMember(d => d.Rank, o => o.MapFrom(s => s.ProgressStatus.CurrentLevelPointsEarned + s.ProgressStatus.TotalPoints))
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.IsCached, o => o.Ignore())
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());

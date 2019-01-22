@@ -22,7 +22,9 @@ namespace Praxeum.WebApi.Data
         Task<Learner> FetchByUserNameAsync(
             string userName);
 
-        Task<IEnumerable<Learner>> FetchListAsync();
+        Task<IEnumerable<Learner>> FetchListAsync(
+            int? maximumRecords = null,
+            string orderBy = null);
 
         Task<IEnumerable<Learner>> FetchListAsync(
             Guid[] ids);

@@ -6,11 +6,11 @@ using Praxeum.WebApi.Data;
 
 namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerLister : IHandler<LearnerList, IEnumerable<LearnerListed>>
+    public class LearnerRankedLister : IHandler<LearnerList, IEnumerable<LearnerListed>>
     {
         private readonly ILearnerRepository _learnerRepository;
 
-        public LearnerLister(
+        public LearnerRankedLister(
             ILearnerRepository learnerFetchListRepository)
         {
             _learnerRepository =
@@ -23,7 +23,7 @@ namespace Praxeum.WebApi.Features.Learners
             var learners =
                 await _learnerRepository.FetchListAsync(
                     learnerFetchList.MaximumRecords,
-                    learnerFetchList.OrderBy);
+                    "l.rank DESC");
 
             var learnerListed =
                 learners.Select(x => Mapper.Map(x, new LearnerListed()));

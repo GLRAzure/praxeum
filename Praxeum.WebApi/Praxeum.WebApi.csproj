@@ -10,6 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Learners\LearnerRankedLister.cs" />
+    <Compile Remove="Features\Learners\LearnerRankedListerController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

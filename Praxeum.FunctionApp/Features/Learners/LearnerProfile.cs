@@ -8,7 +8,8 @@ namespace Praxeum.FuncApp.Features.Learners
         public LearnerProfile()
         {
             CreateMap<MicrosoftProfile, Learner>()
-                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Rank, o => o.MapFrom(s => s.ProgressStatus.CurrentLevelPointsEarned + s.ProgressStatus.TotalPoints))
+                .ForMember(d => d.Id, o => o.Ignore())                
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
         }
 

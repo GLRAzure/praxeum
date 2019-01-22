@@ -104,13 +104,27 @@ namespace Praxeum.WebApi.Data
             return learner;
         }
 
-        public async Task<IEnumerable<Learner>> FetchListAsync()
+        public async Task<IEnumerable<Learner>> FetchListAsync(
+            int? maximumRecords = null,
+            string orderBy = "l.displayName")
         {
             var learnerContainer =
                 _cosmosDatabase.Containers["learners"];
 
             var query =
-                $"SELECT * FROM l";
+                $"SELECT";
+
+            if (maximumRecords.HasValue)
+            {
+                query += $" TOP {maximumRecords.Value}";
+            }
+
+            query += " * FROM l";
+
+            if (!string.IsNullOrWhiteSpace(orderBy))
+            {
+                query += $" ORDER BY {orderBy}";
+            }
 
             var queryDefinition =
                 new CosmosSqlQueryDefinition(query);

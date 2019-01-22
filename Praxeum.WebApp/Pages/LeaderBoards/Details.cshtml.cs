@@ -12,7 +12,6 @@ using Praxeum.WebApp.Models;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards
 {
-    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly AzureAdB2COptions _azureAdB2COptions;
@@ -49,9 +48,8 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
 
                 this.LeaderBoard.Learners =
                     this.LeaderBoard.Learners
-                        .OrderByDescending(x => x.ProgressStatus.TotalPoints)
-                            .ThenByDescending(x => x.ProgressStatus.CurrentLevelPointsEarned)
-                                .ToList();
+                        .OrderByDescending(x => x.Rank)
+                            .ToList();
             }
 
             return Page();

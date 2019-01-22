@@ -18,6 +18,8 @@ namespace Praxeum.WebApp.Models
 
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
+        public int Rank { get; set; }
+
         public LearnerProgressStatus ProgressStatus { get; set; }
 
         public ICollection<LearnerAchievement> Achievements { get; set; }
