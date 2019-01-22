@@ -138,3 +138,27 @@ section + section {
 h1 + table {
     margin-top: 2rem;
 }
+
+/* https://pinetools.com/gradient-generator */
+
+.table-ranked tr:nth-child(1) td {
+    background-color: #bcd0e6;
+}
+
+.table-ranked tr:nth-child(2) td,
+.table-ranked tr:nth-child(3) td,
+.table-ranked tr:nth-child(4) td {
+    background-color: #ccdbec;
+}
+
+.table-ranked tr:nth-child(5) td,
+.table-ranked tr:nth-child(6) td,
+.table-ranked tr:nth-child(7) td {
+    background-color: #dde7f2;
+}
+
+.table-ranked tr:nth-child(8) td,
+.table-ranked tr:nth-child(9) td,
+.table-ranked tr:nth-child(10) td {
+    background-color: #eef3f8;
+}
