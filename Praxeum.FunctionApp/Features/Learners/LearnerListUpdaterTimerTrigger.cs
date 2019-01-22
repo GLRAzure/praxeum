@@ -17,7 +17,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             [TimerTrigger("%LearnerListUpdaterTimerTrigger:ScheduleExpression%")]TimerInfo myTimer,
             ILogger log)
         {
-            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"C# Timer trigger function {nameof(LearnerListUpdaterTimerTrigger)} executed at: {DateTime.Now}");
             
             // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
             var mapper = 

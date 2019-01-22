@@ -20,7 +20,7 @@ namespace Praxeum.FunctionApp.Features.Learners
              [HttpTrigger(AuthorizationLevel.Function, "put", Route = "learners")] HttpRequest req,
              ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation($"C# HTTP trigger function {nameof(LearnerListUpdaterHttpTrigger)} executed at: {DateTime.Now}");
             
             // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
             var mapper = 
