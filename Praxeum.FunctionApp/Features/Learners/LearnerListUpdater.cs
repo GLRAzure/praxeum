@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Praxeum.FunctionApp.Data;
+using Praxeum.Data;
 using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp.Features.Learners

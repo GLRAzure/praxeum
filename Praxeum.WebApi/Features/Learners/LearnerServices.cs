@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Praxeum.WebApi.Data;
+using Praxeum.Data;
 using System.Collections.Generic;
 
 namespace Praxeum.WebApi.Features.Learners

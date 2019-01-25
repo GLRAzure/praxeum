@@ -2,26 +2,21 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
-using Praxeum.WebApi.Data;
-using Praxeum.WebApi.Helpers;
+using Praxeum.Data;
 
 namespace Praxeum.WebApi.Features.Learners
 {
     public class LearnerUpdater : IHandler<LearnerUpdate, LearnerUpdated>
     {
         private readonly IOptions<LearnerOptions> _learnerOptions;
-        private readonly IMicrosoftProfileFetcher _microsoftProfileFetcher;
         private readonly ILearnerRepository _learnerRepository;
 
         public LearnerUpdater(
             IOptions<LearnerOptions> learnerOptions,
-            IMicrosoftProfileFetcher microsoftProfileFetcher,
             ILearnerRepository learnerRepository)
         {
             _learnerOptions =
                 learnerOptions;
-            _microsoftProfileFetcher =
-                microsoftProfileFetcher;
             _learnerRepository =
                 learnerRepository;
         }
@@ -39,12 +34,6 @@ namespace Praxeum.WebApi.Features.Learners
             }
 
             Mapper.Map(learnerUpdate, learner);
-
-            var microsoftProfile =
-                _microsoftProfileFetcher.FetchProfileAsync(learner.UserName);
-
-            learner =
-                Mapper.Map(microsoftProfile, learner);
 
             learner.LastModifiedOn =
                 DateTime.UtcNow;

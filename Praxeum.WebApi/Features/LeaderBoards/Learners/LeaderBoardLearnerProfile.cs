@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Praxeum.WebApi.Data;
+using Praxeum.Data;
 
 namespace Praxeum.WebApi.Features.LeaderBoards.Learners
 {
@@ -7,7 +7,6 @@ namespace Praxeum.WebApi.Features.LeaderBoards.Learners
     {
         public LeaderBoardLearnerProfile()
         {
-            //CreateMap<LeaderBoardLearner, LeaderBoardLearnerDeleted>();
             CreateMap<Learner, LeaderBoardLearnerAdded>()
                 .ForMember(d => d.IsCached, o => o.Ignore());
             CreateMap<Learner, LeaderBoardLearnerFetched>()

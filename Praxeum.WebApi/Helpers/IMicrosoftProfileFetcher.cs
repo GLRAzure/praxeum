@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Praxeum.Data;
+using System.Threading.Tasks;
 
 namespace Praxeum.WebApi.Helpers
 {

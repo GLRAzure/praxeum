@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Praxeum.WebApi.Data;
+using Praxeum.Data;
 
 namespace Praxeum.WebApi.Features.Challenges.Learners
 {

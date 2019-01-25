@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Praxeum.Data;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,12 +19,15 @@ namespace Praxeum.WebApi.Helpers
                 microsoftProfileFetcherOptions;
 
             _httpClient =
-                new HttpClient();
-
-            _httpClient.BaseAddress = new Uri(_microsoftProfileFetcherOptions.Value.ApiEndpoint);
+                new HttpClient
+                {
+                    BaseAddress = new Uri(
+                        _microsoftProfileFetcherOptions.Value.ApiEndpoint)
+                };
 
             _httpClient.DefaultRequestHeaders.Add(
-                "Ocp-Apim-Subscription-Key", _microsoftProfileFetcherOptions.Value.ApiKey);
+                "Ocp-Apim-Subscription-Key", 
+                _microsoftProfileFetcherOptions.Value.ApiKey);
         }
 
         public async Task<MicrosoftProfile> FetchProfileAsync(

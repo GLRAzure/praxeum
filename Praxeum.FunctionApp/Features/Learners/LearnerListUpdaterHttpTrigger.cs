@@ -4,12 +4,12 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using AutoMapper;
-using Praxeum.FuncApp.Features.Learners;
 using Praxeum.FunctionApp.Helpers;
-using Praxeum.FunctionApp.Data;
+using Praxeum.Data;
 using System;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Options;
+using Praxeum.Data.Helpers;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
@@ -34,7 +34,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                     log,
                     mapper,
                     new MicrosoftProfileScraper(),
-                    new LearnerRepository(azureCosmosDbOptions));
+                    new LearnerRepository(Options.Create(azureCosmosDbOptions)));
 
             var learnerListUpdate =
                 new LearnerListUpdate();

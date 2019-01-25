@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Praxeum.Data.Helpers;
 using Praxeum.WebApi.Features.LeaderBoards;
 using Praxeum.WebApi.Features.LeaderBoards.Learners;
 using Praxeum.WebApi.Features.Learners;
@@ -31,7 +32,7 @@ namespace Praxeum.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);;
+                .AddMvc();
 
             services.AddSwaggerGen(c =>
             {
@@ -53,13 +54,13 @@ namespace Praxeum.WebApi
             services.Configure<AzureCosmosDbOptions>(
                 Configuration.GetSection(nameof(AzureCosmosDbOptions)));
 
+            services.Configure<AzureQueueStorageEventPublisherOptions>(
+                Configuration.GetSection(nameof(AzureQueueStorageEventPublisherOptions)));
+
             services.Configure<LearnerOptions>(
                 Configuration.GetSection(nameof(LearnerOptions)));
 
-            services.Configure<MicrosoftProfileFetcherOptions>(
-                Configuration.GetSection(nameof(MicrosoftProfileFetcherOptions)));
-
-            services.AddTransient<IMicrosoftProfileFetcher, MicrosoftProfileFetcher>();
+            services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
 
             services.UseLeaderBoardServices();
             services.UseLeaderBoardLearnerServices();

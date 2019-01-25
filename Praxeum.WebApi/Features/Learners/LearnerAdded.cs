@@ -1,8 +1,8 @@
-﻿using Praxeum.WebApi.Data;
-
-namespace Praxeum.WebApi.Features.Learners
+﻿namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerAdded : LearnerFetched
+    public class LearnerAdded
     {
+        public string UserName { get; set; }
+        public string Status { get; set; }
     }
 }

@@ -61,11 +61,10 @@ namespace Praxeum.WebApp.Pages.Learners
 
                 response.EnsureSuccessStatusCode();
 
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                var learner =
-                     JsonConvert.DeserializeObject<LearnerCreatedModel>(content);
+                if (this.Learner.LeaderBoardId.HasValue)
+                {
+                    return RedirectToPage("/LeaderBoards/Details", new { id = this.Learner.LeaderBoardId.Value });
+                }
 
                 return RedirectToPage("./Index");
             }

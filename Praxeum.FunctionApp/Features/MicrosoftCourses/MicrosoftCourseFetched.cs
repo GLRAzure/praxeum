@@ -1,4 +1,4 @@
-﻿using Praxeum.FunctionApp.Data;
+﻿using Praxeum.Data;
 using System;
 
 namespace Praxeum.FunctionApp.Features.MicrosoftCourses

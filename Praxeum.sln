@@ -20,6 +20,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.WebApp", "Praxeum.W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.WebApi", "Praxeum.WebApi\Praxeum.WebApi.csproj", "{64BB293D-E947-44C3-855E-67CD3E268850}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.Data", "Praxeum.Data\Praxeum.Data.csproj", "{528A9DD9-D936-400E-808F-4F9AF9204619}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.Data.Tests", "Praxeum.Data.Tests\Praxeum.Data.Tests.csproj", "{82E7743C-646B-4F65-93F7-590485033C29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,14 @@ Global
 		{64BB293D-E947-44C3-855E-67CD3E268850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64BB293D-E947-44C3-855E-67CD3E268850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64BB293D-E947-44C3-855E-67CD3E268850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{528A9DD9-D936-400E-808F-4F9AF9204619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{528A9DD9-D936-400E-808F-4F9AF9204619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{528A9DD9-D936-400E-808F-4F9AF9204619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{528A9DD9-D936-400E-808F-4F9AF9204619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82E7743C-646B-4F65-93F7-590485033C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82E7743C-646B-4F65-93F7-590485033C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82E7743C-646B-4F65-93F7-590485033C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82E7743C-646B-4F65-93F7-590485033C29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

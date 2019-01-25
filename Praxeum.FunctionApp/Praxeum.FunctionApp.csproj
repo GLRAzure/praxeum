@@ -1,23 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Data\**" />
     <Compile Remove="Features\LeaderBoards\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="Features\LeaderBoards\**" />
+    <None Remove="Data\**" />
     <None Remove="Features\LeaderBoards\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Data\LeaderBoard.cs" />
-    <Compile Remove="Data\LeaderBoardLearner.cs" />
     <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserter.cs" />
     <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserterTimerTrigger.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
     <PackageReference Include="ScrapySharp" Version="3.0.0" />
   </ItemGroup>
@@ -32,5 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Praxeum.Data\Praxeum.Data.csproj" />
   </ItemGroup>
 </Project>

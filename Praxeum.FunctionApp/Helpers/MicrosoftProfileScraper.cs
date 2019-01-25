@@ -1,6 +1,6 @@
 ﻿using HtmlAgilityPack;
 using ScrapySharp.Extensions;
-using Praxeum.FunctionApp.Data;
+using Praxeum.Data;
 using System.Collections.Generic;
 using System;
 using System.Linq;

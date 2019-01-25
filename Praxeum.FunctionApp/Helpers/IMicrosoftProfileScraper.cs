@@ -1,4 +1,4 @@
-﻿using Praxeum.FunctionApp.Data;
+﻿using Praxeum.Data;
 using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Helpers

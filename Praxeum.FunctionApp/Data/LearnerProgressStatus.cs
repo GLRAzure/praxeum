@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Praxeum.FunctionApp.Data
+namespace Praxeum.WebApi.Data
 {
     public class LearnerProgressStatus
     {

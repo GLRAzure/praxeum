@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var learner in Model.Learners)
+        @foreach (var learner in Model.Learners.Where(x => x.Status != "failed"))
         {
             <tr>
                 <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>

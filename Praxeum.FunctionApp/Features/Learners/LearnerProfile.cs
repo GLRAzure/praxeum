@@ -1,17 +1,20 @@
 ﻿using AutoMapper;
-using Praxeum.FunctionApp.Data;
+using Praxeum.Data;
+using Praxeum.FunctionApp.Features.LeaderBoards.Learners;
 
-namespace Praxeum.FuncApp.Features.Learners
+namespace Praxeum.FunctionApp.Features.Learners
 {
     public class LearnerProfile : Profile
     {
         public LearnerProfile()
         {
+            CreateMap<Learner, LearnerAdded>();
             CreateMap<MicrosoftProfile, Learner>()
                 .ForMember(d => d.Rank, o => o.MapFrom(s => (s.ProgressStatus.CurrentLevel * 1000000) + s.ProgressStatus.CurrentLevelPointsEarned + s.ProgressStatus.TotalPoints))
                 .ForMember(d => d.Id, o => o.Ignore())                
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
-        }
+            CreateMap<LeaderBoardLearnerAdd, LeaderBoardLearner>();
+       }
 
         public static IMapper CreateMapper()
         {

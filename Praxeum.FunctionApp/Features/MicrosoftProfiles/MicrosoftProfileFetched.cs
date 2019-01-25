@@ -1,4 +1,4 @@
-﻿using Praxeum.FunctionApp.Data;
+﻿using Praxeum.Data;
 
 namespace Praxeum.FunctionApp.Features.MicrosoftProfiles
 {

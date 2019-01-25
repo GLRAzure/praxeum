@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Praxeum.WebApi.Data;
+using Praxeum.Data;
 using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.LeaderBoards

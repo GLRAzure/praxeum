@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -10,9 +10,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Features\Learners\LearnerAdderController.cs" />
     <Compile Remove="Features\Learners\LearnerRankedLister.cs" />
     <Compile Remove="Features\Learners\LearnerRankedListerController.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
+    <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />
+    <Compile Remove="Helpers\IAzureQueueStorageEventPublishService.cs" />
+    <Compile Remove="Helpers\IMicrosoftProfileFetcher.cs" />
+    <Compile Remove="Helpers\MicrosoftProfile.cs" />
+    <Compile Remove="Helpers\MicrosoftProfileAchievement.cs" />
+    <Compile Remove="Helpers\MicrosoftProfileFetcher.cs" />
+    <Compile Remove="Helpers\MicrosoftProfileFetcherOptions.cs" />
+    <Compile Remove="Helpers\MicrosoftProfileStatus.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,12 +38,16 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
-    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.1" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="4.0.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Praxeum.Data\Praxeum.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
