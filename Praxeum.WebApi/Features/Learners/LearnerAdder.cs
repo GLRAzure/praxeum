@@ -3,23 +3,24 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Options;
 using Praxeum.WebApi.Data;
+using Praxeum.WebApi.Features.LeaderBoards.Learners;
 using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.WebApi.Features.Learners
 {
     public class LearnerAdder : IHandler<LearnerAdd, LearnerAdded>
     {
-        private readonly IOptions<LearnerOptions> _learnerOptions;
+        private readonly IHandler<LeaderBoardLearnerAdd, LeaderBoardLearnerAdded> _leaderBoardLearnerAdder;
         private readonly IMicrosoftProfileFetcher _microsoftProfileFetcher;
         private readonly ILearnerRepository _learnerRepository;
 
         public LearnerAdder(
-            IOptions<LearnerOptions> learnerOptions,
+            IHandler<LeaderBoardLearnerAdd, LeaderBoardLearnerAdded> leaderBoardLearnerAdder,
             IMicrosoftProfileFetcher microsoftProfileFetcher,
             ILearnerRepository learnerRepository)
         {
-            _learnerOptions =
-                learnerOptions;
+            _leaderBoardLearnerAdder =
+                leaderBoardLearnerAdder;
             _microsoftProfileFetcher =
                 microsoftProfileFetcher;
             _learnerRepository =
@@ -55,6 +56,16 @@ namespace Praxeum.WebApi.Features.Learners
 
             var learnerAdded =
                 Mapper.Map(learner, new LearnerAdded());
+
+            if (learnerAdd.LeaderBoardId.HasValue)
+            {
+                await _leaderBoardLearnerAdder.ExecuteAsync(
+                    new LeaderBoardLearnerAdd 
+                    {
+                        LeaderBoardId = learnerAdd.LeaderBoardId.Value,
+                        LearnerId = learnerAdd.Id
+                    });
+            }
 
             learnerAdded.IsCached = false;
 

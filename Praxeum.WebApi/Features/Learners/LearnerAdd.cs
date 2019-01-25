@@ -9,6 +9,8 @@ namespace Praxeum.WebApi.Features.Learners
         [SwaggerExclude]
         public Guid Id { get; set; }
 
+        public Guid? LeaderBoardId { get; set; }
+
         [Required]
         public string Name { get; set; }
 

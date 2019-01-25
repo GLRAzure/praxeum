@@ -1,14 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Praxeum.WebApp.Models
+namespace Praxeum.WebApi.Features.Learners
 {
-    public class LearnerCreateModel
+    public class LearnerListAdd
     {
-        [Display(Name = "Leader Board")]
         public Guid? LeaderBoardId { get; set; }
 
         [Required]
-        public string Names { get; set; }
+        public string[] Names { get; set; }
     }
 }

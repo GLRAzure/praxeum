@@ -13,9 +13,10 @@ namespace Praxeum.WebApi.Features.Learners
             services.AddTransient<IHandler<LearnerDelete, LearnerDeleted>, LearnerDeleter>();
             services.AddTransient<IHandler<LearnerFetch, LearnerFetched>, LearnerFetcher>();
             services.AddTransient<IHandler<LearnerList, IEnumerable<LearnerListed>>, LearnerLister>();
+            services.AddTransient<IHandler<LearnerListAdd, LearnerListAdded>, LearnerListAdder>();
             services.AddTransient<IHandler<LearnerUpdate, LearnerUpdated>, LearnerUpdater>();
-            
+
             services.AddTransient<ILearnerRepository, LearnerRepository>();
-       }
+        }
     }
 }
