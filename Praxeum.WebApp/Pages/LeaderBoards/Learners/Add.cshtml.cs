@@ -19,7 +19,7 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
     {
         private readonly AzureAdB2COptions _azureAdB2COptions;
 
-        public SelectList AvailableLearners { get; set; }
+        public SelectList AvailableLeaderBoards { get; set; }
 
         [BindProperty]
         public LeaderBoardLearnerAddModel Learner { get; set; }
@@ -39,57 +39,57 @@ namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
                     LeaderBoardId = leaderBoardId
                 };
 
-            await this.GetAvailableLearnersAsync();
+            await this.GetAvailableLeaderBoardsAsync();
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(
-            Guid leaderBoardId)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                await this.GetAvailableLearnersAsync();
+                await this.GetAvailableLeaderBoardsAsync();
 
                 return Page();
             }
 
             using (var httpClient = new HttpClient())
             {
+                var separators =
+                    new[] { Environment.NewLine, ",", ";", "|" };
+
+                var names =
+                    this.Learner.Names.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
                 var response =
-                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{leaderBoardId}/learners", this.Learner);
+                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/learners",
+                        new { this.Learner.LeaderBoardId, Names = names });
 
                 response.EnsureSuccessStatusCode();
 
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                var learner =
-                     JsonConvert.DeserializeObject<LeaderBoardCreatedModel>(content);
-
-                return RedirectToPage("/LeaderBoards/Details", new { id = leaderBoardId });
+                return RedirectToPage("/LeaderBoards/Details", new { id = this.Learner.LeaderBoardId });
             }
         }
 
-        private async Task GetAvailableLearnersAsync()
+        private async Task GetAvailableLeaderBoardsAsync()
         {
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners");
+                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards");
 
                 response.EnsureSuccessStatusCode();
 
                 var content =
                     await response.Content.ReadAsStringAsync();
 
-                var learners =
-                     JsonConvert.DeserializeObject<IEnumerable<LearnerIndexModel>>(content);
+                var leaderBoards =
+                     JsonConvert.DeserializeObject<IEnumerable<LeaderBoardIndexModel>>(content);
 
-                learners =
-                    learners.OrderBy(x => x.DisplayName);
+                leaderBoards =
+                    leaderBoards.OrderBy(x => x.Name);
 
-                this.AvailableLearners = new SelectList(learners, "Id", "DisplayNameAndUserName");
+                this.AvailableLeaderBoards = new SelectList(leaderBoards, "Id", "Name");
             }
         }
     }

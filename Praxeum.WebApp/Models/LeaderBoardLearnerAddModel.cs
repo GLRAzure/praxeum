@@ -5,10 +5,10 @@ namespace Praxeum.WebApp.Models
 {
     public class LeaderBoardLearnerAddModel
     {
+        [Required]
         public Guid LeaderBoardId { get; set; }
 
         [Required]
-        [Display(Name = "Learner")]
-        public Guid LearnerId { get; set; }
+        public string Names { get; set; }
     }
 }

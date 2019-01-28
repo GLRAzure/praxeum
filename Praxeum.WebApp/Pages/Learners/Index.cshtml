@@ -13,7 +13,6 @@
             <th class="text-center">Level</th>
             <th class="text-center">Points</th>
             <th></th>
-            <th class="text-center d-none d-md-table-cell"><i class="fas fa-calendar-alt"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +23,6 @@
                 <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
                 <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
                 <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
-                <td class="text-center d-none d-md-table-cell"><time datetime="@learner.LastModifiedOn" title="@learner.LastModifiedOn">@learner.LastModifiedOnHumanized</time></td>
             </tr>
         }
     </tbody>

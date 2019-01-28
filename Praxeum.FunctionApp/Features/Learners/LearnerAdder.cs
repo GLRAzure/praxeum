@@ -111,7 +111,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                     new LeaderBoardLearnerAdd
                     {
                         LeaderBoardId = learnerAdd.LeaderBoardId.Value,
-                        LearnerId = learnerAdd.Id
+                        LearnerId = learner.Id
                     });
             }
 

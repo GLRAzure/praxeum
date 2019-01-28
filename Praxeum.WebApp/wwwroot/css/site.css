@@ -142,23 +142,35 @@ h1 + table {
 /* https://pinetools.com/gradient-generator */
 
 .table-ranked tr:nth-child(1) td {
-    background-color: #bcd0e6;
+    background-color: #0097CE;
 }
 
 .table-ranked tr:nth-child(2) td,
 .table-ranked tr:nth-child(3) td,
 .table-ranked tr:nth-child(4) td {
-    background-color: #ccdbec;
+    background-color: #00B8C9;
 }
 
 .table-ranked tr:nth-child(5) td,
 .table-ranked tr:nth-child(6) td,
 .table-ranked tr:nth-child(7) td {
-    background-color: #dde7f2;
+    background-color: #00D5AC;
 }
 
 .table-ranked tr:nth-child(8) td,
 .table-ranked tr:nth-child(9) td,
 .table-ranked tr:nth-child(10) td {
-    background-color: #eef3f8;
+    background-color: #92EB87;
+}
+
+.table-ranked tr:nth-child(11) td,
+.table-ranked tr:nth-child(12) td,
+.table-ranked tr:nth-child(13) td {
+    background-color: #F9F871;
+}
+
+.alert-info {
+    color: #3672B5;
+    border: none;
+    background-color: #DFF1FF;
 }

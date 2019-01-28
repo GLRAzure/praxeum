@@ -41,7 +41,7 @@ namespace Praxeum.WebApp.Pages
             using (var httpClient = new HttpClient())
             {
                 var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners/top/10");
+                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners/top/20");
 
                 response.EnsureSuccessStatusCode();
 

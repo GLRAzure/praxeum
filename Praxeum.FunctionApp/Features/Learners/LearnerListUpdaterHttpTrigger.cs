@@ -21,7 +21,7 @@ namespace Praxeum.FunctionApp.Features.Learners
              ILogger log)
         {
             log.LogInformation($"C# HTTP trigger function {nameof(LearnerListUpdaterHttpTrigger)} executed at: {DateTime.Now}");
-            
+
             // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
             var mapper = 
                 LearnerProfile.CreateMapper();
