@@ -42,30 +42,41 @@ namespace Praxeum.FunctionApp.Features.Learners
 
             foreach (var learner in learners)
             {
-                var microsoftProfile =
-                    await _microsoftProfileScraper.FetchProfileAsync(learner.UserName);
 
-                _logger.LogInformation(
-                    JsonConvert.SerializeObject(microsoftProfile));
+                try
+                {
+                    var microsoftProfile =
+                        await _microsoftProfileScraper.FetchProfileAsync(learner.UserName);
 
-                _mapper.Map(microsoftProfile, learner);
+                    _logger.LogInformation(
+                        JsonConvert.SerializeObject(microsoftProfile));
+
+                    _mapper.Map(microsoftProfile, learner);
+
+                    learner.Status =
+                        LearnerStatus.Imported;
+
+                    _logger.LogInformation(
+                        $"Imported!");
+                }
+                catch (Exception ex)
+                {
+                    learner.Status =
+                        LearnerStatus.Failed;
+                    learner.StatusMessage =
+                        ex.Message;
+
+                    _logger.LogInformation(
+                        $"Failed to import '{learner.UserName}': {ex.Message}.");
+                }
 
                 learner.LastModifiedOn =
                     DateTime.UtcNow;
-
-                _logger.LogInformation(
-                    $"Updating '{microsoftProfile.UserName}'...");
 
                 var learnerUpdated =
                     await _learnerRepository.UpdateByIdAsync(
                         learner.Id,
                         learner);
-
-                _logger.LogInformation(
-                    JsonConvert.SerializeObject(learnerUpdated));
-
-                _logger.LogInformation(
-                    $"Updated.");
 
                 learnerListUpdated.NumberLearnersUpdated++;
             }

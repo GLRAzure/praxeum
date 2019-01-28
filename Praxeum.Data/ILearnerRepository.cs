@@ -23,6 +23,7 @@ namespace Praxeum.Data
             string userName);
 
         Task<IEnumerable<Learner>> FetchListAsync(
+            string status = null,
             int? maximumRecords = null,
             string orderBy = null);
 

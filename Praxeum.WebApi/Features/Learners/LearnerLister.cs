@@ -22,6 +22,7 @@ namespace Praxeum.WebApi.Features.Learners
         {
             var learners =
                 await _learnerRepository.FetchListAsync(
+                    learnerFetchList.Status,
                     learnerFetchList.MaximumRecords,
                     learnerFetchList.OrderBy);
 

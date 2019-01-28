@@ -88,7 +88,7 @@ namespace Praxeum.Data
 
             var learners =
                 learnerContainer.Items.CreateItemQuery<Learner>(
-                    queryDefinition, 
+                    queryDefinition,
                     _azureCosmosDbOptions.Value.MaxConcurrency);
 
             var learnerList = new List<Learner>();
@@ -106,6 +106,7 @@ namespace Praxeum.Data
         }
 
         public async Task<IEnumerable<Learner>> FetchListAsync(
+            string status = null,
             int? maximumRecords = null,
             string orderBy = "l.displayName")
         {
@@ -122,6 +123,11 @@ namespace Praxeum.Data
 
             query += " * FROM l";
 
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                query += " WHERE l.status = @status";
+            }
+
             if (!string.IsNullOrWhiteSpace(orderBy))
             {
                 query += $" ORDER BY {orderBy}";
@@ -130,9 +136,14 @@ namespace Praxeum.Data
             var queryDefinition =
                 new CosmosSqlQueryDefinition(query);
 
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                queryDefinition.UseParameter("@status", status);
+            }
+
             var learners =
                 learnerContainer.Items.CreateItemQuery<Learner>(
-                    queryDefinition, 
+                    queryDefinition,
                     _azureCosmosDbOptions.Value.MaxConcurrency);
 
             var learnerList = new List<Learner>();
@@ -164,7 +175,7 @@ namespace Praxeum.Data
 
             var learners =
                 learnerContainer.Items.CreateItemQuery<Learner>(
-                    queryDefinition, 
+                    queryDefinition,
                     _azureCosmosDbOptions.Value.MaxConcurrency);
 
             var learnerList = new List<Learner>();
