@@ -46,10 +46,10 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
                 var content =
                     await response.Content.ReadAsStringAsync();
 
-                var learner =
+                var leaderBoard =
                      JsonConvert.DeserializeObject<LeaderBoardCreatedModel>(content);
 
-                return RedirectToPage("./Index");
+                return RedirectToPage("Details", new { id = leaderBoard.Id } );
             }
         }
     }

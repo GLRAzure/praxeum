@@ -6,6 +6,7 @@ namespace Praxeum.WebApp.Models
     public class LeaderBoardLearnerAddModel
     {
         [Required]
+        [Display(Name = "Leader Board")]
         public Guid LeaderBoardId { get; set; }
 
         [Required]

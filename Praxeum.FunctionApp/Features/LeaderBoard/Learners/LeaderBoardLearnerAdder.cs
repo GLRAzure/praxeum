@@ -11,23 +11,23 @@ namespace Praxeum.FunctionApp.Features.LeaderBoards.Learners
     {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        private readonly ILeaderBoardRepository _leaderBoardRepository;
         private readonly ILearnerRepository _learnerRepository;
+        private readonly ILeaderBoardRepository _leaderBoardRepository;
 
         public LeaderBoardLearnerAdder(
             ILogger logger,
             IMapper mapper,
-            ILeaderBoardRepository leaderBoardRepository,
-            ILearnerRepository learnerRepository)
+            ILearnerRepository learnerRepository,
+            ILeaderBoardRepository leaderBoardRepository)
         {
             _logger =
                logger;
             _mapper =
                mapper;
-            _leaderBoardRepository =
-                 leaderBoardRepository;
             _learnerRepository =
                 learnerRepository;
+            _leaderBoardRepository =
+                 leaderBoardRepository;
         }
 
         public async Task<LeaderBoardLearnerAdded> ExecuteAsync(
@@ -43,10 +43,15 @@ namespace Praxeum.FunctionApp.Features.LeaderBoards.Learners
             }
 
             var leaderBoardLearner =
-                leaderBoard.Learners.SingleOrDefault(x => x.LearnerId == leaderBoardLearnerAdd.LearnerId);
+                leaderBoard.Learners.SingleOrDefault(
+                    x => x.LearnerId == leaderBoardLearnerAdd.LearnerId);
 
             if (leaderBoardLearner == null)
             {
+
+                _logger.LogInformation(
+                    $"Adding learner to '{leaderBoard.Name}'...");
+
                 leaderBoard.Learners.Add(
                     new LeaderBoardLearner
                     {

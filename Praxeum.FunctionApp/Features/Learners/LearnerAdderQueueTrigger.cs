@@ -15,35 +15,22 @@ namespace Praxeum.FunctionApp.Features.Learners
         [FunctionName("LearnerAdderQueueTrigger")]
         public static async Task Run(
             [QueueTrigger("learner-add", Connection = "AzureStorageOptions:ConnectionString")]LearnerAdd learnerAdd,
-            ILogger log)
+            ILogger log,
+            [Queue("leaderboardlearner-add", Connection = "AzureStorageOptions:ConnectionString")] ICollector<LeaderBoardLearnerAdd> leaderBoardLearnerAdd)
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(learnerAdd, Formatting.Indented)}");
-            
+
             // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
-            var mapper = 
+            var mapper =
                 LearnerProfile.CreateMapper();
 
             var azureCosmosDbOptions =
                 new AzureCosmosDbOptions();
 
-            var learnerRepository =
-                new LearnerRepository(Options.Create(azureCosmosDbOptions));
-
-            var leaderBoardRepository =
-                new LeaderBoardRepository(Options.Create(azureCosmosDbOptions));
-
-            var leaderBoardLearnerAdder =
-                new LeaderBoardLearnerAdder(
-                    log,
-                    mapper,
-                    leaderBoardRepository,
-                    learnerRepository);
-
             var learnerAdder =
                 new LearnerAdder(
                     log,
                     mapper,
-                    leaderBoardLearnerAdder,
                     new MicrosoftProfileScraper(),
                     new LearnerRepository(Options.Create(azureCosmosDbOptions)));
 
@@ -52,7 +39,17 @@ namespace Praxeum.FunctionApp.Features.Learners
                     learnerAdd);
 
             log.LogInformation(
-                JsonConvert.SerializeObject(learnerAdded));
+                JsonConvert.SerializeObject(learnerAdded, Formatting.Indented));
+
+            if (learnerAdd.LeaderBoardId.HasValue)
+            {
+                leaderBoardLearnerAdd.Add(
+                    new LeaderBoardLearnerAdd
+                    {
+                        LeaderBoardId = learnerAdd.LeaderBoardId.Value,
+                        LearnerId = learnerAdded.Id
+                    });
+            }
         }
     }
 }

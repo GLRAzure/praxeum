@@ -12,14 +12,12 @@ namespace Praxeum.FunctionApp.Features.Learners
     {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        private readonly IHandler<LeaderBoardLearnerAdd, LeaderBoardLearnerAdded> _leaderBoardLearnerAdder;
         private readonly IMicrosoftProfileScraper _microsoftProfileScraper;
         private readonly ILearnerRepository _learnerRepository;
 
         public LearnerAdder(
             ILogger logger,
             IMapper mapper,
-            IHandler<LeaderBoardLearnerAdd, LeaderBoardLearnerAdded> leaderBoardLearnerAdder,
             IMicrosoftProfileScraper microsoftProfileScraper,
             ILearnerRepository learnerRepository)
         {
@@ -27,8 +25,6 @@ namespace Praxeum.FunctionApp.Features.Learners
                 logger;
             _mapper =
                mapper;
-            _leaderBoardLearnerAdder =
-                leaderBoardLearnerAdder;
             _microsoftProfileScraper =
                 microsoftProfileScraper;
             _learnerRepository =
@@ -38,6 +34,9 @@ namespace Praxeum.FunctionApp.Features.Learners
         public async Task<LearnerAdded> ExecuteAsync(
             LearnerAdd learnerAdd)
         {
+            learnerAdd.Name = 
+                learnerAdd.Name.Trim().ToLower();
+
             var learner =
                 await _learnerRepository.FetchByUserNameAsync(
                     learnerAdd.Name);
@@ -104,16 +103,6 @@ namespace Praxeum.FunctionApp.Features.Learners
                 _mapper.Map(
                     learner, 
                     new LearnerAdded());
-
-            if (learnerAdd.LeaderBoardId.HasValue)
-            {
-                await _leaderBoardLearnerAdder.ExecuteAsync(
-                    new LeaderBoardLearnerAdd
-                    {
-                        LeaderBoardId = learnerAdd.LeaderBoardId.Value,
-                        LearnerId = learner.Id
-                    });
-            }
 
             return learnerAdded;
         }

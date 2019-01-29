@@ -62,7 +62,7 @@ namespace Praxeum.Data
                 _cosmosDatabase.Containers["leaderboards"];
 
             var query =
-                $"SELECT * FROM lb";
+                $"SELECT * FROM lb ORDER BY lb.name";
 
             var queryDefinition =
                 new CosmosSqlQueryDefinition(query);

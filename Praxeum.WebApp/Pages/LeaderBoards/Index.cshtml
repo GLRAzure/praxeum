@@ -17,7 +17,7 @@
         {
             <tr>
                 <td>
-                    <a asp-page="Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a>
+                    <a asp-page="./Details" asp-route-id="@leaderBoard.Id">@leaderBoard.Name</a>
                     <div class="d-block">
                         https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id<a class="ml-2" href="https://@Request.Host/Public/LeaderBoards/@leaderBoard.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                     </div>

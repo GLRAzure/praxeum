@@ -27,9 +27,9 @@
 
 @if (this.User.IsInRole("Administrator"))
 {
-    <a asp-page="Edit" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
-    <a asp-page="Delete" class="btn btn-link">Delete</a>
-    <a asp-page="Index" class="btn btn-link">Cancel</a>
+    <a asp-page="./Edit" asp-route-id="@Model.LeaderBoard.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+    <a asp-page="./Delete" asp-route-id="@Model.LeaderBoard.Id" class="btn btn-link">Delete</a>
+    <a asp-page="./Index" class="btn btn-link">Cancel</a>
 }
 
 <h2 class="mt-4">Learners</h2>

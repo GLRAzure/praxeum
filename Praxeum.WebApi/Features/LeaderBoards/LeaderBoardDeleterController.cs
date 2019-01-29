@@ -25,12 +25,11 @@ namespace Praxeum.WebApi.Features.LeaderBoards
         public async Task<IActionResult> DeleteAsync(
            [FromRoute] Guid id)
         {
-            var leaderBoardDeleted =
-                await _leaderBoardDeleter.ExecuteAsync(
-                    new LeaderBoardDelete
-                    {
-                        Id = id
-                    });
+            await _leaderBoardDeleter.ExecuteAsync(
+                new LeaderBoardDelete
+                {
+                    Id = id
+                });
 
             return NoContent();
         }
