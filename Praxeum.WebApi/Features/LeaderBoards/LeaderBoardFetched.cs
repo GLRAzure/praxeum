@@ -14,6 +14,8 @@ namespace Praxeum.WebApi.Features.LeaderBoards
 
         public bool IsActive { get; set; }
 
+        public int NumberOfLearners { get; set; }
+
         public ICollection<Learner> Learners { get; set; }
 
         public DateTime CreatedOn { get; set; }

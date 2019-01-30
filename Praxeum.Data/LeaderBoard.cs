@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace Praxeum.Data
 {
@@ -17,6 +16,9 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
+
+        [JsonProperty(PropertyName = "numberOfLearners")]
+        public int NumberOfLearners { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }

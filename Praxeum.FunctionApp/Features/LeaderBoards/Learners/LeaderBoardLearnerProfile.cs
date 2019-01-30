@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Praxeum.Data;
-using Praxeum.FunctionApp.Features.LeaderBoards.Learners;
 
 namespace Praxeum.FunctionApp.Features.Learners
 {
@@ -8,7 +6,6 @@ namespace Praxeum.FunctionApp.Features.Learners
     {
         public LeaderBoardLearnerProfile()
         {
-            CreateMap<LeaderBoardLearnerAdd, LeaderBoardLearner>();
        }
 
         public static IMapper CreateMapper()

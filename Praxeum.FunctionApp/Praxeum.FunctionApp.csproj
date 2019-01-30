@@ -5,20 +5,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Data\**" />
-    <Compile Remove="Features\LeaderBoards\**" />
-    <Compile Remove="Features\LeaderBoard\**" />
+    <Compile Remove="Features\LeaderBoards\Learners\**" />
     <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="Features\LeaderBoards\**" />
-    <EmbeddedResource Remove="Features\LeaderBoard\**" />
+    <EmbeddedResource Remove="Features\LeaderBoards\Learners\**" />
     <None Remove="Data\**" />
-    <None Remove="Features\LeaderBoards\**" />
-    <None Remove="Features\LeaderBoard\**" />
+    <None Remove="Features\LeaderBoards\Learners\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserter.cs" />
     <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserterTimerTrigger.cs" />
     <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
     <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerCountUpdate.cs" />
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerCountUpdated.cs" />
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerCountUpdater.cs" />
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerCountUpdaterHttpTrigger.cs" />
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerCountUpdaterTimerTrigger.cs" />
+    <Compile Include="Features\LeaderBoards\Learners\LeaderBoardLearnerProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />

@@ -11,7 +11,7 @@ namespace Praxeum.WebApi.Helpers
                 //new Tag { Name = "Challenges"},
                 //new Tag { Name = "Challenge Learners"},
                 new Tag { Name = "Leader Boards"},
-                new Tag { Name = "Leader Board Learners"},
+                new Tag { Name = "Learner Leader Boards"},
                 new Tag { Name = "Learners"}
             };
         }

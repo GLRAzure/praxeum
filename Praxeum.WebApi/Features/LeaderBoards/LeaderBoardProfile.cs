@@ -13,11 +13,14 @@ namespace Praxeum.WebApi.Features.LeaderBoards
             CreateMap<LeaderBoard, LeaderBoardFetched>()
                 .ForMember(d => d.Learners, o => o.Ignore());
             CreateMap<LeaderBoardAdd, LeaderBoard>()
+                .ForMember(d => d.NumberOfLearners, o => o.Ignore())
                 .ForMember(d => d.IsActive, o => o.Ignore())
                 .ForMember(d => d.CreatedOn, o => o.Ignore());
             CreateMap<LeaderBoard, LeaderBoardAdded>()
+                .ForMember(d => d.NumberOfLearners, o => o.Ignore())
                 .ForMember(d => d.Learners, o => o.Ignore());
             CreateMap<LeaderBoardUpdate, LeaderBoard>()
+                .ForMember(d => d.NumberOfLearners, o => o.Ignore())
                 .ForMember(d => d.CreatedOn, o => o.Ignore());
             CreateMap<LeaderBoard, LeaderBoardUpdated>();
         }
