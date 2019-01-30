@@ -14,7 +14,6 @@ namespace Praxeum.FunctionApp.Features.Learners
                 .ForMember(d => d.Rank, o => o.MapFrom(s => (s.ProgressStatus.CurrentLevel * 1000000) + s.ProgressStatus.CurrentLevelPointsEarned + s.ProgressStatus.TotalPoints))
                 .ForMember(d => d.Id, o => o.Ignore())                
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
-            CreateMap<LeaderBoardLearnerAdd, LeaderBoardLearner>();
        }
 
         public static IMapper CreateMapper()

@@ -6,10 +6,13 @@
   <ItemGroup>
     <Compile Remove="Data\**" />
     <Compile Remove="Features\LeaderBoards\**" />
+    <Compile Remove="Features\LeaderBoard\**" />
     <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="Features\LeaderBoards\**" />
+    <EmbeddedResource Remove="Features\LeaderBoard\**" />
     <None Remove="Data\**" />
     <None Remove="Features\LeaderBoards\**" />
+    <None Remove="Features\LeaderBoard\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Features\MicrosoftCourses\MicrosoftCourseUpserter.cs" />

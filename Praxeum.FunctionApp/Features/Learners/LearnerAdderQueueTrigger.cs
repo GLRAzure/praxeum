@@ -16,7 +16,7 @@ namespace Praxeum.FunctionApp.Features.Learners
         public static async Task Run(
             [QueueTrigger("learner-add", Connection = "AzureStorageOptions:ConnectionString")]LearnerAdd learnerAdd,
             ILogger log,
-            [Queue("leaderboardlearner-add", Connection = "AzureStorageOptions:ConnectionString")] ICollector<LeaderBoardLearnerAdd> leaderBoardLearnerAdd)
+            [Queue("learnerleaderboard-add", Connection = "AzureStorageOptions:ConnectionString")] ICollector<LearnerLeaderBoardAdd> learnerLeaderBoardAdd)
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(learnerAdd, Formatting.Indented)}");
 
@@ -43,11 +43,11 @@ namespace Praxeum.FunctionApp.Features.Learners
 
             if (learnerAdd.LeaderBoardId.HasValue)
             {
-                leaderBoardLearnerAdd.Add(
-                    new LeaderBoardLearnerAdd
+                learnerLeaderBoardAdd.Add(
+                    new LearnerLeaderBoardAdd
                     {
-                        LeaderBoardId = learnerAdd.LeaderBoardId.Value,
-                        LearnerId = learnerAdded.Id
+                        LearnerId = learnerAdded.Id,
+                        LeaderBoardId = learnerAdd.LeaderBoardId.Value
                     });
             }
         }

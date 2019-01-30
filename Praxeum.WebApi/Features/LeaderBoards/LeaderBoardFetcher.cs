@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
 
@@ -31,8 +30,8 @@ namespace Praxeum.WebApi.Features.LeaderBoards
                 Mapper.Map(leaderBoard, new LeaderBoardFetched());
 
             var learners =
-                await _learnerRepository.FetchListAsync(
-                    leaderBoard.Learners.Select(x => x.LearnerId).ToArray());
+                await _learnerRepository.FetchListByLeaderBoardIdAsync(
+                    leaderBoardFetch.Id);
 
             foreach (var learner in learners)
             {

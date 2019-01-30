@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Praxeum.Data.Helpers;
 using Praxeum.WebApi.Features.LeaderBoards;
-using Praxeum.WebApi.Features.LeaderBoards.Learners;
 using Praxeum.WebApi.Features.Learners;
+using Praxeum.WebApi.Features.Learners.LeaderBoards;
 using Praxeum.WebApi.Helpers;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -63,8 +63,8 @@ namespace Praxeum.WebApi
             services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
 
             services.UseLeaderBoardServices();
-            services.UseLeaderBoardLearnerServices();
             services.UseLearnerServices();
+            services.UseLearnerLeaderBoardServices();
 
             Mapper.Initialize(
                 cfg =>
@@ -72,9 +72,9 @@ namespace Praxeum.WebApi
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<LeaderBoardProfile>();
-                    cfg.AddProfile<LeaderBoardLearnerProfile>();
                     cfg.AddProfile<LearnerProfile>();
-                });
+                    cfg.AddProfile<LearnerLeaderBoardProfile>();
+               });
 
             Mapper.AssertConfigurationIsValid();
         }

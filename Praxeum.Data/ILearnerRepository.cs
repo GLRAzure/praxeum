@@ -27,6 +27,9 @@ namespace Praxeum.Data
             int? maximumRecords = null,
             string orderBy = null);
 
+        Task<IEnumerable<Learner>> FetchListByLeaderBoardIdAsync(
+            Guid leaderBoardId);
+
         Task<IEnumerable<Learner>> FetchListAsync(
             Guid[] ids);
 

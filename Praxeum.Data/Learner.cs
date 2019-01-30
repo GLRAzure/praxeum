@@ -36,6 +36,12 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "achievements")]
         public ICollection<LearnerAchievement> Achievements { get; set; }
 
+        [JsonProperty(PropertyName = "numberOfLeaderBoards")]
+        public int NumberOfLeaderBoards { get; set; }
+
+        [JsonProperty(PropertyName = "leaderBoards")]
+        public ICollection<LearnerLeaderBoard> LeaderBoards { get; set; }
+
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
@@ -48,6 +54,8 @@ namespace Praxeum.Data
             this.HasSeenMicrosoftPrivacyNotice = true;
             this.ProgressStatus = new LearnerProgressStatus();
             this.Achievements = new List<LearnerAchievement>();
+            this.NumberOfLeaderBoards = 0;
+            this.LeaderBoards = new List<LearnerLeaderBoard>();
             this.CreatedOn = DateTime.UtcNow;
             this.LastModifiedOn = this.CreatedOn;
         }

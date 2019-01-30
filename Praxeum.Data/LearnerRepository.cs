@@ -189,6 +189,40 @@ namespace Praxeum.Data
             return learnerList;
         }
 
+        public async Task<IEnumerable<Learner>> FetchListByLeaderBoardIdAsync(
+            Guid leaderBoardId)
+        {
+            var learnerContainer =
+                _cosmosDatabase.Containers["learners"];
+
+            var query =
+                $"SELECT * FROM l";
+
+            query += $" WHERE ARRAY_CONTAINS(l.leaderBoards, {{\"id\": \"{leaderBoardId}\"}}, true)";
+
+            var queryDefinition =
+                new CosmosSqlQueryDefinition(query);
+
+            var learners =
+                learnerContainer.Items.CreateItemQuery<Learner>(
+                    queryDefinition,
+                    _azureCosmosDbOptions.Value.MaxConcurrency);
+
+            var learnerList = new List<Learner>();
+
+            while (learners.HasMoreResults)
+            {
+                learnerList.AddRange(
+                    await learners.FetchNextSetAsync());
+            };
+
+            learnerList = 
+                learnerList.Where(x => x.Status != LearnerStatus.Failed)
+                    .ToList();
+
+            return learnerList;
+        }
+
         public async Task<Learner> UpdateByIdAsync(
             Guid id,
             Learner learner)

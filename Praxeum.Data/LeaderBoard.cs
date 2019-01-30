@@ -18,9 +18,6 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
 
-        [JsonProperty(PropertyName = "learners")]
-        public ICollection<LeaderBoardLearner> Learners { get; set; }
-
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
@@ -28,7 +25,6 @@ namespace Praxeum.Data
         {
             this.CreatedOn = DateTime.UtcNow;
             this.IsActive = true;
-            this.Learners = new List<LeaderBoardLearner>();
         }
     }
 }

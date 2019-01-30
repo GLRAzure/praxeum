@@ -3,6 +3,7 @@ using System;
 
 namespace Praxeum.Data
 {
+    [Obsolete]
     public class LeaderBoardLearner
     {
         [JsonProperty(PropertyName = "id")]
