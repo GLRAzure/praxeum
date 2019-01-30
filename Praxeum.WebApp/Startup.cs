@@ -39,9 +39,6 @@ namespace Praxeum.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // services.AddAuthentication(AzureADB2CDefaults.AuthenticationScheme)
-            //    .AddAzureADB2C(options => Configuration.Bind("AzureAdB2COptions", options));
-
             // Add authentication services
             services.AddAuthentication(options =>
             {
@@ -57,7 +54,6 @@ namespace Praxeum.WebApp
                 options.ClientSecret = "+9yJXfD[EB,V2IJ?Z.[bOu9l"; // OpenIdConnectProtocolException: Message contains error: 'invalid_request', error_description: 'AADB2C90079: Clients must send a client_secret when redeeming a confidential grant.
                 options.RequireHttpsMetadata = false;
                 options.MetadataAddress = "https://glrpraxeum.b2clogin.com/glrpraxeum.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_Default_SignIn_SignUp";
-                // options.GetClaimsFromUserInfoEndpoint = true;
 
                 // Set response type to code
                 options.ResponseType = OpenIdConnectResponseType.IdToken;
@@ -112,13 +108,14 @@ namespace Praxeum.WebApp
                                 {
                                     profile =
                                         await profileService.AddAsync(context.Principal);
-                                } else
+                                }
+                                else
                                 {
                                     profile =
                                         await profileService.UpdateAsync(context.Principal, profile);
                                 }
 
-                                foreach(var role in profile.Roles.Split(','))
+                                foreach (var role in profile.Roles.Split(','))
                                 {
                                     identity.AddClaim(new Claim(ClaimTypes.Role, role));
                                 }
@@ -133,12 +130,16 @@ namespace Praxeum.WebApp
                     nameof(AzureAdB2COptions)));
 
             services
-                .AddMvc();
+                .AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.AllowAreas = true;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
+            IApplicationBuilder app,
             IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -169,8 +170,6 @@ namespace Praxeum.WebApp
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
-            // app.UseMvc();
 
             app.UseMvc(routes =>
             {
