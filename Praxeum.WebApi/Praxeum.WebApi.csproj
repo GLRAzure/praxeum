@@ -11,16 +11,12 @@
 
   <ItemGroup>
     <Compile Remove="Data\**" />
-    <Compile Remove="Features\Challenge\**" />
     <Compile Remove="Features\LeaderBoards\Learners\**" />
     <Content Remove="Data\**" />
-    <Content Remove="Features\Challenge\**" />
     <Content Remove="Features\LeaderBoards\Learners\**" />
     <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="Features\Challenge\**" />
     <EmbeddedResource Remove="Features\LeaderBoards\Learners\**" />
     <None Remove="Data\**" />
-    <None Remove="Features\Challenge\**" />
     <None Remove="Features\LeaderBoards\Learners\**" />
   </ItemGroup>
 
