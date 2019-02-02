@@ -8,10 +8,8 @@ namespace Praxeum.Domain.Learners
         public LearnerProfile()
         {
             CreateMap<Learner, LearnerDeleted>();
-            CreateMap<Learner, LearnerListed>()
-                .ForMember(d => d.IsCached, o => o.Ignore());
-            CreateMap<Learner, LearnerFetched>()
-                .ForMember(d => d.IsCached, o => o.Ignore());
+            CreateMap<Learner, LearnerListed>();
+            CreateMap<Learner, LearnerFetched>();
             CreateMap<Learner, LearnerAdded>();
         }
     }

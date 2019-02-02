@@ -7,10 +7,10 @@ namespace Praxeum.Data
     public interface IContestRepository
     {
         Task<Contest> AddAsync(
-            Contest challenge);
+            Contest contest);
 
         Task<Contest> AddOrUpdateAsync(
-            Contest challenge);
+            Contest contest);
 
         Task<Contest> DeleteByIdAsync(
             Guid id);
@@ -22,6 +22,6 @@ namespace Praxeum.Data
 
         Task<Contest> UpdateByIdAsync(
             Guid id,
-            Contest challenge);
+            Contest contest);
     }
 }

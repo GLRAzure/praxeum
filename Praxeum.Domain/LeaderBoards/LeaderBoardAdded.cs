@@ -1,6 +1,4 @@
-﻿using Praxeum.Data;
-
-namespace Praxeum.Domain.LeaderBoards
+﻿namespace Praxeum.Domain.LeaderBoards
 {
     public class LeaderBoardAdded : LeaderBoardFetched
     {

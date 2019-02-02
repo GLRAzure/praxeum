@@ -1,4 +1,5 @@
 ﻿using Praxeum.Data;
+using Praxeum.Domain.Learners;
 using System;
 using System.Collections.Generic;
 
@@ -16,13 +17,13 @@ namespace Praxeum.Domain.LeaderBoards
 
         public int NumberOfLearners { get; set; }
 
-        public ICollection<Learner> Learners { get; set; }
+        public ICollection<LearnerFetched> Learners { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         public LeaderBoardFetched()
         {
-            this.Learners = new List<Learner>();
+            this.Learners = new List<LearnerFetched>();
         }
     }
 }

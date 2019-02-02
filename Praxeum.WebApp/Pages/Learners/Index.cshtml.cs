@@ -1,43 +1,34 @@
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.Learners;
 
 namespace Praxeum.WebApp.Pages.Learners
 {
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LearnerList, IEnumerable<LearnerListed>> _learnerLister;
 
-        public IList<LearnerIndexModel> Learners { get; private set; }
+        public IEnumerable<LearnerListed> Learners { get; private set; }
 
         public IndexModel(
-            IOptions<AzureAdB2COptions> azureAdB2COptions)
+            IHandler<LearnerList, IEnumerable<LearnerListed>> learnerLister)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _learnerLister =
+                learnerLister;
         }
 
         public async Task OnGetAsync()
         {
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/learners");
-
-                response.EnsureSuccessStatusCode();
-
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                this.Learners =
-                     JsonConvert.DeserializeObject<List<LearnerIndexModel>>(content);
-            }
+            this.Learners =
+                await _learnerLister.ExecuteAsync(
+                    new LearnerList
+                    {
+                        OrderBy = "l.userName ASC"
+                    });
         }
     }
 }

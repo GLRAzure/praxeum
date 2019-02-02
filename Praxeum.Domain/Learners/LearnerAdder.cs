@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Praxeum.WebApi.Helpers;
 
 namespace Praxeum.Domain.Learners
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Praxeum.WebApp.Models
+﻿namespace Praxeum.WebApp.Models
 {
     public class LeaderBoardDeleteModel : LeaderBoardIndexModel
     {

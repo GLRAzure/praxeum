@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Praxeum.Data;
 
 namespace Praxeum.Domain.LeaderBoards.Learners

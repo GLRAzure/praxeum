@@ -7,38 +7,50 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.LeaderBoards;
+using Praxeum.Domain.Learners;
 
 namespace Praxeum.WebApp.Pages.Learners
 {
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LeaderBoardList, IEnumerable<LeaderBoardListed>> _leaderBoardLister;
+        private readonly IHandler<LearnerListAdd, LearnerListAdded> _learnerListAdder;
 
         public SelectList AvailableLeaderBoards { get; set; }
 
 
         [BindProperty]
-        public LearnerCreateModel Learner { get; set; }
+        public LearnerListAdd Learner { get; set; }
 
         public CreateModel(
-           IOptions<AzureAdB2COptions> azureAdB2COptions)
+           IHandler<LeaderBoardList, IEnumerable<LeaderBoardListed>> leaderBoardLister,
+           IHandler<LearnerListAdd, LearnerListAdded> learnerListAdder)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _leaderBoardLister =
+                leaderBoardLister;
+            _learnerListAdder =
+                learnerListAdder;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(
+            Guid? leaderBoardId)
         {
             await this.GetAvailableLeaderBoardsAsync();
+
+            this.Learner = 
+                new LearnerListAdd
+                {
+                    LeaderBoardId = leaderBoardId
+                };
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(
+            Guid? leaderBoardId)
         {
             if (!ModelState.IsValid)
             {
@@ -49,17 +61,8 @@ namespace Praxeum.WebApp.Pages.Learners
 
             using (var httpClient = new HttpClient())
             {
-                var separators =
-                    new[] { Environment.NewLine, ",", ";", "|" };
-
-                var names =
-                    this.Learner.Names.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-
-                var response =
-                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/learners",
-                        new { this.Learner.LeaderBoardId, Names = names });
-
-                response.EnsureSuccessStatusCode();
+                var learnerListAdded =
+                    _learnerListAdder.ExecuteAsync(this.Learner);
 
                 if (this.Learner.LeaderBoardId.HasValue)
                 {
@@ -72,24 +75,14 @@ namespace Praxeum.WebApp.Pages.Learners
 
         private async Task GetAvailableLeaderBoardsAsync()
         {
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards");
+            var leaderBoards =
+                await _leaderBoardLister.ExecuteAsync(
+                    new LeaderBoardList());
 
-                response.EnsureSuccessStatusCode();
+            leaderBoards =
+                leaderBoards.OrderBy(x => x.Name);
 
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                var leaderBoards =
-                     JsonConvert.DeserializeObject<IEnumerable<LeaderBoardIndexModel>>(content);
-
-                leaderBoards =
-                    leaderBoards.OrderBy(x => x.Name);
-
-                this.AvailableLeaderBoards = new SelectList(leaderBoards, "Id", "Name");
-            }
+            this.AvailableLeaderBoards = new SelectList(leaderBoards, "Id", "Name");
         }
     }
 }

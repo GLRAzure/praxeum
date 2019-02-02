@@ -1,17 +1,24 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Praxeum.Data;
+using Praxeum.Data.Helpers;
+using Praxeum.Domain;
+using Praxeum.Domain.Contests;
+using Praxeum.Domain.LeaderBoards;
+using Praxeum.Domain.Learners;
+using Praxeum.Domain.Learners.LeaderBoards;
+using Praxeum.Domain.Users;
 using Praxeum.WebApp.Helpers;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Security.Claims;
@@ -38,6 +45,54 @@ namespace Praxeum.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            // Add support services
+            services.Configure<AzureADB2COptions>(
+                Configuration.GetSection(
+                    nameof(AzureADB2COptions)));
+
+            services.Configure<AzureCosmosDbOptions>(
+                Configuration.GetSection(nameof(AzureCosmosDbOptions)));
+
+            services.Configure<AzureTableStorageOptions>(
+                Configuration.GetSection(nameof(AzureTableStorageOptions)));
+
+            services.Configure<AzureQueueStorageEventPublisherOptions>(
+                Configuration.GetSection(nameof(AzureQueueStorageEventPublisherOptions)));
+
+
+            services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
+
+            // Add domain services
+            services.AddTransient<IHandler<ContestAdd, ContestAdded>, ContestAdder>();
+            services.AddTransient<IHandler<ContestDelete, ContestDeleted>, ContestDeleter>();
+            services.AddTransient<IHandler<ContestFetch, ContestFetched>, ContestFetcher>();
+            services.AddTransient<IHandler<ContestList, IEnumerable<ContestListed>>, ContestLister>();
+            services.AddTransient<IHandler<ContestUpdate, ContestUpdated>, ContestUpdater>();
+
+            services.AddTransient<IHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAdder>();
+            services.AddTransient<IHandler<LeaderBoardDelete, LeaderBoardDeleted>, LeaderBoardDeleter>();
+            services.AddTransient<IHandler<LeaderBoardFetch, LeaderBoardFetched>, LeaderBoardFetcher>();
+            services.AddTransient<IHandler<LeaderBoardList, IEnumerable<LeaderBoardListed>>, LeaderBoardLister>();
+            services.AddTransient<IHandler<LeaderBoardUpdate, LeaderBoardUpdated>, LeaderBoardUpdater>();
+
+            services.AddTransient<IHandler<LearnerLeaderBoardAdd, LearnerLeaderBoardAdded>, LearnerLeaderBoardAdder>();
+            services.AddTransient<IHandler<LearnerLeaderBoardDelete, LearnerLeaderBoardDeleted>, LearnerLeaderBoardDeleter>();
+
+            services.AddTransient<IHandler<LearnerAdd, LearnerAdded>, LearnerAdder>();
+            services.AddTransient<IHandler<LearnerDelete, LearnerDeleted>, LearnerDeleter>();
+            services.AddTransient<IHandler<LearnerFetch, LearnerFetched>, LearnerFetcher>();
+            services.AddTransient<IHandler<LearnerList, IEnumerable<LearnerListed>>, LearnerLister>();
+            services.AddTransient<IHandler<LearnerListAdd, LearnerListAdded>, LearnerListAdder>();
+            services.AddTransient<IHandler<LearnerUpdate, LearnerUpdated>, LearnerUpdater>();
+
+            services.AddTransient<IHandler<UserFetchAdd, UserFetchedAdded>, UserFetcherAdder>();
+
+            // Add data services
+            services.AddTransient<IContestRepository, ContestRepository>();
+            services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
+            services.AddTransient<ILearnerRepository, LearnerRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             // Add authentication services
             services.AddAuthentication(options =>
@@ -96,26 +151,20 @@ namespace Praxeum.WebApp
                             {
                                 identity.AddClaim(new Claim("access_token", token.RawData));
 
-                                // TODO: This is an ideal use case for caching
+                                var serviceProvider =
+                                    services.BuildServiceProvider();
 
-                                var profileService =
-                                    new ProfileService(Configuration);
+                                var userFetcherAdder =
+                                     serviceProvider.GetService<IHandler<UserFetchAdd, UserFetchedAdded>>();
 
-                                var profile =
-                                    await profileService.GetAsync(context.Principal);
+                                var userFetchAdd =
+                                     new UserFetchAdd(
+                                         context.Principal);
 
-                                if (profile == null)
-                                {
-                                    profile =
-                                        await profileService.AddAsync(context.Principal);
-                                }
-                                else
-                                {
-                                    profile =
-                                        await profileService.UpdateAsync(context.Principal, profile);
-                                }
+                                var userFetchAdded =
+                                    await userFetcherAdder.ExecuteAsync(userFetchAdd);
 
-                                foreach (var role in profile.Roles.Split(','))
+                                foreach (var role in userFetchAdded.Roles.Split(','))
                                 {
                                     identity.AddClaim(new Claim(ClaimTypes.Role, role));
                                 }
@@ -125,9 +174,16 @@ namespace Praxeum.WebApp
                 };
             });
 
-            services.Configure<AzureAdB2COptions>(
-                Configuration.GetSection(
-                    nameof(AzureAdB2COptions)));
+            Mapper.Initialize(
+                cfg =>
+                {
+                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+
+                    cfg.AddProfile<LeaderBoardProfile>();
+                    cfg.AddProfile<LearnerProfile>();
+                    cfg.AddProfile<LearnerLeaderBoardProfile>();
+                    cfg.AddProfile<UserProfile>();
+                });
 
             services
                 .AddMvc()

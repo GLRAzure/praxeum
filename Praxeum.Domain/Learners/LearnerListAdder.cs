@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Praxeum.Domain.Learners
@@ -26,7 +27,13 @@ namespace Praxeum.Domain.Learners
             var learners =
                 new List<LearnerAdded>();
 
-            foreach (var name in learnerListAdd.Names)
+            var separators =
+                new[] { Environment.NewLine, ",", ";", "|" };
+
+            var names = learnerListAdd.Names
+                .Split(separators, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var name in names)
             {
                 var learnerAdded =
                     await _learnerAdder.ExecuteAsync(

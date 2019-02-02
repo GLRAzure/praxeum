@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
+using Praxeum.Domain.Learners;
 
 namespace Praxeum.Domain.LeaderBoards
 {
@@ -36,7 +37,7 @@ namespace Praxeum.Domain.LeaderBoards
             foreach (var learner in learners)
             {
                 leaderBoardFetched.Learners.Add(
-                    Mapper.Map(learner, new Learner()));
+                    Mapper.Map(learner, new LearnerFetched()));
             }
 
             return leaderBoardFetched;

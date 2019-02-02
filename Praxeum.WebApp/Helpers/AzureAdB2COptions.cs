@@ -1,10 +1,10 @@
 ﻿namespace Praxeum.WebApp.Helpers
 {
-    public class AzureAdB2COptions
+    public class AzureADB2COptions
     {
         public const string PolicyAuthenticationProperty = "Policy";
 
-        public AzureAdB2COptions()
+        public AzureADB2COptions()
         {
             AzureAdB2CInstance = "https://login.microsoftonline.com/tfp";
         }

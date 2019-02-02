@@ -5,16 +5,46 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="LeaderBoards\Learners\LeaderBoardLearnerAdderController.cs" />
-    <Compile Remove="LeaderBoards\Learners\LeaderBoardLearnerDeleterController.cs" />
-    <Compile Remove="LeaderBoards\Learners\LeaderBoardLearnerFetcherController.cs" />
+    <Compile Remove="LeaderBoards\Learners\**" />
+    <EmbeddedResource Remove="LeaderBoards\Learners\**" />
+    <None Remove="LeaderBoards\Learners\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Contests\ContestAdderController.cs" />
+    <Compile Remove="Contests\ContestDeleterController.cs" />
+    <Compile Remove="Contests\ContestFetcherController.cs" />
+    <Compile Remove="Contests\ContestListerController.cs" />
+    <Compile Remove="Contests\ContestServices.cs" />
+    <Compile Remove="Contests\ContestUpdaterController.cs" />
+    <Compile Remove="Contests\Learners\ContestLearnerAdderController.cs" />
+    <Compile Remove="Contests\Learners\ContestLearnerDeleterController.cs" />
+    <Compile Remove="Contests\Learners\ContestLearnerFetcherController.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardAdderController.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardDeleterController.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardFetcherController.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardListerController.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardServices.cs" />
+    <Compile Remove="LeaderBoards\LeaderBoardUpdaterController.cs" />
+    <Compile Remove="Learners\LeaderBoards\LeaderBoardLearnerServices.cs" />
+    <Compile Remove="Learners\LeaderBoards\LearnerLeaderBoardAdderController.cs" />
+    <Compile Remove="Learners\LeaderBoards\LearnerLeaderBoardDeleterController.cs" />
     <Compile Remove="Learners\LearnerAdderController.cs" />
     <Compile Remove="Learners\LearnerDeleterController.cs" />
     <Compile Remove="Learners\LearnerFetcherController.cs" />
     <Compile Remove="Learners\LearnerListAdderController.cs" />
     <Compile Remove="Learners\LearnerListerController.cs" />
     <Compile Remove="Learners\LearnerOptions.cs" />
+    <Compile Remove="Learners\LearnerServices.cs" />
     <Compile Remove="Learners\LearnerUpdaterController.cs" />
+    <Compile Remove="Users\UserUpdate.cs" />
+    <Compile Remove="Users\UserUpdated.cs" />
+    <Compile Remove="Users\UserUpdater.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Humanizer" Version="2.5.16" />
   </ItemGroup>
 
   <ItemGroup>

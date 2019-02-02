@@ -1,28 +1,28 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.LeaderBoards;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards
 {
     [Authorize(Roles = "Administrator")]
     public class DeleteModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LeaderBoardDelete, LeaderBoardDeleted> _leaderBoardDeleter;
+        private readonly IHandler<LeaderBoardFetch, LeaderBoardFetched> _leaderBoardFetcher;
 
         [BindProperty]
-        public LeaderBoardDeleteModel LeaderBoard { get; set; }
+        public LeaderBoardFetched LeaderBoard { get; set; }
 
         public DeleteModel(
-           IOptions<AzureAdB2COptions> azureAdB2COptions)
+           IHandler<LeaderBoardDelete, LeaderBoardDeleted> leaderBoardDeleter,
+           IHandler<LeaderBoardFetch, LeaderBoardFetched> leaderBoardFetcher)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _leaderBoardDeleter = leaderBoardDeleter;
+            _leaderBoardFetcher = leaderBoardFetcher;
         }
 
         public async Task<IActionResult> OnGetAsync(
@@ -33,19 +33,12 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
                 return NotFound();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{id}");
-
-                response.EnsureSuccessStatusCode();
-
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                this.LeaderBoard =
-                     JsonConvert.DeserializeObject<LeaderBoardDeleteModel>(content);
-            }
+            this.LeaderBoard =
+                await _leaderBoardFetcher.ExecuteAsync(
+                    new LeaderBoardFetch
+                    {
+                        Id = id.Value
+                    });
 
             return Page();
         }
@@ -53,15 +46,18 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
         public async Task<IActionResult> OnPostAsync(
             Guid? id)
         {
-            using (var httpClient = new HttpClient())
+            if (id == null)
             {
-                var response =
-                    await httpClient.DeleteAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{id}");
-
-                response.EnsureSuccessStatusCode();
-
-                return RedirectToPage("./Index");
+                return NotFound();
             }
+
+            await _leaderBoardDeleter.ExecuteAsync(
+                 new LeaderBoardDelete
+                 {
+                     Id = id.Value
+                 });
+
+            return RedirectToPage("./Index");
         }
     }
 }

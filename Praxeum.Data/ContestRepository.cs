@@ -16,64 +16,64 @@ namespace Praxeum.Data
         }
 
         public async Task<Contest> AddAsync(
-            Contest challenge)
+            Contest contest)
         {
-            var challengeContainer =
+            var contestContainer =
                _cosmosDatabase.Containers["contests"];
 
-            var challengeDocument =
-                await challengeContainer.Items.CreateItemAsync<Contest>(
-                    challenge.Id.ToString(),
-                    challenge);
+            var contestDocument =
+                await contestContainer.Items.CreateItemAsync<Contest>(
+                    contest.Id.ToString(),
+                    contest);
 
-            return challengeDocument.Resource;
+            return contestDocument.Resource;
         }
 
         public async Task<Contest> AddOrUpdateAsync(
-            Contest challenge)
+            Contest contest)
         {
-            var challengeContainer =
+            var contestContainer =
                _cosmosDatabase.Containers["contests"];
 
-            var challengeDocument =
-                await challengeContainer.Items.UpsertItemAsync<Contest>(
-                    challenge.Id.ToString(),
-                    challenge);
+            var contestDocument =
+                await contestContainer.Items.UpsertItemAsync<Contest>(
+                    contest.Id.ToString(),
+                    contest);
 
-            return challengeDocument.Resource;
+            return contestDocument.Resource;
         }
 
         public async Task<Contest> DeleteByIdAsync(
             Guid id)
         {
-            var challengeContainer =
+            var contestContainer =
                _cosmosDatabase.Containers["contests"];
 
-            var challengeDocument =
-                await challengeContainer.Items.DeleteItemAsync<Contest>(
+            var contestDocument =
+                await contestContainer.Items.DeleteItemAsync<Contest>(
                     id.ToString(),
                     id.ToString());
 
-            return challengeDocument.Resource;
+            return contestDocument.Resource;
         }
 
         public async Task<Contest> FetchByIdAsync(
             Guid id)
         {
-            var challengeContainer =
+            var contestContainer =
                _cosmosDatabase.Containers["contests"];
 
-            var challengeDocument =
-                await challengeContainer.Items.ReadItemAsync<Contest>(
+            var contestDocument =
+                await contestContainer.Items.ReadItemAsync<Contest>(
                     id.ToString(),
                     id.ToString());
 
-            return challengeDocument.Resource;
+            return contestDocument.Resource;
         }
 
         public async Task<IEnumerable<Contest>> FetchListAsync()
         {
-            var challengeContainer =
+            var contestContainer =
                 _cosmosDatabase.Containers["contests"];
 
             var query =
@@ -83,35 +83,35 @@ namespace Praxeum.Data
                 new CosmosSqlQueryDefinition(query);
 
             var contests =
-                challengeContainer.Items.CreateItemQuery<Contest>(
+                contestContainer.Items.CreateItemQuery<Contest>(
                     queryDefinition, 
                     _azureCosmosDbOptions.Value.MaxConcurrency);
 
-            var challengeList = new List<Contest>();
+            var contestList = new List<Contest>();
 
             while (contests.HasMoreResults)
             {
-                challengeList.AddRange(
+                contestList.AddRange(
                     await contests.FetchNextSetAsync());
             };
 
-            return challengeList;
+            return contestList;
         }
 
         public async Task<Contest> UpdateByIdAsync(
             Guid id,
-            Contest challenge)
+            Contest contest)
         {
-            var challengeContainer =
+            var contestContainer =
                _cosmosDatabase.Containers["contests"];
 
-            var challengeDocument =
-                await challengeContainer.Items.ReplaceItemAsync<Contest>(
+            var contestDocument =
+                await contestContainer.Items.ReplaceItemAsync<Contest>(
                     id.ToString(),
                     id.ToString(),
-                    challenge);
+                    contest);
 
-            return challengeDocument.Resource;
+            return contestDocument.Resource;
         }
     }
 }

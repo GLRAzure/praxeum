@@ -1,17 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using Humanizer;
 using Praxeum.Data;
+using System;
 
 namespace Praxeum.Domain.Learners
 {
     public class LearnerFetched : Learner
     {
-        [JsonProperty(Order = 1)]
+        public string DisplayNameAndUserName => $"{this.DisplayName} ({this.UserName})"; 
 
-        public bool IsCached { get; set; }
+        // https://github.com/Humanizr/Humanizer#humanize-datetime
+        public string LastModifiedOnHumanized => this.LastModifiedOn.Humanize();
 
-        public LearnerFetched()
-        {
-            this.IsCached = false;
-        }
+        public bool IsExpired => this.LastModifiedOn == null || this.LastModifiedOn <= DateTime.UtcNow;
     }
 }

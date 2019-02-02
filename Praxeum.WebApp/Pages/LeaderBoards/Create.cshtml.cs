@@ -1,27 +1,24 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.LeaderBoards;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards
 {
     [Authorize(Roles = "Administrator")]
     public class CreateModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LeaderBoardAdd, LeaderBoardAdded> _leaderBoardAdder;
 
         [BindProperty]
-        public LeaderBoardCreateModel LeaderBoard { get; set; }
+        public LeaderBoardAdd LeaderBoard { get; set; }
 
         public CreateModel(
-           IOptions<AzureAdB2COptions> azureAdB2COptions)
+           IHandler<LeaderBoardAdd, LeaderBoardAdded> leaderBoardAdder)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _leaderBoardAdder = leaderBoardAdder;
         }
 
         public IActionResult OnGet()
@@ -36,21 +33,10 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
                 return Page();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.PostAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards", this.LeaderBoard);
+            var leaderBoardAdded =
+                await _leaderBoardAdder.ExecuteAsync(this.LeaderBoard);
 
-                response.EnsureSuccessStatusCode();
-
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                var leaderBoard =
-                     JsonConvert.DeserializeObject<LeaderBoardCreatedModel>(content);
-
-                return RedirectToPage("Details", new { id = leaderBoard.Id } );
-            }
+            return RedirectToPage("Details", new { id = leaderBoardAdded.Id });
         }
     }
 }

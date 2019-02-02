@@ -1,4 +1,6 @@
-﻿namespace Praxeum.Domain.Learners
+﻿using Humanizer;
+
+namespace Praxeum.Domain.Learners
 {
     public class LearnerListed : LearnerFetched
     {
