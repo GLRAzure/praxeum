@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Praxeum.Data;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Domain.Contests
@@ -21,14 +22,19 @@ namespace Praxeum.Domain.Contests
         public string Type { get; set; }
 
         [Required]
+        [Display(Name="Start Date")]
         public DateTime StartDate { get; set; }
-
+        
+        [Display(Name="End Date")]
         public DateTime? EndDate { get; set; }
-
+        
+        [Display(Name="Target Value")]
         public int TargetValue { get; set; }
 
         public ContestAdd()
         {
+            this.Id = Guid.NewGuid();
+            this.Type = ContestType.Points;
             this.HasPrizes = false;
         }
     }

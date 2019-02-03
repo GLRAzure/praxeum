@@ -22,6 +22,8 @@ namespace Praxeum.Domain.Contests
 
         public int? TargetValue { get; set; }
 
+        public int NumberOfLearners { get; set; }
+
         public bool IsActive { get; set; }
 
         public DateTime CreatedOn { get; set; }

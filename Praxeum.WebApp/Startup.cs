@@ -179,6 +179,7 @@ namespace Praxeum.WebApp
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
+                    cfg.AddProfile<ContestProfile>();
                     cfg.AddProfile<LeaderBoardProfile>();
                     cfg.AddProfile<LearnerProfile>();
                     cfg.AddProfile<LearnerLeaderBoardProfile>();

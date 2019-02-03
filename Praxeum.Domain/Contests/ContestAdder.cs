@@ -25,6 +25,11 @@ namespace Praxeum.Domain.Contests
                 await _contestRepository.AddAsync(
                     contest);
 
+            if(!string.IsNullOrWhiteSpace(contestAdd.Prizes))
+            {
+                contest.HasPrizes = true;
+            }
+
             var contestAdded =
                 Mapper.Map(contest, new ContestAdded());
 

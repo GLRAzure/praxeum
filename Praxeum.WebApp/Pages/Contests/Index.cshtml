@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Contests";
+}
+
+<h1>Contests</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-center" style="width: 100px;">Learners</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contest in Model.Contests)
+        {
+            <tr>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
+                    <div class="d-block">
+                        https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </td>
+                <td class="text-center" style="width: 100px;">@contest.NumberOfLearners</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="Create" class="btn btn-primary"><i class="fas fa-plus"></i><span>Add Contest</span></a>
+}

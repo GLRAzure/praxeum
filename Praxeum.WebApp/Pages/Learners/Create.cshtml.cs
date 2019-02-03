@@ -49,8 +49,7 @@ namespace Praxeum.WebApp.Pages.Learners
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(
-            Guid? leaderBoardId)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {

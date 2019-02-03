@@ -2,7 +2,7 @@
 {
     public class ContestType
     {
-        public const string Experience = "experience";
+        public const string Points = "points";
         public const string Level = "level";
         public const string Achievement = "achievement";
         public const string Badge = "badge";

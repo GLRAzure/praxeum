@@ -1,0 +1,112 @@
+﻿@page "/Contests/{id:Guid}"
+@model DetailsModel
+
+@{
+    ViewData["Title"] = "Contest";
+}
+
+<h1>Contest</h1>
+
+<form>
+    <div class="form-group">
+        <label asp-for="Contest.Name"></label>
+        <p class="form-control-static">@Model.Contest.Name</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Contest.Description))
+    {
+        <div class="form-group">
+            <label asp-for="Contest.Description"></label>
+            <p class="form-control-static">@Model.Contest.Description</p>
+        </div>
+    }
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.StartDate"></label>
+        <p class="form-control-static">@Model.Contest.StartDate</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.EndDate"></label>
+        <p class="form-control-static">
+            @if (Model.Contest.EndDate.HasValue)
+            {
+                <text>@Model.Contest.EndDate</text>}
+            else
+            {
+                <text>TBD</text>
+            }
+        </p>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Contest.Prizes))
+    {
+        <div class="form-group">
+            <label asp-for="Contest.Prizes"></label>
+            <p class="form-control-static">@Model.Contest.Prizes</p>
+        </div>
+    }
+    <div class="form-group">
+        <label>Share</label>
+        <p class="form-control-static">https://@Request.Host/Public/Contests/@Model.Contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@Model.Contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a></p>
+    </div>
+</form>
+
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="./Edit" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+    <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Delete</a>
+    <a asp-page="./Index" class="btn btn-link">Cancel</a>
+}
+
+@*<h2 class="mt-4">Learners</h2>
+
+    <table class="table table-ranked">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="text-center">Level</th>
+                <th class="text-center">Points</th>
+                <th></th>
+                @if (this.User.IsInRole("Administrator"))
+                {
+                    <th><i class="fas fa-trash-alt"></i></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var learner in Model.Contest.Learners)
+            {
+                <tr>
+                    <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
+                    <td class="text-center">@learner.ProgressStatus.CurrentLevel</td>
+                    <td class="text-center">@learner.ProgressStatus.CurrentLevelPointsEarned/@learner.ProgressStatus.TotalPoints</td>
+                    <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
+                    @if (this.User.IsInRole("Administrator"))
+                    {
+                        <td><a asp-page="./Learners/Remove" asp-route-contestId="@Model.Contest.Id" asp-route-learnerId="@learner.Id" asp-route-learnerName="@learner.DisplayNameAndUserName"><i class="fas fa-trash-alt"></i></a></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.Contest.Learners == null || Model.Contest.Learners.Count == 0)
+    {
+        <p>
+            No learners have been added to this leader board.
+            @if (this.User.IsInRole("Administrator"))
+            {
+                <text>Would you like to <a asp-page="./Learners/Add" asp-route-contestId="@Model.Contest.Id">add learner(s)</a> to this leader board?</text>
+            }
+        </p>
+    }
+
+    @if (this.User.IsInRole("Administrator"))
+    {
+        <a asp-page="./Learners/Add" asp-route-contestId="@Model.Contest.Id" class="btn btn-outline-primary"><i class="fas fa-plus"></i><span>Add Learner(s)</span></a>
+    }*@

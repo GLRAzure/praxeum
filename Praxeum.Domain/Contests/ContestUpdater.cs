@@ -29,6 +29,11 @@ namespace Praxeum.Domain.Contests
                     contestUpdate.Id,
                     contest);
 
+            if(!string.IsNullOrWhiteSpace(contestUpdate.Prizes))
+            {
+                contest.HasPrizes = true;
+            }
+
             var contestUpdated =
                 Mapper.Map(contest, new ContestUpdated());
 
