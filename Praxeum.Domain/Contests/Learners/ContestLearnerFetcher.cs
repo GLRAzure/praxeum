@@ -35,7 +35,7 @@ namespace Praxeum.Domain.Contests.Learners
 
             var contestLearner =
                 contest.Learners.SingleOrDefault(
-                    x => x.Id == contestLearnerFetch.LearnerId);
+                    x => x.LearnerId == contestLearnerFetch.LearnerId);
 
             if (contestLearner == null)
             {

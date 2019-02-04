@@ -33,7 +33,7 @@ namespace Praxeum.Domain.Contests.Learners
             }
 
             var contestLearner =
-                contest.Learners.SingleOrDefault(x => x.Id == contestLearnerDelete.LearnerId);
+                contest.Learners.SingleOrDefault(x => x.LearnerId == contestLearnerDelete.LearnerId);
 
             if (contestLearner == null)
             {

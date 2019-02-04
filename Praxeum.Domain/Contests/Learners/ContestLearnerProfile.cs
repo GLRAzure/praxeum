@@ -7,9 +7,7 @@ namespace Praxeum.Domain.Contests.Learners
     {
         public ContestLearnerProfile()
         {
-            //CreateMap<ContestLearner, ContestLearnerDeleted>();
             CreateMap<Learner, ContestLearnerAdded>();
-            CreateMap<Learner, ContestLearnerFetched>();
             CreateMap<ContestLearnerAdd, ContestLearner>();
         }
     }

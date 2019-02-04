@@ -33,6 +33,9 @@ namespace Praxeum.Data
         Task<IEnumerable<Learner>> FetchListAsync(
             Guid[] ids);
 
+        Task<IEnumerable<Learner>> FetchListAsync(
+            string[] names);
+
         Task<Learner> UpdateByIdAsync(
             Guid id,
             Learner learner);
