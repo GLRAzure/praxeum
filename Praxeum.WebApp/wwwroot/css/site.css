@@ -174,3 +174,7 @@ h1 + table {
     border: none;
     background-color: #DFF1FF;
 }
+
+.form-group > label {
+    font-size: 80%;
+}

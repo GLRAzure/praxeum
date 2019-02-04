@@ -1,0 +1,49 @@
+﻿@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Create Contest";
+}
+
+<h1>Create Contest</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Contest.Name"></label>
+        <input asp-for="Contest.Name" class="form-control" />
+        <span asp-validation-for="Contest.Name" class="text-danger"></span>
+    </div><div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <select asp-for="Contest.Type" class="form-control">
+            <option>Points</option>
+        </select>
+        <span asp-validation-for="Contest.Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Description"></label>
+        <input asp-for="Contest.Description" class="form-control" />
+        <span asp-validation-for="Contest.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Prizes"></label>
+        <input asp-for="Contest.Prizes" class="form-control" />
+        <span asp-validation-for="Contest.Prizes" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.StartDate"></label>
+        <input asp-for="Contest.StartDate" class="form-control" />
+        <span asp-validation-for="Contest.StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.EndDate"></label>
+        <input asp-for="Contest.EndDate" class="form-control" />
+        <span asp-validation-for="Contest.EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.TargetValue"></label>
+        <input asp-for="Contest.TargetValue" class="form-control" />
+        <span asp-validation-for="Contest.TargetValue" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Save Changes</span></button>
+    <a class="btn btn-link" asp-page="Index">Cancel</a>
+</form>

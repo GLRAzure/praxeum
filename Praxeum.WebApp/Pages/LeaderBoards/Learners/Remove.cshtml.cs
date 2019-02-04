@@ -1,60 +1,88 @@
 ﻿using System;
-using System.Data;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.Learners;
+using Praxeum.Domain.Learners.LeaderBoards;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards.Learners
 {
     [Authorize(Roles = "Administrator")]
     public class RemoveModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LearnerFetch, LearnerFetched> _learnerFetcher;
+        private readonly IHandler<LearnerLeaderBoardDelete, LearnerLeaderBoardDeleted> _learnerLeaderBoardDeleter;
 
         [BindProperty]
-        public LeaderBoardLearnerRemoveModel Learner { get; set; }
+        public LearnerFetched Learner { get; set; }
+
+        [BindProperty]
+        public Guid LeaderBoardId { get; set; }
 
         public RemoveModel(
-           IOptions<AzureAdB2COptions> azureAdB2COptions)
+           IHandler<LearnerFetch, LearnerFetched> learnerFetcher,
+           IHandler<LearnerLeaderBoardDelete, LearnerLeaderBoardDeleted> learnerLeaderBoardDeleter)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _learnerFetcher =
+                learnerFetcher;
+            _learnerLeaderBoardDeleter =
+                learnerLeaderBoardDeleter;
         }
 
-        public IActionResult OnGet(
-            Guid leaderBoardId,
-            Guid learnerId,
-            string learnerName)
+        public async Task<IActionResult> OnGet(
+            Guid? leaderBoardId,
+            Guid? learnerId)
         {
+            if (leaderBoardId == null)
+            {
+                return NotFound();
+            }
+
+            if (learnerId == null)
+            {
+                return NotFound();
+            }
+
+            this.LeaderBoardId = 
+                leaderBoardId.Value;
+
             this.Learner =
-                new LeaderBoardLearnerRemoveModel
-                {
-                    LeaderBoardId = leaderBoardId,
-                    LearnerId = learnerId,
-                    LearnerName = learnerName
-                };
+                await _learnerFetcher.ExecuteAsync(
+                    new LearnerFetch
+                    {
+                        Id = learnerId.Value
+                    });
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(
-            Guid leaderBoardId,
-            Guid learnerId,
-            string learnerName)
+            Guid? leaderBoardId,
+            Guid? learnerId)
         {
-            using (var httpClient = new HttpClient())
+            if (leaderBoardId == null)
             {
-                var response =
-                    await httpClient.DeleteAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{leaderBoardId}/learners/{learnerId}");
-
-                response.EnsureSuccessStatusCode();
-
-                return RedirectToPage("/LeaderBoards/Details", new { id = leaderBoardId });
+                return NotFound();
             }
+
+            if (learnerId == null)
+            {
+                return NotFound();
+            }
+
+            this.LeaderBoardId = 
+                leaderBoardId.Value;
+
+            await _learnerLeaderBoardDeleter.ExecuteAsync(
+                new LearnerLeaderBoardDelete
+                {
+                    LeaderBoardId = leaderBoardId.Value,
+                    LearnerId = learnerId.Value
+                });
+
+            return RedirectToPage("/LeaderBoards/Details", new { id = leaderBoardId });
         }
     }
 }

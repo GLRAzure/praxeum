@@ -1,23 +1,9 @@
-@using Microsoft.AspNetCore.Authentication.AzureADB2C.UI
 @using Microsoft.Extensions.Options
-@inject IOptionsMonitor<AzureADB2COptions> AzureADB2COptions
-
-@{
-    var options = AzureADB2COptions.Get(AzureADB2CDefaults.AuthenticationScheme);
-}
-
 
 @if (User.Identity.IsAuthenticated)
 {
     <div class="navbar-nav">
-        @if (!string.IsNullOrEmpty(options.EditProfilePolicyId))
-        {
-            <a class="nav-item nav-link" asp-controller="Account" asp-action="EditProfile">Hello @User.Identity.Name!</a>
-        }
-        else
-        {
-            <span class="navbar-text">Hello @User.Identity.Name!</span>
-        }
+        <span class="navbar-text">Hello @User.Identity.Name!</span>
         <a class="nav-item nav-link" asp-controller="Account" asp-action="SignOut">Sign out</a>
     </div>
 }

@@ -7,8 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\LearnerAchievement.cs" />
-    <Compile Remove="Models\LearnerProgressStatus.cs" />
+    <Compile Remove="Models\**" />
+    <Content Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
+    <Compile Remove="Helpers\Profile.cs" />
+    <Compile Remove="Helpers\ProfileService.cs" />
     <Compile Remove="Pages\Learners\Delete.cshtml.cs" />
     <Compile Remove="Pages\Learners\Details.cshtml.cs" />
     <Compile Remove="Pages\Learners\Edit.cshtml.cs" />
@@ -30,10 +38,14 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Humanizer" Version="2.5.16" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" PrivateAssets="All" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Praxeum.Data\Praxeum.Data.csproj" />
+    <ProjectReference Include="..\Praxeum.Domain\Praxeum.Domain.csproj" />
   </ItemGroup>
 
 </Project>

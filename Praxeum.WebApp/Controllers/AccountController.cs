@@ -10,10 +10,10 @@ namespace Praxeum.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private AzureAdB2COptions _azureAdB2COptions;
+        private AzureADB2COptions _azureAdB2COptions;
 
         public AccountController(
-            IOptions<AzureAdB2COptions> azureAdB2COptions)
+            IOptions<AzureADB2COptions> azureAdB2COptions)
 
         {
             _azureAdB2COptions = azureAdB2COptions.Value;

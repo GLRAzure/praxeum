@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.LeaderBoards;
 
 namespace Praxeum.WebApp.Areas.Public.Pages.LeaderBoards
 {
     public class DetailsModel : PageModel
     {
-        private readonly IOptions<AzureAdB2COptions> _azureAdB2COptions;
+        private readonly IHandler<LeaderBoardFetch, LeaderBoardFetched> _leaderBoardFetcher;
 
         [BindProperty]
-        public LeaderBoardDetailsModel LeaderBoard { get; set; }
+        public LeaderBoardFetched LeaderBoard { get; set; }
 
         public DetailsModel(
-            IOptions<AzureAdB2COptions> azureAdB2COptions)
+            IHandler<LeaderBoardFetch, LeaderBoardFetched> leaderBoardFetcher)
         {
-            _azureAdB2COptions = azureAdB2COptions;
+            _leaderBoardFetcher = leaderBoardFetcher;
         }
 
         public async Task<IActionResult> OnGetAsync(
@@ -32,24 +29,17 @@ namespace Praxeum.WebApp.Areas.Public.Pages.LeaderBoards
                 return NotFound();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.Value.ApiUrl}/leaderboards/{id}");
+            this.LeaderBoard =
+                await _leaderBoardFetcher.ExecuteAsync(
+                    new LeaderBoardFetch
+                    {
+                        Id = id.Value
+                    });
 
-                response.EnsureSuccessStatusCode();
-
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                this.LeaderBoard =
-                     JsonConvert.DeserializeObject<LeaderBoardDetailsModel>(content);
-
-                this.LeaderBoard.Learners =
-                    this.LeaderBoard.Learners
-                        .OrderByDescending(x => x.Rank)                            .ThenByDescending(x => x.ProgressStatus.CurrentLevelPointsEarned)
-                            .ToList();
-            }
+            this.LeaderBoard.Learners =
+                this.LeaderBoard.Learners
+                    .OrderByDescending(x => x.Rank)
+                        .ToList();
 
             return Page();
         }

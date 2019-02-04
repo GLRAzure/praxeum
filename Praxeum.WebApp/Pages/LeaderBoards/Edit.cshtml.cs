@@ -1,30 +1,30 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Praxeum.WebApp.Helpers;
-using Praxeum.WebApp.Models;
+using Praxeum.Domain;
+using Praxeum.Domain.LeaderBoards;
 
 namespace Praxeum.WebApp.Pages.LeaderBoards
 {
     [Authorize(Roles = "Administrator")]
     public class EditModel : PageModel
     {
-        private readonly AzureAdB2COptions _azureAdB2COptions;
+        private readonly IHandler<LeaderBoardFetch, LeaderBoardFetched> _leaderBoardFetcher;
+        private readonly IHandler<LeaderBoardUpdate, LeaderBoardUpdated> _leaderBoardUpdater;
 
         [BindProperty]
-        public LeaderBoardEditModel LeaderBoard { get; set; }
+        public LeaderBoardFetched LeaderBoard { get; set; }
 
         public EditModel(
-           IOptions<AzureAdB2COptions> azureAdB2COptions)
+           IHandler<LeaderBoardFetch, LeaderBoardFetched> leaderBoardFetcher,
+           IHandler<LeaderBoardUpdate, LeaderBoardUpdated> leaderBoardUpdater)
         {
-            _azureAdB2COptions = azureAdB2COptions.Value;
+            _leaderBoardFetcher = leaderBoardFetcher;
+            _leaderBoardUpdater = leaderBoardUpdater;
         }
-        
+
         public async Task<IActionResult> OnGetAsync(
             Guid? id)
         {
@@ -33,19 +33,12 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
                 return NotFound();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.GetAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{id}");
-
-                response.EnsureSuccessStatusCode();
-
-                var content =
-                    await response.Content.ReadAsStringAsync();
-
-                this.LeaderBoard =
-                     JsonConvert.DeserializeObject<LeaderBoardEditModel>(content);
-            }
+            this.LeaderBoard =
+                await _leaderBoardFetcher.ExecuteAsync(
+                    new LeaderBoardFetch
+                    {
+                        Id = id.Value
+                    });
 
             return Page();
         }
@@ -58,21 +51,18 @@ namespace Praxeum.WebApp.Pages.LeaderBoards
                 return Page();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                var response =
-                    await httpClient.PutAsJsonAsync($"{_azureAdB2COptions.ApiUrl}/leaderboards/{id}", this.LeaderBoard);
+            var leaderBoardUpdate =
+                new LeaderBoardUpdate();
 
-                response.EnsureSuccessStatusCode();
+            leaderBoardUpdate.Id = id;
+            leaderBoardUpdate.Name  = this.LeaderBoard.Name;
+            leaderBoardUpdate.Description = this.LeaderBoard.Description;
 
-                var content =
-                    await response.Content.ReadAsStringAsync();
+            var leaderBoardUpdated =
+                await _leaderBoardUpdater.ExecuteAsync(
+                    leaderBoardUpdate);
 
-                var leaderBoard =
-                     JsonConvert.DeserializeObject<LeaderBoardEditedModel>(content);
-
-                return RedirectToPage("Details", new { id = leaderBoard.Id } );
-            }
+            return RedirectToPage("Details", new { id = leaderBoardUpdated.Id });
         }
     }
 }
