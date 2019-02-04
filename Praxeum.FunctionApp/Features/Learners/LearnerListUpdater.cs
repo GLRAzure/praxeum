@@ -42,7 +42,6 @@ namespace Praxeum.FunctionApp.Features.Learners
 
             foreach (var learner in learners)
             {
-
                 try
                 {
                     var microsoftProfile =
@@ -53,25 +52,22 @@ namespace Praxeum.FunctionApp.Features.Learners
 
                     _mapper.Map(microsoftProfile, learner);
 
-                    learner.Status =
-                        LearnerStatus.Imported;
+                    learner.Status = LearnerStatus.Imported;
+                    learner.StatusMessage = string.Empty;
 
                     _logger.LogInformation(
                         $"Imported!");
                 }
                 catch (Exception ex)
                 {
-                    learner.Status =
-                        LearnerStatus.Failed;
-                    learner.StatusMessage =
-                        ex.Message;
+                    learner.Status = LearnerStatus.Failed;
+                    learner.StatusMessage = ex.Message;
 
                     _logger.LogInformation(
                         $"Failed to import '{learner.UserName}': {ex.Message}.");
                 }
 
-                learner.LastModifiedOn =
-                    DateTime.UtcNow;
+                learner.LastModifiedOn = DateTime.UtcNow;
 
                 var learnerUpdated =
                     await _learnerRepository.UpdateByIdAsync(

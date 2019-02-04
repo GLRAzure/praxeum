@@ -27,7 +27,8 @@ namespace Praxeum.WebApp.Pages.Learners
                 await _learnerLister.ExecuteAsync(
                     new LearnerList
                     {
-                        OrderBy = "l.userName ASC"
+                        OrderBy = "l.userName ASC",
+                        MaximumRecords = null
                     });
         }
     }

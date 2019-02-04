@@ -3,22 +3,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Praxeum.WebApp.Helpers;
 
 namespace Praxeum.WebApp.Controllers
 {
     public class AccountController : Controller
     {
-        private AzureADB2COptions _azureAdB2COptions;
-
-        public AccountController(
-            IOptions<AzureADB2COptions> azureAdB2COptions)
-
-        {
-            _azureAdB2COptions = azureAdB2COptions.Value;
-        }
-        
         public async Task SignIn(
             string returnUri = "/")
         {
