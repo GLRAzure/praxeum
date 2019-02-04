@@ -40,7 +40,7 @@ namespace Praxeum.WebApp.Pages.Learners
         {
             await this.GetAvailableLeaderBoardsAsync();
 
-            this.Learner = 
+            this.Learner =
                 new LearnerListAdd
                 {
                     LeaderBoardId = leaderBoardId
@@ -58,18 +58,14 @@ namespace Praxeum.WebApp.Pages.Learners
                 return Page();
             }
 
-            using (var httpClient = new HttpClient())
+            await _learnerListAdder.ExecuteAsync(this.Learner);
+
+            if (this.Learner.LeaderBoardId.HasValue)
             {
-                var learnerListAdded =
-                    _learnerListAdder.ExecuteAsync(this.Learner);
-
-                if (this.Learner.LeaderBoardId.HasValue)
-                {
-                    return RedirectToPage("/LeaderBoards/Details", new { id = this.Learner.LeaderBoardId.Value });
-                }
-
-                return RedirectToPage("./Index");
+                return RedirectToPage("/LeaderBoards/Details", new { id = this.Learner.LeaderBoardId.Value });
             }
+
+            return RedirectToPage("./Index");
         }
 
         private async Task GetAvailableLeaderBoardsAsync()

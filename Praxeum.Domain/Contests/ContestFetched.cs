@@ -1,4 +1,5 @@
 ﻿using Praxeum.Data;
+using Praxeum.Domain.Contests.Learners;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,7 +31,7 @@ namespace Praxeum.Domain.Contests
 
         public bool IsActive { get; set; }
 
-        public ICollection<ContestLearner> Learners { get; set; }
+        public ICollection<ContestLearnerFetched> Learners { get; set; }
 
         public int NumberOfLearners { get; set; }
 
@@ -38,7 +39,7 @@ namespace Praxeum.Domain.Contests
 
         public ContestFetched()
         {
-            this.Learners = new List<ContestLearner>();
+            this.Learners = new List<ContestLearnerFetched>();
         }
     }
 }

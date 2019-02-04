@@ -6,6 +6,7 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerListAdd
     {
         [SwaggerExclude]
+        [Display(Name = "Contest")]
         public Guid ContestId { get; set; }
 
         [Required]
