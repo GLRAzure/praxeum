@@ -13,6 +13,7 @@ using Praxeum.Data;
 using Praxeum.Data.Helpers;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests;
+using Praxeum.Domain.Contests.Learners;
 using Praxeum.Domain.LeaderBoards;
 using Praxeum.Domain.Learners;
 using Praxeum.Domain.Learners.LeaderBoards;
@@ -70,6 +71,10 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestList, IEnumerable<ContestListed>>, ContestLister>();
             services.AddTransient<IHandler<ContestUpdate, ContestUpdated>, ContestUpdater>();
 
+            services.AddTransient<IHandler<ContestLearnerDelete, ContestLearnerDeleted>, ContestLearnerDeleter>();
+            services.AddTransient<IHandler<ContestLearnerFetch, ContestLearnerFetched>, ContestLearnerFetcher>();
+            services.AddTransient<IHandler<ContestLearnerListAdd, ContestLearnerListAdded>, ContestLearnerListAdder>();
+
             services.AddTransient<IHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAdder>();
             services.AddTransient<IHandler<LeaderBoardDelete, LeaderBoardDeleted>, LeaderBoardDeleter>();
             services.AddTransient<IHandler<LeaderBoardFetch, LeaderBoardFetched>, LeaderBoardFetcher>();
@@ -92,6 +97,7 @@ namespace Praxeum.WebApp
             services.AddTransient<IContestRepository, ContestRepository>();
             services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
             services.AddTransient<ILearnerRepository, LearnerRepository>();
+            services.AddTransient<ILearnerLeaderBoardRepository, LearnerLeaderBoardRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             // Add authentication services
@@ -180,6 +186,7 @@ namespace Praxeum.WebApp
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<ContestProfile>();
+                    cfg.AddProfile<ContestLearnerProfile>();
                     cfg.AddProfile<LeaderBoardProfile>();
                     cfg.AddProfile<LearnerProfile>();
                     cfg.AddProfile<LearnerLeaderBoardProfile>();

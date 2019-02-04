@@ -74,12 +74,12 @@
         No learners have been added to this leader board.
         @if (this.User.IsInRole("Administrator"))
         {
-            <text>Would you like to <a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id">add learner(s)</a> to this leader board?</text>
+            <text>Would you like to <a asp-page="/Learners/Create" asp-route-leaderBoardId="@Model.LeaderBoard.Id">add learner(s)</a> to this leader board?</text>
         }
     </p>
 }
 
 @if (this.User.IsInRole("Administrator"))
 {
-    <a asp-page="./Learners/Add" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fas fa-plus"></i><span>Add Learner(s)</span></a>
+    <a asp-page="/Learners/Create" asp-route-leaderBoardId="@Model.LeaderBoard.Id" class="btn btn-outline-primary"><i class="fas fa-plus"></i><span>Add Learner(s)</span></a>
 }

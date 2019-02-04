@@ -8,6 +8,6 @@ namespace Praxeum.Domain.Contests.Learners
         public Guid LearnerId { get; set; }
 
         [SwaggerExclude]
-        public Guid ContestId { get; internal set; }
+        public Guid ContestId { get; set; }
     }
 }
