@@ -1,5 +1,4 @@
 ﻿using Praxeum.Data;
-using System;
 using System.Linq;
 
 namespace Praxeum.Domain.Contests

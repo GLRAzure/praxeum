@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Contests
 {
     public class ContestAdder : IHandler<ContestAdd, ContestAdded>
     {
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
 
         public ContestAdder(
+            IMapper mapper,
             IContestRepository contestRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
         }
@@ -19,7 +23,7 @@ namespace Praxeum.Domain.Contests
             ContestAdd contestAdd)
         {
             var contest =
-                Mapper.Map(contestAdd, new Contest());
+                _mapper.Map(contestAdd, new Contest());
 
             contest = 
                 await _contestRepository.AddAsync(
@@ -31,7 +35,7 @@ namespace Praxeum.Domain.Contests
             }
 
             var contestAdded =
-                Mapper.Map(contest, new ContestAdded());
+                _mapper.Map(contest, new ContestAdded());
 
             return contestAdded;
         }

@@ -14,9 +14,6 @@ using Praxeum.Data.Helpers;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
-using Praxeum.Domain.LeaderBoards;
-using Praxeum.Domain.Learners;
-using Praxeum.Domain.Learners.LeaderBoards;
 using Praxeum.Domain.Users;
 using Praxeum.WebApp.Helpers;
 using System.Collections.Generic;
@@ -78,29 +75,10 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestLearnerFetch, ContestLearnerFetched>, ContestLearnerFetcher>();
             services.AddTransient<IHandler<ContestLearnerListAdd, ContestLearnerListAdded>, ContestLearnerListAdder>();
 
-            services.AddTransient<IHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAdder>();
-            services.AddTransient<IHandler<LeaderBoardDelete, LeaderBoardDeleted>, LeaderBoardDeleter>();
-            services.AddTransient<IHandler<LeaderBoardFetch, LeaderBoardFetched>, LeaderBoardFetcher>();
-            services.AddTransient<IHandler<LeaderBoardList, IEnumerable<LeaderBoardListed>>, LeaderBoardLister>();
-            services.AddTransient<IHandler<LeaderBoardUpdate, LeaderBoardUpdated>, LeaderBoardUpdater>();
-
-            services.AddTransient<IHandler<LearnerLeaderBoardAdd, LearnerLeaderBoardAdded>, LearnerLeaderBoardAdder>();
-            services.AddTransient<IHandler<LearnerLeaderBoardDelete, LearnerLeaderBoardDeleted>, LearnerLeaderBoardDeleter>();
-
-            services.AddTransient<IHandler<LearnerAdd, LearnerAdded>, LearnerAdder>();
-            services.AddTransient<IHandler<LearnerDelete, LearnerDeleted>, LearnerDeleter>();
-            services.AddTransient<IHandler<LearnerFetch, LearnerFetched>, LearnerFetcher>();
-            services.AddTransient<IHandler<LearnerList, IEnumerable<LearnerListed>>, LearnerLister>();
-            services.AddTransient<IHandler<LearnerListAdd, LearnerListAdded>, LearnerListAdder>();
-            services.AddTransient<IHandler<LearnerUpdate, LearnerUpdated>, LearnerUpdater>();
-
             services.AddTransient<IHandler<UserFetchAdd, UserFetchedAdded>, UserFetcherAdder>();
 
             // Add data services
             services.AddTransient<IContestRepository, ContestRepository>();
-            services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
-            services.AddTransient<ILearnerRepository, LearnerRepository>();
-            services.AddTransient<ILearnerLeaderBoardRepository, LearnerLeaderBoardRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             // Add authentication services
@@ -183,18 +161,20 @@ namespace Praxeum.WebApp
                 };
             });
 
-            Mapper.Initialize(
-                cfg =>
+            var mapperConfiguration =
+                new MapperConfiguration(cfg =>
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<ContestProfile>();
                     cfg.AddProfile<ContestLearnerProfile>();
-                    cfg.AddProfile<LeaderBoardProfile>();
-                    cfg.AddProfile<LearnerProfile>();
-                    cfg.AddProfile<LearnerLeaderBoardProfile>();
                     cfg.AddProfile<UserProfile>();
                 });
+
+            var mapper =
+                 mapperConfiguration.CreateMapper();
+
+            services.AddSingleton<IMapper>(mapper);
 
             services
                 .AddMvc()

@@ -8,11 +8,15 @@ namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerDeleter : IHandler<ContestLearnerDelete, ContestLearnerDeleted>
     {
-        private readonly IContestRepository _contestRepository;
+       private readonly IMapper _mapper;
+       private readonly IContestRepository _contestRepository;
 
         public ContestLearnerDeleter(
+            IMapper mapper,
             IContestRepository contestRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
         }
@@ -47,7 +51,7 @@ namespace Praxeum.Domain.Contests.Learners
                     contest);
 
             var contestLearnerDeleted =
-                Mapper.Map(contestLearner, new ContestLearnerDeleted());
+                _mapper.Map(contestLearner, new ContestLearnerDeleted());
 
             return contestLearnerDeleted;
         }

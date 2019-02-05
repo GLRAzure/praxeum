@@ -9,17 +9,13 @@ namespace Praxeum.Domain.Contests.Learners
     {
         private readonly IEventPublisher _eventPublisher;
         private readonly IContestRepository _contestRepository;
-        private readonly ILearnerRepository _learnerRepository;
 
         public ContestLearnerListAdder(
             IContestRepository contestRepository,
-            ILearnerRepository learnerRepository,
             IEventPublisher eventPublisher)
         {
             _contestRepository =
                 contestRepository;
-            _learnerRepository =
-                learnerRepository;
             _eventPublisher =
                 eventPublisher;
         }
@@ -52,24 +48,15 @@ namespace Praxeum.Domain.Contests.Learners
             {
                 if (contest.Learners.All(x => x.UserName != userName))
                 {
-                    contest.Learners.Add(
-                        new ContestLearner
+                    var contestLearnerAdd =
+                        new ContestLearnerAdd
                         {
-                            UserName = userName,
-                            Status = ContestLearnerStatus.New,
-                            StatusMessage = string.Empty
-                        });
+                            ContestId = contestLearnerListAdd.ContestId,
+                            UserName = userName
+                        };
+
+                    await _eventPublisher.PublishAsync("contestlearner.add", contestLearnerAdd);
                 }
-            }
-
-            contest = 
-                await _contestRepository.UpdateByIdAsync(
-                    contestLearnerListAdd.ContestId,
-                    contest);
-
-            foreach (var learner in contest.Learners)
-            {
-                await _eventPublisher.PublishAsync("contestlearner.add", learner);
             }
 
             return contestLearnerListAdded;

@@ -7,12 +7,16 @@ using Praxeum.Data;
 namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetcher : IHandler<ContestLearnerFetch, ContestLearnerFetched>
-    {
+    {        
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
 
         public ContestLearnerFetcher(
+            IMapper mapper,
             IContestRepository contestRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
         }
@@ -39,7 +43,7 @@ namespace Praxeum.Domain.Contests.Learners
             }
 
             var contestLearnerFetched =
-                Mapper.Map(contestLearner, new ContestLearnerFetched());
+                _mapper.Map(contestLearner, new ContestLearnerFetched());
 
             return contestLearnerFetched;
         }

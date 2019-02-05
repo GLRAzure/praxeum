@@ -8,11 +8,15 @@ namespace Praxeum.Domain.Contests
 {
     public class ContestLister : IHandler<ContestList, IEnumerable<ContestListed>>
     {
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
 
         public ContestLister(
+            IMapper mapper,
             IContestRepository contestFetchListRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestFetchListRepository;
         }
@@ -24,7 +28,7 @@ namespace Praxeum.Domain.Contests
                 await _contestRepository.FetchListAsync();
 
             var contestFetchedList =
-                contestList.Select(x => Mapper.Map(x, new ContestListed()));
+                contestList.Select(x => _mapper.Map(x, new ContestListed()));
 
             return contestFetchedList;
         }

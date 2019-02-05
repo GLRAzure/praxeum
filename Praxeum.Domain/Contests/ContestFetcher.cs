@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Contests
 {
     public class ContestFetcher : IHandler<ContestFetch, ContestFetched>
     {
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
 
         public ContestFetcher(
+            IMapper mapper,
             IContestRepository contestRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
         }
@@ -23,7 +27,7 @@ namespace Praxeum.Domain.Contests
                     contestFetch.Id);
 
             var contestFetched =
-                Mapper.Map(contest, new ContestFetched());
+                _mapper.Map(contest, new ContestFetched());
 
             return contestFetched;
         }

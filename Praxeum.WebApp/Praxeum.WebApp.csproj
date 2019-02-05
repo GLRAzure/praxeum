@@ -7,10 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Public\Pages\LeaderBoards\**" />
     <Compile Remove="Models\**" />
+    <Compile Remove="Pages\LeaderBoards\**" />
+    <Compile Remove="Pages\Learners\**" />
+    <Content Remove="Areas\Public\Pages\LeaderBoards\**" />
     <Content Remove="Models\**" />
+    <Content Remove="Pages\LeaderBoards\**" />
+    <Content Remove="Pages\Learners\**" />
+    <EmbeddedResource Remove="Areas\Public\Pages\LeaderBoards\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Pages\LeaderBoards\**" />
+    <EmbeddedResource Remove="Pages\Learners\**" />
+    <None Remove="Areas\Public\Pages\LeaderBoards\**" />
     <None Remove="Models\**" />
+    <None Remove="Pages\LeaderBoards\**" />
+    <None Remove="Pages\Learners\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,21 +30,6 @@
     <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
     <Compile Remove="Helpers\Profile.cs" />
     <Compile Remove="Helpers\ProfileService.cs" />
-    <Compile Remove="Pages\Learners\Delete.cshtml.cs" />
-    <Compile Remove="Pages\Learners\Details.cshtml.cs" />
-    <Compile Remove="Pages\Learners\Edit.cshtml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Learners\Delete.cshtml" />
-    <Content Remove="Pages\Learners\Details.cshtml" />
-    <Content Remove="Pages\Learners\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\LeaderBoards\Create.cshtml" />
-    <None Include="Pages\LeaderBoards\Details.cshtml" />
-    <None Include="Pages\LeaderBoards\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
