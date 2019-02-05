@@ -43,7 +43,7 @@ namespace Praxeum.Domain.Contests.Learners
             var separators =
                 new[] { Environment.NewLine, ",", ";", "|" };
 
-            var names = contestLearnerListAdd.Names
+            var names = contestLearnerListAdd.UserNames
                 .Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
             var learners =
@@ -51,12 +51,12 @@ namespace Praxeum.Domain.Contests.Learners
 
             foreach (var learner in learners)
             {
-                if (contest.Learners.All(x => x.LearnerId != learner.Id))
+                if (contest.Learners.All(x => x.UserName != learner.UserName))
                 {
                     contest.Learners.Add(
                         new ContestLearner
                         {
-                            LearnerId = learner.Id
+                            UserName = learner.UserName
                         });
                 }
             }

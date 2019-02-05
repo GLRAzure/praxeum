@@ -36,9 +36,6 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
 
-        [JsonProperty(PropertyName = "numberOfLearners")]
-        public int NumberOfLearners { get; set; }
-
         [JsonProperty(PropertyName = "learners")]
         public ICollection<ContestLearner> Learners { get; set; }
 

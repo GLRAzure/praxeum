@@ -41,7 +41,7 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
                     new ContestLearnerFetch
                     {
                         ContestId = contestId.Value,
-                        LearnerId = id.Value
+                        Id = id.Value
                     });
 
             return Page();

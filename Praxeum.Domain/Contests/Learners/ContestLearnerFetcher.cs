@@ -9,16 +9,12 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerFetcher : IHandler<ContestLearnerFetch, ContestLearnerFetched>
     {
         private readonly IContestRepository _contestRepository;
-        private readonly ILearnerRepository _learnerRepository;
 
         public ContestLearnerFetcher(
-            IContestRepository contestRepository,
-            ILearnerRepository learnerRepository)
+            IContestRepository contestRepository)
         {
             _contestRepository =
                 contestRepository;
-            _learnerRepository =
-                learnerRepository;
         }
 
         public async Task<ContestLearnerFetched> ExecuteAsync(
@@ -35,19 +31,15 @@ namespace Praxeum.Domain.Contests.Learners
 
             var contestLearner =
                 contest.Learners.SingleOrDefault(
-                    x => x.LearnerId == contestLearnerFetch.LearnerId);
+                    x => x.Id == contestLearnerFetch.Id);
 
             if (contestLearner == null)
             {
-                throw new NullReferenceException($"Learner {contestLearnerFetch.LearnerId} does not exist.");
+                throw new NullReferenceException($"Learner {contestLearnerFetch.Id} does not exist.");
             }
 
-            var learner =
-                await _learnerRepository.FetchByIdAsync(
-                    contestLearnerFetch.LearnerId);
-
             var contestLearnerFetched =
-                Mapper.Map(learner, new ContestLearnerFetched());
+                Mapper.Map(contestLearner, new ContestLearnerFetched());
 
             return contestLearnerFetched;
         }

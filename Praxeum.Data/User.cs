@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Security.Claims;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Praxeum.Data

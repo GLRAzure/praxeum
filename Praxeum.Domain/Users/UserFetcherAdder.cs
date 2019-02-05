@@ -24,8 +24,10 @@ namespace Praxeum.Domain.Users
 
             if (user == null)
             {
-                user =
-                    Mapper.Map(userFetchAdd, new User());
+                user = new User(
+                    userFetchAdd.Id);
+
+                Mapper.Map(userFetchAdd, user);
 
                 user = 
                     await _userRepository.AddAsync(

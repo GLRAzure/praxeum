@@ -34,14 +34,14 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
 
         public async Task<IActionResult> OnGet(
             Guid? contestId,
-            Guid? learnerId)
+            Guid? id)
         {
             if (contestId == null)
             {
                 return NotFound();
             }
 
-            if (learnerId == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -53,7 +53,7 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
                 await _learnerFetcher.ExecuteAsync(
                     new LearnerFetch
                     {
-                        Id = learnerId.Value
+                        Id = id.Value
                     });
 
             return Page();
@@ -61,14 +61,14 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
 
         public async Task<IActionResult> OnPostAsync(
             Guid? contestId,
-            Guid? learnerId)
+            Guid? id)
         {
             if (contestId == null)
             {
                 return NotFound();
             }
 
-            if (learnerId == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -80,7 +80,7 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
                 new ContestLearnerDelete
                 {
                     ContestId = contestId.Value,
-                    LearnerId = learnerId.Value
+                    Id = id.Value
                 });
 
             return RedirectToPage("/Contests/Details", new { id = contestId });

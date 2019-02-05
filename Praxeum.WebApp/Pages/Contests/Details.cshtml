@@ -83,7 +83,7 @@
         {
             <tr>
                 <td>
-                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-learnerId="@learner.LearnerId">
+                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
                         @learner.DisplayName
                     </a>
                 <small class="text-muted ml-2">@learner.UserName</small></td>
@@ -92,7 +92,7 @@
                 <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                 @if (this.User.IsInRole("Administrator"))
                 {
-                    <td><a asp-page="./Learners/Remove" asp-route-contestId="@Model.Contest.Id" asp-route-learnerId="@learner.LearnerId"><i class="fas fa-trash-alt"></i></a></td>
+                    <td><a asp-page="./Learners/Remove" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
                 }
             </tr>
         }

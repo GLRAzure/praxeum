@@ -9,7 +9,9 @@ namespace Praxeum.Data
     {
         public UserRepository(
             IOptions<AzureTableStorageOptions> azureTableStorageOptions) : base(azureTableStorageOptions)
-        {
+        {            
+            _cloudTable =
+                _cloudTableClient.GetTableReference("profiles");
         }
 
         public async Task<User> AddAsync(
