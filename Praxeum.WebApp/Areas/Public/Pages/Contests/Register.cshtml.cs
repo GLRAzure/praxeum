@@ -30,29 +30,29 @@ namespace Praxeum.WebApp.Areas.Public.Pages.Contests
         }
 
         public async Task<IActionResult> OnGet(
-            Guid? contestId)
+            Guid? id)
         {
-            if (contestId == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             await this.GetContestAsync(
-                contestId.Value);
+                id.Value);
 
             this.Learner =
                 new ContestLearnerAdd
                 {
-                    ContestId = contestId.Value
+                    ContestId = id.Value
                 };
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(
-            Guid? contestId)
+            Guid? id)
         {
-            if (contestId == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -60,7 +60,7 @@ namespace Praxeum.WebApp.Areas.Public.Pages.Contests
             if (!ModelState.IsValid)
             {
                 await this.GetContestAsync(
-                    contestId.Value);
+                    id.Value);
 
                 return Page();
             }
@@ -68,8 +68,7 @@ namespace Praxeum.WebApp.Areas.Public.Pages.Contests
             await _contestLearnerAdder.ExecuteAsync(
                 this.Learner);
 
-            return RedirectToPage(
-                "/Contests/Details", new { id = this.Learner.ContestId });
+            return RedirectToPage("Details", new { id });
         }
 
         private async Task GetContestAsync(

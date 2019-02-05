@@ -31,7 +31,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                 new LearnerAdder(
                     log,
                     mapper,
-                    new MicrosoftProfileScraper(),
+                    new MicrosoftProfileRepository(),
                     new LearnerRepository(Options.Create(azureCosmosDbOptions)));
 
             var learnerAdded =

@@ -1,10 +1,10 @@
-﻿@page "/Contests/{leaderBoardId:Guid}/Learners/{learnerId:Guid}/Remove"
-@model RemoveModel
+﻿@page "/Contests/{contestId:Guid}/Learners/{id:Guid}/Delete"
+@model DeleteModel
 @{
-    ViewData["Title"] = "Remove Learner";
+    ViewData["Title"] = "Delete Learner";
 }
 
-<h1>Remove Learner</h1>
+<h1>Delete Learner</h1>
 
 <form method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -12,5 +12,5 @@
         <p>Are you sure you want to remove <strong>@Model.Learner.DisplayName</strong>?</p>
     </div>
     <button type="submit" class="btn btn-primary"><i class="fas fa-trash-alt"></i><span>Delete</span></button>
-    <a asp-page="/Contests/Details" asp-route-id="@Model.ContestId" class="btn btn-link">Cancel</a>
+    <a asp-page="/Contests/Details" asp-route-id="@Model.Learner.ContestId" class="btn btn-link">Cancel</a>
 </form>

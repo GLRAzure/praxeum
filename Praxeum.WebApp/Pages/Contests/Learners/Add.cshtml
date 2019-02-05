@@ -19,6 +19,7 @@
         <label asp-for="Learner.UserNames"></label>
         <textarea asp-for="Learner.UserNames" class="form-control" rows="10"></textarea>
         <span asp-validation-for="Learner.UserNames" class="text-danger"></span>
+        <small class="form-text">Enter multiple Microsoft Learn user names separated by a line break, comma or semicolon.</small>
     </div>
     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Add</span></button>
     <a class="btn btn-link" asp-page="Index">Cancel</a>

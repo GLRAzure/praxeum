@@ -12,21 +12,21 @@ namespace Praxeum.FunctionApp.Features.Learners
     {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
-        private readonly IMicrosoftProfileScraper _microsoftProfileScraper;
+        private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
         private readonly ILearnerRepository _learnerRepository;
 
         public LearnerListUpdater(
             ILogger logger,
             IMapper mapper,
-            IMicrosoftProfileScraper microsoftProfileScraper,
+            IMicrosoftProfileRepository microsoftProfileRepository,
             ILearnerRepository learnerRepository)
         {
             _logger =
                 logger;
             _mapper =
                mapper;
-            _microsoftProfileScraper =
-                 microsoftProfileScraper;
+            _microsoftProfileRepository =
+                 microsoftProfileRepository;
             _learnerRepository =
                 learnerRepository;
         }
@@ -45,7 +45,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                 try
                 {
                     var microsoftProfile =
-                        await _microsoftProfileScraper.FetchProfileAsync(learner.UserName);
+                        await _microsoftProfileRepository.FetchProfileAsync(learner.UserName);
 
                     _logger.LogInformation(
                         JsonConvert.SerializeObject(microsoftProfile));

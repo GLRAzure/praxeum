@@ -30,7 +30,7 @@ namespace Praxeum.FunctionApp.Features.Learners
                 new LearnerListUpdater(
                     log,
                     mapper,
-                    new MicrosoftProfileScraper(),
+                    new MicrosoftProfileRepository(),
                     new LearnerRepository(Options.Create(azureCosmosDbOptions)));
 
             var learnerListUpdate =

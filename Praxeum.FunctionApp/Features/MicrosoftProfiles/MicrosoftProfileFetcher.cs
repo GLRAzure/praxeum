@@ -1,28 +1,29 @@
-﻿using Praxeum.FunctionApp.Helpers;
+﻿using Praxeum.Data;
+using Praxeum.FunctionApp.Helpers;
 using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Features.MicrosoftProfiles
 {
     public class MicrosoftProfileFetcher : IHandler<MicrosoftProfileFetch, MicrosoftProfileFetched>
     {
-        private readonly IMicrosoftProfileScraper _microsoftProfileScraper;
+        private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
 
-        public MicrosoftProfileFetcher() : this(new MicrosoftProfileScraper())
+        public MicrosoftProfileFetcher() : this(new MicrosoftProfileRepository())
         {
         }
 
         public MicrosoftProfileFetcher(
-            IMicrosoftProfileScraper microsoftProfileScraper)
+            IMicrosoftProfileRepository microsoftProfileRepository)
         {
-            _microsoftProfileScraper =
-                microsoftProfileScraper;
+            _microsoftProfileRepository =
+                microsoftProfileRepository;
         }
 
         public async Task<MicrosoftProfileFetched> ExecuteAsync(
             MicrosoftProfileFetch microsoftProfileFetch)
         {
             var microsoftProfile =
-                await _microsoftProfileScraper.FetchProfileAsync(
+                await _microsoftProfileRepository.FetchProfileAsync(
                     microsoftProfileFetch.UserName);
 
             if (microsoftProfile == null)

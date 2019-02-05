@@ -5,29 +5,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests.Learners;
-using Praxeum.Domain.Learners;
-using Praxeum.Domain.Learners.LeaderBoards;
 
 namespace Praxeum.WebApp.Pages.Contests.Learners
 {
     [Authorize(Roles = "Administrator")]
-    public class RemoveModel : PageModel
+    public class DeleteModel : PageModel
     {
-        private readonly IHandler<LearnerFetch, LearnerFetched> _learnerFetcher;
+        private readonly IHandler<ContestLearnerFetch, ContestLearnerFetched> _contestLearnerFetcher;
         private readonly IHandler<ContestLearnerDelete, ContestLearnerDeleted> _contestLearnerDeleter;
 
         [BindProperty]
-        public LearnerFetched Learner { get; set; }
+        public ContestLearnerFetched Learner { get; set; }
 
-        [BindProperty]
-        public Guid ContestId { get; set; }
-
-        public RemoveModel(
-           IHandler<LearnerFetch, LearnerFetched> learnerFetcher,
+        public DeleteModel(
+           IHandler<ContestLearnerFetch, ContestLearnerFetched> contestLearnerFetcher,
            IHandler<ContestLearnerDelete, ContestLearnerDeleted> contestLearnerDeleter)
         {
-            _learnerFetcher =
-                learnerFetcher;
+            _contestLearnerFetcher =
+                contestLearnerFetcher;
             _contestLearnerDeleter =
                 contestLearnerDeleter;
         }
@@ -46,13 +41,11 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
                 return NotFound();
             }
 
-            this.ContestId = 
-                contestId.Value;
-
             this.Learner =
-                await _learnerFetcher.ExecuteAsync(
-                    new LearnerFetch
+                await _contestLearnerFetcher.ExecuteAsync(
+                    new ContestLearnerFetch
                     {
+                        ContestId = contestId.Value,
                         Id = id.Value
                     });
 
@@ -72,9 +65,6 @@ namespace Praxeum.WebApp.Pages.Contests.Learners
             {
                 return NotFound();
             }
-
-            this.ContestId = 
-                contestId.Value;
 
             await _contestLearnerDeleter.ExecuteAsync(
                 new ContestLearnerDelete

@@ -10,6 +10,7 @@ namespace Praxeum.Domain.Contests.Learners
         public Guid ContestId { get; set; }
 
         [Required]
+        [Display(Name = "User Names")]
         public string UserNames { get; set; }
     }
 }

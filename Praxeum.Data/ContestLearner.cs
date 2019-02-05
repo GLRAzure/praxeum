@@ -37,11 +37,11 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "originalProgressStatus")]
         [Display(Name = "Original Progress Status")]
-        public LearnerProgressStatus OriginalProgressStatus { get; set; }
+        public ContestLearnerProgressStatus OriginalProgressStatus { get; set; }
 
         [JsonProperty(PropertyName = "currentProgressStatus")]
         [Display(Name = "Current Progress Status")]
-        public LearnerProgressStatus CurrentProgressStatus { get; set; }
+        public ContestLearnerProgressStatus CurrentProgressStatus { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         [Display(Name = "Created")]
@@ -56,9 +56,9 @@ namespace Praxeum.Data
             this.Id =
                 Guid.NewGuid();
             this.OriginalProgressStatus =
-                new LearnerProgressStatus();
+                new ContestLearnerProgressStatus();
             this.CurrentProgressStatus =
-                new LearnerProgressStatus();
+                new ContestLearnerProgressStatus();
             this.CreatedOn = DateTime.UtcNow;
             this.LastModifiedOn = this.CreatedOn;
         }

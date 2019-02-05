@@ -73,6 +73,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th></th>
             <th class="text-center">Level</th>
             <th class="text-center">Points</th>
             <th></th>
@@ -90,13 +91,24 @@
                     <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
                         @learner.DisplayName
                     </a>
-                <small class="text-muted ml-2">@learner.UserName</small></td>
+                    <small class="text-muted ml-2">@learner.UserName</small>
+                </td>
+                <td>
+                    @if (learner.Status == "new")
+                    {
+                    <span class="badge badge-success">new</span>
+                    }
+                    else if (learner.Status == "failed")
+                    {
+                        <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
+                    }
+                </td>
                 <td class="text-center">@learner.CurrentProgressStatus.CurrentLevel</td>
                 <td class="text-center">@learner.CurrentProgressStatus.CurrentLevelPointsEarned/@learner.CurrentProgressStatus.TotalPoints</td>
                 <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                 @if (this.User.IsInRole("Administrator"))
                 {
-                    <td><a asp-page="./Learners/Remove" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
+                    <td><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
                 }
             </tr>
         }
