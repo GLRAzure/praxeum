@@ -1,0 +1,69 @@
+﻿@page "/Public/Contests/{id:Guid}"
+@model DetailsModel
+
+@{
+    ViewData["Title"] = "Contest - " + Model.Contest.Name;
+}
+
+<h1>@Model.Contest.Name</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.Contest.Description))
+{
+    <p>@Model.Contest.Description</p>
+}
+
+<form>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.TargetValue"></label>
+        <p class="form-control-static">@Model.Contest.TargetValue</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.StartDate"></label>
+        <p class="form-control-static">@Model.Contest.StartDate</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.EndDate"></label>
+        <p class="form-control-static">
+            @if (Model.Contest.EndDate.HasValue)
+            {
+                <text>@Model.Contest.EndDate</text>}
+            else
+            {
+                <text>TBD</text>
+            }
+        </p>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Contest.Prizes))
+    {
+        <div class="form-group">
+            <label asp-for="Contest.Prizes"></label>
+            <p class="form-control-static">@Model.Contest.Prizes</p>
+        </div>
+    }
+</form>
+
+<table class="table table-ranked">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-center">Level</th>
+            <th class="text-center">Points</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var learner in Model.Contest.Learners)
+        {
+            <tr>
+                <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
+                <td class="text-center">@learner.CurrentProgressStatus.CurrentLevel</td>
+                <td class="text-center">@learner.CurrentProgressStatus.CurrentLevelPointsEarned/@learner.CurrentProgressStatus.TotalPoints</td>
+                <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Data
 {
@@ -16,6 +17,7 @@ namespace Praxeum.Data
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "hasPrizes")]
+        [Display(Name = "Has Prizes")]
         public bool HasPrizes { get; set; }
 
         [JsonProperty(PropertyName = "prizes")]
@@ -25,12 +27,15 @@ namespace Praxeum.Data
         public string Type { get; set; }
 
         [JsonProperty(PropertyName = "startDate")]
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
 
         [JsonProperty(PropertyName = "endDate")]
+        [Display(Name = "End Date")]
         public DateTime? EndDate { get; set; }
 
         [JsonProperty(PropertyName = "targetValue")]
+        [Display(Name = "Target Value")]
         public int? TargetValue { get; set; } // Note: Could be points, levels, badge and/or achievements
 
         [JsonProperty(PropertyName = "isActive")]

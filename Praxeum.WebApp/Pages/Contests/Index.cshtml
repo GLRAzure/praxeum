@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th></th>
             <th class="text-center" style="width: 100px;">Learners</th>
         </tr>
     </thead>
@@ -23,6 +24,7 @@
                         https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                     </div>
                 </td>
+                <td><span class="badge badge-secondary">@contest.Type</span></td>
                 <td class="text-center" style="width: 100px;">@contest.NumberOfLearners</td>
             </tr>
         }

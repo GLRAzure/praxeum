@@ -6,7 +6,7 @@ using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
 
-namespace Praxeum.WebApp.Pages.Contests.Learners
+namespace Praxeum.WebApp.Areas.Public.Pages.Contests
 {
     public class RegisterModel : PageModel
     {
