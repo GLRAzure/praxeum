@@ -36,9 +36,11 @@ namespace Praxeum.Data
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
         [JsonProperty(PropertyName = "startValue")]
+        [Display(Name = "Start Value")]
         public int StartValue { get; set; }
 
         [JsonProperty(PropertyName = "currentValue")]
+        [Display(Name = "Current Value")]
         public int CurrentValue { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]

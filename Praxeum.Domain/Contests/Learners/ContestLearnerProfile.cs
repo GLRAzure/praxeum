@@ -7,12 +7,11 @@ namespace Praxeum.Domain.Contests.Learners
     {
         public ContestLearnerProfile()
         {
-            CreateMap<ContestLearner, ContestLearnerAdded>()
-                .ForMember(d => d.ContestId, o => o.Ignore());
-            CreateMap<ContestLearner, ContestLearnerDeleted>()
-                .ForMember(d => d.ContestId, o => o.Ignore());
-            CreateMap<ContestLearner, ContestLearnerFetched>()
-                .ForMember(d => d.ContestId, o => o.Ignore());
+            CreateMap<ContestLearner, ContestLearnerAdded>();
+            CreateMap<ContestLearner, ContestLearnerDeleted>();
+            CreateMap<ContestLearner, ContestLearnerFetched>();
+            CreateMap<ContestLearner, ContestLearnerUpdated>();
+            CreateMap<ContestLearner, ContestLearnerProgressUpdated>();
             CreateMap<ContestLearnerAdd, ContestLearner>();
             CreateMap<MicrosoftProfile, ContestLearner>()
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName.ToLower()))
@@ -22,6 +21,7 @@ namespace Praxeum.Domain.Contests.Learners
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<MicrosoftProfileProgressStatus, ContestLearnerProgressStatus>();
             CreateMap<ContestLearnerUpdate, ContestLearner>();
+            CreateMap<ContestLearnerProgressUpdate, ContestLearner>();
         }
     }
 }

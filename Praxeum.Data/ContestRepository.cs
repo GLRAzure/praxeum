@@ -71,16 +71,28 @@ namespace Praxeum.Data
             return contestDocument.Resource;
         }
 
-        public async Task<IEnumerable<Contest>> FetchListAsync()
+        public async Task<IEnumerable<Contest>> FetchListAsync(
+            string status = null)
         {
             var contestContainer =
                 _cosmosDatabase.Containers["contests"];
 
             var query =
-                $"SELECT * FROM l";
+                $"SELECT * FROM c";
+
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                query += " WHERE c.status = @status";
+            }
 
             var queryDefinition =
                 new CosmosSqlQueryDefinition(query);
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                queryDefinition.UseParameter("@status", status);
+            }
 
             var contests =
                 contestContainer.Items.CreateItemQuery<Contest>(

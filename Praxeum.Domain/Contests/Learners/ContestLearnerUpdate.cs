@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Domain.Contests.Learners
 {
@@ -9,5 +10,11 @@ namespace Praxeum.Domain.Contests.Learners
 
         [SwaggerExclude]
         public Guid Id { get; set; }
+
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Start Value")]
+        public int StartValue { get; set; }
     }
 }

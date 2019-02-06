@@ -36,7 +36,7 @@ namespace Praxeum.Domain.Contests.Learners
 
             var contestLearnerFetched =
                 _mapper.Map(contestLearner, new ContestLearnerFetched());
-
+            
             return contestLearnerFetched;
         }
     }

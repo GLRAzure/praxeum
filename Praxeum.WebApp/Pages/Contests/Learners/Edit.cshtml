@@ -1,8 +1,8 @@
-﻿@page "/Contests/{contestId:Guid}/Learners/{learnerId:Guid}/Edit"
+﻿@page "/Contests/{contestId:Guid}/Learners/{id:Guid}/Edit"
 @model Praxeum.WebApp.Pages.Contests.Learners.EditModel
 
 @{
-    ViewData["Title"] = "Edit Contest Learner";
+    ViewData["Title"] = "Edit Learner";
 }
 
 <h1>Edit Learner</h1>
@@ -10,12 +10,13 @@
 <form method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Learner.DisplayName"></label>
-        <p class="form-control-static">@Model.Learner.DisplayName</p>
+        <label asp-for="Learner.UserName"></label>
+        <input asp-for="Learner.UserName" class="form-control" />
+        <span asp-validation-for="Learner.UserName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Learner.UserName"></label>
-        <p class="form-control-static">@Model.Learner.UserName</p>
+        <label asp-for="Learner.DisplayName"></label>
+        <p class="form-control-static">@Model.Learner.DisplayName</p>
     </div>
     <div class="form-group">
         <label asp-for="Learner.StartValue"></label>

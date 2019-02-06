@@ -128,7 +128,7 @@ namespace Praxeum.Data
             ContestLearner contestLearner)
         {
             var contestLearnerContainer =
-               _cosmosDatabase.Containers["contestLearners"];
+               _cosmosDatabase.Containers["contestlearners"];
 
             var contestLearnerDocument =
                 await contestLearnerContainer.Items.ReplaceItemAsync<ContestLearner>(

@@ -22,15 +22,16 @@ namespace Praxeum.Domain.Contests
         }
 
         public async Task<IEnumerable<ContestListed>> ExecuteAsync(
-            ContestList contestFetchList)
+            ContestList contestList)
         {
-            var contestList =
-                await _contestRepository.FetchListAsync();
+            var contests =
+                await _contestRepository.FetchListAsync(
+                    contestList.Status);
 
-            var contestFetchedList =
-                contestList.Select(x => _mapper.Map(x, new ContestListed()));
+            var contestListed =
+                contests.Select(x => _mapper.Map(x, new ContestListed()));
 
-            return contestFetchedList;
+            return contestListed;
         }
     }
 }

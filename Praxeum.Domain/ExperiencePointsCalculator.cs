@@ -30,11 +30,11 @@ namespace Praxeum.Domain
 
             if (level >= this.Levels.Count)
             {
-                experiencePoints = this.Levels[this.Levels.Count - 1];
+                experiencePoints = this.Levels[this.Levels.Count];
             }
             else
             {
-                experiencePoints = this.Levels[level - 1];
+                experiencePoints = this.Levels[level];
             }
 
             experiencePoints += currentExperiencePoints;

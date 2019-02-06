@@ -27,7 +27,10 @@ namespace Praxeum.Domain.Contests.Learners
                     contestLearnerUpdate.ContestId,
                     contestLearnerUpdate.Id);
 
-            _mapper.Map(contestLearnerUpdate, contestLearner);
+            contestLearner.UserName = 
+                contestLearnerUpdate.UserName;
+            contestLearner.StartValue = 
+                contestLearnerUpdate.StartValue;
 
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(
