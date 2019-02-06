@@ -18,9 +18,7 @@ namespace Praxeum.Domain.Contests.Learners
                 .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName.ToLower()))
                 .ForMember(d => d.Status, o => o.Ignore())
                 .ForMember(d => d.StatusMessage, o => o.Ignore())
-                .ForMember(d => d.Rank, o => o.Ignore())
-                .ForMember(d => d.OriginalProgressStatus, o => o.Ignore())
-                .ForMember(d => d.CurrentProgressStatus, o => o.Ignore())
+                .ForMember(d => d.Status, o => o.Ignore())
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<MicrosoftProfileProgressStatus, ContestLearnerProgressStatus>();
             CreateMap<ContestLearnerUpdate, ContestLearner>();

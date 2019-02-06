@@ -5,7 +5,7 @@
     ViewData["Title"] = "Edit Contest Learner";
 }
 
-<h1>Edit Contest Learner</h1>
+<h1>Edit Learner</h1>
 
 <form method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -17,31 +17,14 @@
         <label asp-for="Learner.UserName"></label>
         <p class="form-control-static">@Model.Learner.UserName</p>
     </div>
-    <h2>Original Progress</h2>
     <div class="form-group">
-        <label asp-for="Learner.OriginalProgressStatus.BadgesEarned"></label>
-        <input asp-for="Learner.OriginalProgressStatus.BadgesEarned" class="form-control" />
-        <span asp-validation-for="Learner.OriginalProgressStatus.BadgesEarned" class="text-danger"></span>
+        <label asp-for="Learner.StartValue"></label>
+        <input asp-for="Learner.StartValue" class="form-control" />
+        <span asp-validation-for="Learner.StartValue" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Learner.OriginalProgressStatus.CurrentLevel"></label>
-        <input asp-for="Learner.OriginalProgressStatus.CurrentLevel" class="form-control" />
-        <span asp-validation-for="Learner.OriginalProgressStatus.CurrentLevel" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Learner.OriginalProgressStatus.CurrentLevelPointsEarned"></label>
-        <input asp-for="Learner.OriginalProgressStatus.CurrentLevelPointsEarned" class="form-control" />
-        <span asp-validation-for="Learner.OriginalProgressStatus.CurrentLevelPointsEarned" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Learner.OriginalProgressStatus.TotalPoints"></label>
-        <input asp-for="Learner.OriginalProgressStatus.TotalPoints" class="form-control" />
-        <span asp-validation-for="Learner.OriginalProgressStatus.TotalPoints" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Learner.OriginalProgressStatus.TrophiesEarned"></label>
-        <input asp-for="Learner.OriginalProgressStatus.TrophiesEarned" class="form-control" />
-        <span asp-validation-for="Learner.OriginalProgressStatus.TrophiesEarned" class="text-danger"></span>
+        <label asp-for="Learner.CurrentValue"></label>
+        <p class="form-control-static">@Model.Learner.CurrentValue</p>
     </div>
     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Save Changes</span></button>
     <a class="btn btn-link" asp-page="./Details">Cancel</a>

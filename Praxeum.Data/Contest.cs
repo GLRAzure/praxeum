@@ -25,6 +25,9 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
+
         [JsonProperty(PropertyName = "startDate")]
         [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; }
@@ -37,9 +40,6 @@ namespace Praxeum.Data
         [Display(Name = "Target Value")]
         public int? TargetValue { get; set; } // Note: Could be points, levels, badge and/or achievements
 
-        [JsonProperty(PropertyName = "isActive")]
-        public bool IsActive { get; set; }
-
         [JsonProperty(PropertyName = "numberOfLearner")]
         public int NumberOfLearners { get; set; }
 
@@ -49,7 +49,6 @@ namespace Praxeum.Data
         public Contest()
         {
             this.CreatedOn = DateTime.UtcNow;
-            this.IsActive = true;
         }
     }
 }

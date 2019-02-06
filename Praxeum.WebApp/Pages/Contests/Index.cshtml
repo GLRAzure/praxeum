@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th>Type</th>
+            <th>Status</th>
             <th>Start</th>
             <th>End</th>
             <th class="text-center">Learners</th>
@@ -23,7 +23,24 @@
                 <td>
                     <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
                 </td>
-                <td><span class="badge badge-secondary">@contest.Type</span></td>
+                <td>
+                    @if (contest.Status == "ready")
+                    {
+                        <span class="badge badge-secondary">Ready</span>
+                    }
+                    else if (contest.Status == "inprogress")
+                    {
+                        <span class="badge badge-success">In Progress</span>
+                    }
+                    else if (contest.Status == "ended")
+                    {
+                        <span class="badge badge-info">Ended</span>
+                    }
+                    else if (contest.Status == "canceled")
+                    {
+                        <span class="badge badge-danger">Canceled</span>
+                    }
+                </td>
                 <td>@contest.StartDate</td>
                 <td>
                     @if (contest.EndDate.HasValue)

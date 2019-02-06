@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ContestStatus.cs" />
     <Compile Remove="Course.cs" />
     <Compile Remove="CourseRepository.cs" />
     <Compile Remove="ICourseRepository.cs" />

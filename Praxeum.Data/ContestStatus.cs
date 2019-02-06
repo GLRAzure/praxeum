@@ -2,8 +2,9 @@
 {
     public class ContestStatus
     {
-        public const string Ready = "ready";
-        public const string InProgress = "inprogress";
-        public const string Ended = "ended";
+        public const string Ready = "Ready";
+        public const string InProgress = "In Progress";
+        public const string Ended = "Ended";
+        public const string Canceled = "Canceled";
     }
 }

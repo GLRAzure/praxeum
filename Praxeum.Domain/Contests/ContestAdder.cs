@@ -34,6 +34,8 @@ namespace Praxeum.Domain.Contests
                 contest.HasPrizes = true;
             }
 
+            contest.Status = ContestStatus.Ready;
+
             var contestAdded =
                 _mapper.Map(contest, new ContestAdded());
 

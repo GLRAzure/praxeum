@@ -35,16 +35,11 @@ namespace Praxeum.Data
         [Display(Name = "Has Seen Microsoft Privacy Notice")]
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
-        [JsonProperty(PropertyName = "rank")]
-        public int Rank { get; set; }
+        [JsonProperty(PropertyName = "startValue")]
+        public int StartValue { get; set; }
 
-        [JsonProperty(PropertyName = "originalProgressStatus")]
-        [Display(Name = "Original Progress Status")]
-        public ContestLearnerProgressStatus OriginalProgressStatus { get; set; }
-
-        [JsonProperty(PropertyName = "currentProgressStatus")]
-        [Display(Name = "Current Progress Status")]
-        public ContestLearnerProgressStatus CurrentProgressStatus { get; set; }
+        [JsonProperty(PropertyName = "currentValue")]
+        public int CurrentValue { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         [Display(Name = "Created")]
@@ -58,10 +53,8 @@ namespace Praxeum.Data
         {
             this.Id =
                 Guid.NewGuid();
-            this.OriginalProgressStatus =
-                new ContestLearnerProgressStatus();
-            this.CurrentProgressStatus =
-                new ContestLearnerProgressStatus();
+            this.StartValue = 0;
+            this.CurrentValue = 0;
             this.CreatedOn = DateTime.UtcNow;
             this.LastModifiedOn = this.CreatedOn;
         }

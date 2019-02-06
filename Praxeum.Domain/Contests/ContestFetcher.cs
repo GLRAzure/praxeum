@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
 
@@ -29,6 +30,11 @@ namespace Praxeum.Domain.Contests
             var contest =
                 await _contestRepository.FetchByIdAsync(
                     contestFetch.Id);
+
+            if (contest == null)
+            {
+                throw new NullReferenceException($"Contest {contestFetch.Id} not found");
+            }
 
             var contestFetched =
                 _mapper.Map(contest, new ContestFetched());

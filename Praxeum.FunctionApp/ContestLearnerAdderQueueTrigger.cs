@@ -16,7 +16,7 @@ namespace Praxeum.FunctionApp.Features.Learners
         public static async Task Run(
             [QueueTrigger("contestlearner-add", Connection = "AzureStorageOptions:ConnectionString")]ContestLearnerAdd contestLearnerAdd,
             ILogger log,
-            [Queue("contestlearner-added", Connection = "AzureWebJobsStorage")] ICollector<ContestLearnerAdded> contestLearnerAddedCollector)
+            [Queue("contestlearner-added", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestLearnerAdded> contestLearnerAddedCollector)
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerAdd, Formatting.Indented)}");
 
@@ -38,6 +38,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             var contestLearnerAdder =
                 new ContestLearnerAdder(
                     mapper,
+                    new ContestRepository(Options.Create(azureCosmosDbOptions)),
                     new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
                     new MicrosoftProfileRepository());
 

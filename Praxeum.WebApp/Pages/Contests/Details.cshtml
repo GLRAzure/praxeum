@@ -12,10 +12,6 @@
         <label asp-for="Contest.Name"></label>
         <p class="form-control-static">@Model.Contest.Name</p>
     </div>
-    <div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <p class="form-control-static">@Model.Contest.Type</p>
-    </div>
     @if (!string.IsNullOrWhiteSpace(Model.Contest.Description))
     {
         <div class="form-group">
@@ -26,6 +22,14 @@
     <div class="form-group">
         <label asp-for="Contest.Type"></label>
         <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Status"></label>
+        <p class="form-control-static">@Model.Contest.Status</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.TargetValue"></label>
+        <p class="form-control-static">@Model.Contest.TargetValue</p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.StartDate"></label>
@@ -74,8 +78,8 @@
         <tr>
             <th>Name</th>
             <th></th>
-            <th class="text-center">Level</th>
-            <th class="text-center">Points</th>
+            <th class="text-center">Start Value</th>
+            <th class="text-center">Current Value</th>
             <th></th>
             @if (this.User.IsInRole("Administrator"))
             {
@@ -96,15 +100,15 @@
                 <td>
                     @if (learner.Status == "new")
                     {
-                    <span class="badge badge-success">new</span>
+                        <span class="badge badge-success">new</span>
                     }
                     else if (learner.Status == "failed")
                     {
                         <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
                     }
                 </td>
-                <td class="text-center">@learner.CurrentProgressStatus.CurrentLevel</td>
-                <td class="text-center">@learner.CurrentProgressStatus.CurrentLevelPointsEarned/@learner.CurrentProgressStatus.TotalPoints</td>
+                <td class="text-center">@learner.StartValue</td>
+                <td class="text-center">@learner.CurrentValue/@Model.Contest.TargetValue</td>
                 <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
                 @if (this.User.IsInRole("Administrator"))
                 {
@@ -129,4 +133,5 @@
 @if (this.User.IsInRole("Administrator"))
 {
     <a asp-page="./Learners/Add" asp-route-contestId="@Model.Contest.Id" class="btn btn-outline-primary"><i class="fas fa-plus"></i><span>Add Learner(s)</span></a>
+    <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Edit</a>
 }

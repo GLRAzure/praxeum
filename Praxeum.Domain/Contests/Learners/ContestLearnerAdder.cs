@@ -8,16 +8,20 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerAdder : IHandler<ContestLearnerAdd, ContestLearnerAdded>
     {
         private readonly IMapper _mapper;
+        private readonly IContestRepository _contestRepository;
         private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
 
         public ContestLearnerAdder(
             IMapper mapper,
+            IContestRepository contestRepository,
             IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository)
         {
             _mapper =
                 mapper;
+            _contestRepository =
+                contestRepository;
             _contestLearnerRepository =
                 contestLearnerRepository;
             _microsoftProfileRepository =
@@ -27,6 +31,15 @@ namespace Praxeum.Domain.Contests.Learners
         public async Task<ContestLearnerAdded> ExecuteAsync(
             ContestLearnerAdd contestLearnerAdd)
         {
+            var contest =
+                await _contestRepository.FetchByIdAsync(
+                    contestLearnerAdd.ContestId);
+
+            if (contest == null)
+            {
+                throw new NullReferenceException($"Contest {contestLearnerAdd.ContestId} not found");
+            }
+
             contestLearnerAdd.UserName =
                 contestLearnerAdd.UserName.ToLower();
 
@@ -48,11 +61,9 @@ namespace Praxeum.Domain.Contests.Learners
                 var microsoftProfile =
                     await _microsoftProfileRepository.FetchProfileAsync(
                         contestLearnerAdd.UserName);
+
                 contestLearner =
                     _mapper.Map(microsoftProfile, contestLearner);
-
-                contestLearner.OriginalProgressStatus =
-                    _mapper.Map(microsoftProfile.ProgressStatus, new ContestLearnerProgressStatus());
 
                 contestLearner.Status = ContestLearnerStatus.Updated;
                 contestLearner.StatusMessage = string.Empty;
