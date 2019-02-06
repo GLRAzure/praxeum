@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Data
@@ -41,8 +40,8 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "isActive")]
         public bool IsActive { get; set; }
 
-        [JsonProperty(PropertyName = "learners")]
-        public ICollection<ContestLearner> Learners { get; set; }
+        [JsonProperty(PropertyName = "numberOfLearner")]
+        public int NumberOfLearners { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
@@ -51,7 +50,6 @@ namespace Praxeum.Data
         {
             this.CreatedOn = DateTime.UtcNow;
             this.IsActive = true;
-            this.Learners = new List<ContestLearner>();
         }
     }
 }

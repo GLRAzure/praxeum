@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Praxeum.Data;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Praxeum.Domain.Contests.Learners
@@ -9,18 +8,18 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerAdder : IHandler<ContestLearnerAdd, ContestLearnerAdded>
     {
         private readonly IMapper _mapper;
-        private readonly IContestRepository _contestRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
 
         public ContestLearnerAdder(
             IMapper mapper,
-            IContestRepository contestRepository,
+            IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository)
         {
             _mapper =
                 mapper;
-            _contestRepository =
-                contestRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
             _microsoftProfileRepository =
                 microsoftProfileRepository;
         }
@@ -28,41 +27,27 @@ namespace Praxeum.Domain.Contests.Learners
         public async Task<ContestLearnerAdded> ExecuteAsync(
             ContestLearnerAdd contestLearnerAdd)
         {
-            var contest =
-                await _contestRepository.FetchByIdAsync(
-                    contestLearnerAdd.ContestId);
-
-            if (contest == null)
-            {
-                throw new NullReferenceException($"Contest {contestLearnerAdd.ContestId} not found.");
-            }
+            contestLearnerAdd.UserName =
+                contestLearnerAdd.UserName.ToLower();
 
             var contestLearner =
-                contest.Learners.SingleOrDefault(
-                    x => x.UserName != contestLearnerAdd.UserName);
+                await _contestLearnerRepository.FetchByUserNameAsync(
+                    contestLearnerAdd.ContestId,
+                    contestLearnerAdd.UserName);
 
             if (contestLearner != null)
             {
-                throw new ArgumentOutOfRangeException($"The user {contestLearnerAdd.UserName} already exists.");
+                throw new ArgumentOutOfRangeException($"The contest learner {contestLearnerAdd.UserName} already exists.");
             }
 
             contestLearner =
                  _mapper.Map(contestLearnerAdd, new ContestLearner());
 
-            contest.Learners.Add(
-                contestLearner);
-
-            var microsoftProfile =
-                await _microsoftProfileRepository.FetchProfileAsync(
-                    contestLearnerAdd.UserName);
-
-            if (microsoftProfile == null)
+            try
             {
-                contestLearner.Status = ContestLearnerStatus.Failed;
-                contestLearner.Status = $"Microsoft profile for {contestLearnerAdd.UserName} not found.";
-            }
-            else
-            {
+                var microsoftProfile =
+                    await _microsoftProfileRepository.FetchProfileAsync(
+                        contestLearnerAdd.UserName);
                 contestLearner =
                     _mapper.Map(microsoftProfile, contestLearner);
 
@@ -72,17 +57,19 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.Status = ContestLearnerStatus.Updated;
                 contestLearner.StatusMessage = string.Empty;
             }
+            catch (Exception ex)
+            {
+                contestLearner.Status = ContestLearnerStatus.Failed;
+                contestLearner.StatusMessage = ex.Message;
+            }
 
-            contest =
-                await _contestRepository.UpdateByIdAsync(
-                    contest.Id,
-                    contest);
+            contestLearner =
+                await _contestLearnerRepository.AddAsync(
+                    contestLearner.ContestId,
+                    contestLearner);
 
             var contestLearnerAdded =
                 _mapper.Map(contestLearner, new ContestLearnerAdded());
-
-            contestLearnerAdded.ContestId =
-                contestLearnerAdd.ContestId;
 
             return contestLearnerAdded;
         }

@@ -9,46 +9,35 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerDeleter : IHandler<ContestLearnerDelete, ContestLearnerDeleted>
     {
        private readonly IMapper _mapper;
-       private readonly IContestRepository _contestRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestLearnerDeleter(
             IMapper mapper,
-            IContestRepository contestRepository)
+            IContestLearnerRepository contestLearnerRepository)
         {
             _mapper =
                 mapper;
-            _contestRepository =
-                contestRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
         }
 
         public async Task<ContestLearnerDeleted> ExecuteAsync(
             ContestLearnerDelete contestLearnerDelete)
         {
-            var contest =
-                await _contestRepository.FetchByIdAsync(
-                    contestLearnerDelete.ContestId);
-
-            if (contest == null)
-            {
-                throw new NullReferenceException($"Contest {contestLearnerDelete.ContestId} not found.");
-            }
-
             var contestLearner =
-                contest.Learners.SingleOrDefault(
-                    x => x.Id == contestLearnerDelete.Id);
+                await _contestLearnerRepository.FetchByIdAsync(
+                    contestLearnerDelete.ContestId,
+                    contestLearnerDelete.Id);
 
             if (contestLearner == null)
             {
-                throw new ArgumentOutOfRangeException($"Learner {contestLearnerDelete.Id} not found.");
+                throw new ArgumentOutOfRangeException($"Contest learner {contestLearnerDelete.Id} not found.");
             }
 
-            contest.Learners.Remove(
-                contestLearner);
-
-            contest =
-                await _contestRepository.UpdateByIdAsync(
+            contestLearner =
+                await _contestLearnerRepository.DeleteByIdAsync(
                     contestLearnerDelete.ContestId,
-                    contest);
+                    contestLearnerDelete.Id);
 
             var contestLearnerDeleted =
                 _mapper.Map(contestLearner, new ContestLearnerDeleted());

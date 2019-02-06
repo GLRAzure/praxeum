@@ -10,8 +10,10 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th></th>
-            <th class="text-center" style="width: 100px;">Learners</th>
+            <th>Type</th>
+            <th>Start</th>
+            <th>End</th>
+            <th class="text-center">Learners</th>
         </tr>
     </thead>
     <tbody>
@@ -20,12 +22,19 @@
             <tr>
                 <td>
                     <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
-                    <div class="d-block">
-                        https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
                 </td>
                 <td><span class="badge badge-secondary">@contest.Type</span></td>
-                <td class="text-center" style="width: 100px;">@contest.NumberOfLearners</td>
+                <td>@contest.StartDate</td>
+                <td>
+                    @if (contest.EndDate.HasValue)
+                    {
+                        <text>@contest.EndDate</text>}
+                    else
+                    {
+                        <text>TBD</text>
+                    }
+                </td>
+                <td class="text-center">@contest.NumberOfLearners</td>
             </tr>
         }
     </tbody>

@@ -22,6 +22,7 @@ namespace Praxeum.Domain.Contests.Learners
                 .ForMember(d => d.CurrentProgressStatus, o => o.Ignore())
                 .ForMember(d => d.LastModifiedOn, o => o.Ignore());
             CreateMap<MicrosoftProfileProgressStatus, ContestLearnerProgressStatus>();
+            CreateMap<ContestLearnerUpdate, ContestLearner>();
         }
     }
 }

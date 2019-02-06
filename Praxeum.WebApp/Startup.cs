@@ -79,6 +79,7 @@ namespace Praxeum.WebApp
 
             // Add data services
             services.AddTransient<IContestRepository, ContestRepository>();
+            services.AddTransient<IContestLearnerRepository, ContestLearnerRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             // Add authentication services

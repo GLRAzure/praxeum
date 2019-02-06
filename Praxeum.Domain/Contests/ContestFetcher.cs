@@ -8,15 +8,19 @@ namespace Praxeum.Domain.Contests
     {
         private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestFetcher(
             IMapper mapper,
-            IContestRepository contestRepository)
+            IContestRepository contestRepository,
+            IContestLearnerRepository contestLearnerRepository)
         {
             _mapper =
                 mapper;
             _contestRepository =
                 contestRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
         }
 
         public async Task<ContestFetched> ExecuteAsync(
@@ -28,6 +32,12 @@ namespace Praxeum.Domain.Contests
 
             var contestFetched =
                 _mapper.Map(contest, new ContestFetched());
+
+            var contestLearners =
+                await _contestLearnerRepository.FetchListAsync(
+                    contestFetch.Id);
+
+            _mapper.Map(contestLearners, contestFetched.Learners);
 
             return contestFetched;
         }

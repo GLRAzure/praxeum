@@ -9,6 +9,9 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
 
+        [JsonProperty(PropertyName = "contestId")]
+        public Guid ContestId { get; set; }
+
         [JsonProperty(PropertyName = "displayName")]
         [Display(Name = "Display Name")]
         public string DisplayName { get; set; }

@@ -37,7 +37,7 @@ namespace Praxeum.FunctionApp.Features.Learners
             var contestLearnerAdder =
                 new ContestLearnerAdder(
                     mapper,
-                    new ContestRepository(Options.Create(azureCosmosDbOptions)),
+                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
                     new MicrosoftProfileRepository());
 
             var contestLearnerAdded =

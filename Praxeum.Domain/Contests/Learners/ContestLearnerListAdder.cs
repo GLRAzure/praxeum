@@ -8,14 +8,14 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerListAdder : IHandler<ContestLearnerListAdd, ContestLearnerListAdded>
     {
         private readonly IEventPublisher _eventPublisher;
-        private readonly IContestRepository _contestRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestLearnerListAdder(
-            IContestRepository contestRepository,
+            IContestLearnerRepository contestLearnerRepository,
             IEventPublisher eventPublisher)
         {
-            _contestRepository =
-                contestRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
             _eventPublisher =
                 eventPublisher;
         }
@@ -23,14 +23,9 @@ namespace Praxeum.Domain.Contests.Learners
         public async Task<ContestLearnerListAdded> ExecuteAsync(
             ContestLearnerListAdd contestLearnerListAdd)
         {
-            var contest =
-                await _contestRepository.FetchByIdAsync(
+            var contestLearners =
+                await _contestLearnerRepository.FetchListAsync(
                     contestLearnerListAdd.ContestId);
-
-            if (contest == null)
-            {
-                throw new NullReferenceException("Contest does not exist.");
-            }
 
             var contestLearnerListAdded =
                 new ContestLearnerListAdded
@@ -46,7 +41,7 @@ namespace Praxeum.Domain.Contests.Learners
 
             foreach (var userName in userNames)
             {
-                if (contest.Learners.All(x => x.UserName != userName))
+                if (contestLearners.All(x => x.UserName != userName))
                 {
                     var contestLearnerAdd =
                         new ContestLearnerAdd
