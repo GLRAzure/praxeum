@@ -21,20 +21,22 @@ namespace Praxeum.Domain.Contests.Learners
         //    }
         //}
 
-        public int ProgressPercentage
-        {
-            get
-            {
-                var result = 0;
+        public int ProgressPercentage => 0;
 
-                if (this.StartValue != 0 || this.TargetValue != 0)
-                {
-                    result = (int)(((decimal)this.ProgressValue / (decimal)(this.TargetValue)) * 100);
-                }
+        //public int ProgressPercentage
+        //{
+        //    get
+        //    {
+        //        var result = 0;
 
-                return result;
-            }
-        }
+        //        if (this.StartValue != 0 || this.TargetValue != 0)
+        //        {
+        //            result = (int)(((decimal)this.ProgressValue / (decimal)(this.TargetValue)) * 100);
+        //        }
+
+        //        return result;
+        //    }
+        //}
 
         public string DisplayNameAndUserName => $"{this.DisplayName} ({this.UserName})";
     }
