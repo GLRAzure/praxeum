@@ -58,7 +58,6 @@ namespace Praxeum.WebApp
             services.Configure<AzureQueueStorageEventPublisherOptions>(
                 Configuration.GetSection(nameof(AzureQueueStorageEventPublisherOptions)));
 
-
             services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
             services.AddScoped<IMicrosoftProfileRepository, MicrosoftProfileRepository>();
 
@@ -68,7 +67,6 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestFetch, ContestFetched>, ContestFetcher>();
             services.AddTransient<IHandler<ContestList, IEnumerable<ContestListed>>, ContestLister>();
             services.AddTransient<IHandler<ContestUpdate, ContestUpdated>, ContestUpdater>();
-
 
             services.AddTransient<IHandler<ContestLearnerAdd, ContestLearnerAdded>, ContestLearnerAdder>();
             services.AddTransient<IHandler<ContestLearnerDelete, ContestLearnerDeleted>, ContestLearnerDeleter>();
