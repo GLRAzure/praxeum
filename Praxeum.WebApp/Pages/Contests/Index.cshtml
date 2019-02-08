@@ -1,4 +1,5 @@
 ﻿@page
+@using Praxeum.Data
 @model IndexModel
 @{
     ViewData["Title"] = "Contests";
@@ -11,8 +12,8 @@
         <tr>
             <th>Name</th>
             <th>Status</th>
-            <th>Start</th>
-            <th>End</th>
+            <th class="d-none d-lg-table-cell">Start</th>
+            <th class="d-none d-lg-table-cell">End</th>
             <th class="text-center">Learners</th>
         </tr>
     </thead>
@@ -22,27 +23,28 @@
             <tr>
                 <td>
                     <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
+                    <div class="d-block">https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a></div>
                 </td>
-                <td>
-                    @if (contest.Status == "ready")
+                <td class="text-v-center">
+                    @if (contest.Status == ContestStatus.Ready)
                     {
                         <span class="badge badge-secondary">Ready</span>
                     }
-                    else if (contest.Status == "inprogress")
+                    else if (contest.Status == ContestStatus.InProgress)
                     {
                         <span class="badge badge-success">In Progress</span>
                     }
-                    else if (contest.Status == "ended")
+                    else if (contest.Status == ContestStatus.Ended)
                     {
                         <span class="badge badge-info">Ended</span>
                     }
-                    else if (contest.Status == "canceled")
+                    else if (contest.Status == ContestStatus.Canceled)
                     {
                         <span class="badge badge-danger">Canceled</span>
                     }
                 </td>
-                <td>@contest.StartDate</td>
-                <td>
+                <td class="d-none d-lg-table-cell text-v-center">@contest.StartDate</td>
+                <td class="d-none d-lg-table-cell text-v-center">
                     @if (contest.EndDate.HasValue)
                     {
                         <text>@contest.EndDate</text>}
@@ -51,7 +53,7 @@
                         <text>TBD</text>
                     }
                 </td>
-                <td class="text-center">@contest.NumberOfLearners</td>
+                <td class="text-center text-v-center">@contest.NumberOfLearners</td>
             </tr>
         }
     </tbody>

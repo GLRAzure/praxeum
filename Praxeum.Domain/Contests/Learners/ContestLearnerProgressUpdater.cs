@@ -62,7 +62,7 @@ namespace Praxeum.Domain.Contests.Learners
                 }
                 else if (contest.Type == ContestType.Level)
                 {
-                    contestLearner.CurrentValue = 
+                    contestLearner.CurrentValue =
                         microsoftProfile.ProgressStatus.CurrentLevel;
                 }
                 else
@@ -72,12 +72,24 @@ namespace Praxeum.Domain.Contests.Learners
 
                 contestLearner.Status = ContestLearnerStatus.Updated;
                 contestLearner.StatusMessage = string.Empty;
+
+                if ((contestLearner.CurrentValue - contestLearner.TargetValue) <= contest.TargetValue)
+                {
+                    contestLearner.IsDone = true;
+                }
+                else
+                {
+                    contestLearner.IsDone = false;
+                }
             }
             catch (Exception ex)
             {
                 contestLearner.Status = ContestLearnerStatus.Failed;
                 contestLearner.StatusMessage = ex.Message;
             }
+
+            contestLearner.TargetValue =
+                contest.TargetValue;
 
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(

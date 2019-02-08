@@ -56,6 +56,12 @@
         <input asp-for="Contest.EndDate" class="form-control" />
         <span asp-validation-for="Contest.EndDate" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="Contest.CustomCss"></label>
+        <textarea asp-for="Contest.CustomCss" class="form-control" rows="10"></textarea>
+        <span asp-validation-for="Contest.CustomCss" class="text-danger"></span>
+        <small class="form-text text-muted">You can customize the look and feel of your challenge and sign-up pages, just paste your custom CSS in the box provided above.</small>
+    </div>
     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Save Changes</span></button>
     <a class="btn btn-link" asp-page="Index">Cancel</a>
 </form>

@@ -10,13 +10,12 @@ using Praxeum.Domain.Contests.Learners;
 
 namespace Praxeum.FunctionApp
 {
-    public static class ContestLearnerProgressUpdaterQueueTrigger
+    public static class ContestLearnerProgressUpdateQueueTrigger
     {
-        [FunctionName("ContestLearnerProgressUpdaterQueueTrigger")]
+        [FunctionName("ContestLearnerProgressUpdateQueueTrigger")]
         public static async Task Run(
             [QueueTrigger("contestlearnerprogress-update", Connection = "AzureStorageOptions:ConnectionString")]ContestLearnerProgressUpdate contestLearnerProgressUpdate,
-            ILogger log,
-            [Queue("contestlearnerprogress-updated", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestLearnerProgressUpdated> contestLearnerProgressUpdatedCollector)
+            ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerProgressUpdate, Formatting.Indented)}");
 
@@ -45,9 +44,6 @@ namespace Praxeum.FunctionApp
             var contestLearnerProgressUpdated =
                 await contestLearnerProgressUpdater.ExecuteAsync(
                     contestLearnerProgressUpdate);
-
-            contestLearnerProgressUpdatedCollector.Add(
-                contestLearnerProgressUpdated);
 
             log.LogInformation(
                 JsonConvert.SerializeObject(contestLearnerProgressUpdated, Formatting.Indented));

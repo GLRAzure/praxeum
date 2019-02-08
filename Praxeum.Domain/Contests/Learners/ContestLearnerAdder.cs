@@ -8,18 +8,22 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerAdder : IHandler<ContestLearnerAdd, ContestLearnerAdded>
     {
         private readonly IMapper _mapper;
+        private readonly IEventPublisher _eventPublisher;
         private readonly IContestRepository _contestRepository;
         private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
 
         public ContestLearnerAdder(
             IMapper mapper,
+            IEventPublisher eventPublisher,
             IContestRepository contestRepository,
             IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository)
         {
             _mapper =
                 mapper;
+            _eventPublisher =
+                eventPublisher;
             _contestRepository =
                 contestRepository;
             _contestLearnerRepository =
@@ -74,6 +78,9 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.StatusMessage = ex.Message;
             }
 
+            contestLearner.TargetValue =
+                contest.TargetValue;
+            
             contestLearner =
                 await _contestLearnerRepository.AddAsync(
                     contestLearner.ContestId,
@@ -81,6 +88,8 @@ namespace Praxeum.Domain.Contests.Learners
 
             var contestLearnerAdded =
                 _mapper.Map(contestLearner, new ContestLearnerAdded());
+
+            await _eventPublisher.PublishAsync("contestlearner.added", contestLearnerAdded);
 
             return contestLearnerAdded;
         }

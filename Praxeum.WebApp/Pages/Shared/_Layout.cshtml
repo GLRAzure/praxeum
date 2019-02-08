@@ -32,7 +32,6 @@
     </environment>
 </head>
 <body>
-
     <header class="navbar navbar-expand-md navbar-light bg-light">
         <a asp-page="/Index" class="navbar-brand">
             <img src="~/images/azure-logo.png" height="30" class="d-inline-block align-top" alt="Azure Logo" />
@@ -46,7 +45,7 @@
                 <a class="nav-item nav-link" asp-page="/Index">Home</a>
                 @if (User.Identity.IsAuthenticated)
                 {
-                <a class="nav-item nav-link" asp-page="/Contests/Index">Contests</a>
+                    <a class="nav-item nav-link" asp-page="/Contests/Index">Contests</a>
                 }
             </div>
             <partial name="_LoginPartial" />

@@ -11,6 +11,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/site-public.css" />
         <script src="~/vendor/@@fortawesome/fontawesome-pro/js/all.js"></script>
     </environment>
     <environment exclude="Development">
@@ -25,6 +26,9 @@
         <link rel="stylesheet"
               href="~/css/site.min.css"
               asp-append-version="true" />
+        <link rel="stylesheet"
+              href="~/css/site-public.min.css"
+              asp-append-version="true" />
         <script src="https://pro.fontawesome.com/releases/v5.6.3/js/all.js"
                 asp-fallback-src="~/vendor/@@fortawesome/fontawesome-pro/js/all.min.js"
                 asp-fallback-test="window.jQuery"
@@ -32,7 +36,15 @@
                 crossorigin="anonymous"></script>
     </environment>
 </head>
-<body class="public-leaderboard">
+
+@{
+    var pageId = ViewContext.RouteData.Values["page"].ToString();
+    pageId = pageId.Replace("/", "-");
+    pageId = pageId.ToLower();
+    pageId = "page" + pageId;
+}
+
+<body class="page @pageId">
 
     <div class="container body-content">
         @RenderBody()
@@ -40,7 +52,7 @@
 
     <footer>
         <div class="container">
-            <p>If you have any questions or feedback please hit me up at <a href="mailto:maruma@microsoft.com">maruma@@microsoft.com</a>.
+            <p>If you have any questions or feedback please hit us up at <a href="mailto:matt.ruma@microsoft.com">matt.ruma@@microsoft.com</a>, <a href="mailto:bdykstra@microsoft.com">bdykstra@@microsoft.com</a> or <a href="mailto:alex.lowe@microsoft.com">alex.lowe@@microsoft.com</a>.
         </div>
     </footer>
 

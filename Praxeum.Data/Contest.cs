@@ -38,10 +38,14 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "targetValue")]
         [Display(Name = "Target Value")]
-        public int? TargetValue { get; set; } // Note: Could be points, levels, badge and/or achievements
+        public int TargetValue { get; set; }
 
         [JsonProperty(PropertyName = "numberOfLearner")]
         public int NumberOfLearners { get; set; }
+
+        [JsonProperty(PropertyName = "customCss")]
+        [Display(Name = "Custom Css")]
+        public string CustomCss { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }

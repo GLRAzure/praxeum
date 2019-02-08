@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Contest.TargetValue"></label>
-        <p class="form-control-static">@Model.Contest.TargetValue</p>
+        <p class="form-control-static">@Model.Contest.TargetValue.ToString("N0")</p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.StartDate"></label>
@@ -78,43 +78,50 @@
         <tr>
             <th>Name</th>
             <th></th>
-            <th class="text-center">Start Value</th>
-            <th class="text-center">Current Value</th>
+            <th></th>
             <th></th>
             @if (this.User.IsInRole("Administrator"))
             {
-                <th><i class="fas fa-trash-alt"></i></th>
+                <th class="text-center"><i class="fas fa-trash-alt"></i></th>
             }
         </tr>
     </thead>
     <tbody>
         @foreach (var learner in Model.Contest.Learners)
         {
-        <tr>
-            <td>
-                <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
-                    @learner.DisplayName
-                </a>
-                <small class="text-muted ml-2">@learner.UserName</small>
-            </td>
-            <td>
-                @if (learner.Status == "new")
+            <tr>
+                <td>
+                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
+                        @learner.DisplayName
+                    </a>
+                    <small class="text-muted ml-2">@learner.UserName</small>
+                    <div class="d-block">
+                        <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </td>
+                <td>
+                    @if (learner.Status == "new")
+                    {
+                        <span class="badge badge-success">new</span>
+                    }
+                    else if (learner.Status == "failed")
+                    {
+                        <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
+                    }
+                </td>
+                <td class="text-center text-v-center" style="width: 200px;">
+                    <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width:@learner.ProgressPercentage%;" aria-valuenow="@learner.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </td>
+                <td class="text-center text-v-center">
+                    @learner.ProgressValue.ToString("N0")/@learner.TargetValue.ToString("N0")
+                </td>
+                @if (this.User.IsInRole("Administrator"))
                 {
-                    <span class="badge badge-success">new</span>
+                    <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
                 }
-                else if (learner.Status == "failed")
-                {
-                    <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
-                }
-            </td>
-            <td class="text-center">@learner.StartValue</td>
-            <td class="text-center">@learner.CurrentValue</td>
-            <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
-            @if (this.User.IsInRole("Administrator"))
-            {
-                <td><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
-            }
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

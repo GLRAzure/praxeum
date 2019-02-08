@@ -30,6 +30,9 @@ namespace Praxeum.Domain.Contests
         
         [Display(Name="Target Value")]
         public int TargetValue { get; set; }
+        
+        [Display(Name="Custom Css")]
+        public string CustomCss { get; set; }
 
         public ContestAdd()
         {

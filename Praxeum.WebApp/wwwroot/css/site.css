@@ -24,15 +24,6 @@ footer {
     margin-top: 2rem;
 }
 
-.public-leaderboard {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-    .public-leaderboard h1 {
-        margin-bottom: 2rem;
-    }
-
 .navbar {
     border-bottom: 1px solid #E3E3E3;
 }
@@ -170,11 +161,46 @@ h1 + table {
 }
 
 .alert-info {
-    color: #3672B5;
+    color: #8763c5;
     border: none;
-    background-color: #DFF1FF;
+    background-color: #e2daf1;
 }
 
 .form-group > label {
     font-size: 80%;
+}
+
+.table td.text-v-center {
+    vertical-align: middle;
+}
+
+.text-success {
+    color: #128712 !important;
+}
+
+.text-danger {
+    color: #da3b01 !important;
+}
+
+.text-info {
+    color: #8763c5 !important;
+}
+
+.progress {
+    background-color: #e3e3e3;
+}
+
+.bg-success,
+.badge-success {
+    background-color: #128712 !important;
+}
+
+.bg-danger,
+.badge-danger {
+    background-color: #da3b01 !important;
+}
+
+.bg-info,
+.badge-info {
+    background-color: #8763c5 !important;
 }

@@ -28,6 +28,8 @@
   <ItemGroup>
     <Compile Remove="Controllers\DebugController.cs" />
     <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
+    <Compile Remove="Helpers\AzureQueueStorageEventPublisher.cs" />
+    <Compile Remove="Helpers\AzureQueueStorageEventPublisherOptions.cs" />
     <Compile Remove="Helpers\Profile.cs" />
     <Compile Remove="Helpers\ProfileService.cs" />
   </ItemGroup>

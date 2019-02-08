@@ -13,9 +13,9 @@ using Praxeum.Domain.Contests.Learners;
 
 namespace Praxeum.FunctionApp
 {
-    public static class ContestProgressUpdaterHttpTrigger
+    public static class ContestProgressUpdateHttpTrigger
     {
-        [FunctionName("ContestProgressUpdaterHttpTrigger")]
+        [FunctionName("ContestProgressUpdateHttpTrigger")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "put", Route = "contests/progress")] HttpRequest req,
             ILogger log,

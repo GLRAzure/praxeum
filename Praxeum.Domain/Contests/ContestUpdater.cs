@@ -7,14 +7,18 @@ namespace Praxeum.Domain.Contests
     public class ContestUpdater : IHandler<ContestUpdate, ContestUpdated>
     {
         private readonly IMapper _mapper;
+        private readonly IEventPublisher _eventPublisher;
         private readonly IContestRepository _contestRepository;
 
         public ContestUpdater(
             IMapper mapper,
+            IEventPublisher eventPublisher,
             IContestRepository contestRepository)
         {
             _mapper =
                 mapper;
+            _eventPublisher =
+                eventPublisher;
             _contestRepository =
                 contestRepository;
         }
@@ -33,13 +37,15 @@ namespace Praxeum.Domain.Contests
                     contestUpdate.Id,
                     contest);
 
-            if(!string.IsNullOrWhiteSpace(contestUpdate.Prizes))
+            if (!string.IsNullOrWhiteSpace(contestUpdate.Prizes))
             {
                 contest.HasPrizes = true;
             }
 
             var contestUpdated =
                 _mapper.Map(contest, new ContestUpdated());
+
+            await _eventPublisher.PublishAsync("contest.updated", contestUpdated);
 
             return contestUpdated;
         }

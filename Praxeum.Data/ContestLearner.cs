@@ -39,9 +39,17 @@ namespace Praxeum.Data
         [Display(Name = "Start Value")]
         public int StartValue { get; set; }
 
+        [JsonProperty(PropertyName = "targetValue")]
+        [Display(Name = "Target Value")]
+        public int TargetValue { get; set; }
+
         [JsonProperty(PropertyName = "currentValue")]
         [Display(Name = "Current Value")]
         public int CurrentValue { get; set; }
+
+        [JsonProperty(PropertyName = "isDone")]
+        [Display(Name = "Done")]
+        public bool IsDone { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         [Display(Name = "Created")]

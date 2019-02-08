@@ -1,4 +1,5 @@
 ﻿@page "/Public/Contests/{id:Guid}"
+@using Praxeum.Data
 @model DetailsModel
 
 @{
@@ -14,12 +15,29 @@
 
 <form>
     <div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <p class="form-control-static">@Model.Contest.Type</p>
+        <label asp-for="Contest.Status"></label>
+        <p class="form-control-static">
+            @if (Model.Contest.Status == ContestStatus.Ready)
+            {
+                <span class="badge badge-secondary">Ready</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.InProgress)
+            {
+                <span class="badge badge-success">In Progress</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.Ended)
+            {
+                <span class="badge badge-info">Ended</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.Canceled)
+            {
+                <span class="badge badge-danger">Canceled</span>
+            }
+        </p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.TargetValue"></label>
-        <p class="form-control-static">@Model.Contest.TargetValue</p>
+        <p class="form-control-static">@Model.Contest.TargetValue.ToString("N0")</p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.StartDate"></label>
@@ -46,12 +64,12 @@
     }
 </form>
 
-<table class="table table-ranked">
+<table class="table">
     <thead>
         <tr>
             <th>Name</th>
-            <th class="text-center">Start Value</th>
-            <th class="text-center">Current Value</th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -59,11 +77,24 @@
         @foreach (var learner in Model.Contest.Learners)
         {
         <tr>
-            <td>@learner.DisplayName<small class="text-muted ml-2">@learner.UserName</small></td>
-            <td class="text-center">@learner.StartValue</td>
-            <td class="text-center">@learner.CurrentValue/@Model.Contest.TargetValue</td>
-            <td><a href="https://techprofile.microsoft.com/@learner.UserName" class="d-none d-lg-inline">https://techprofile.microsoft.com/@learner.UserName</a><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt"></i></a></td>
+            <td>
+                @learner.DisplayName
+                <small class="text-muted ml-2">@learner.UserName</small>
+                <div class="d-block">
+                    <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                </div>
+            </td>
+            <td class="text-center text-v-center" style="width: 200px;">
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width:@learner.ProgressPercentage%;" aria-valuenow="@learner.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </td>
+            <td class="text-center text-v-center">
+                @learner.ProgressValue.ToString("N0")/@learner.TargetValue.ToString("N0")
+            </td>
         </tr>
         }
     </tbody>
 </table>
+
+<a asp-page="Register" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-plus"></i><span>Register</span></a>
