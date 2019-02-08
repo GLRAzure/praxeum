@@ -1,4 +1,5 @@
 ﻿@page
+@using Praxeum.Data
 @model CreateModel
 @{
     ViewData["Title"] = "Create Contest";
@@ -19,10 +20,17 @@
         <span asp-validation-for="Contest.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
+        <label></label>
+        <p class="form-control-static">@ContestStatus.Ready</p>
+    </div>
+    <div class="form-group">
         <label asp-for="Contest.Type"></label>
         <select asp-for="Contest.Type" class="form-control">
-            <option value="level">Level</option>
-            <option value="points">Points</option>
+            <option>@ContestType.AccumulatedLevels</option>
+            <option>@ContestType.AccumulatedPoints</option>
+            <option>@ContestType.Leaderboard</option>
+            <option>@ContestType.Level</option>
+            <option>@ContestType.TotalPoints</option>
         </select>
         <span asp-validation-for="Contest.Type" class="text-danger"></span>
     </div>

@@ -1,4 +1,5 @@
 ﻿@page "{id:Guid}"
+@using Praxeum.Data
 @model EditModel
 @{
     ViewData["Title"] = "Edit Contest";
@@ -14,32 +15,35 @@
         <span asp-validation-for="Contest.Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <select asp-for="Contest.Type" class="form-control">
-            <option>Level</option>
-            <option>Points</option>
-        </select>
-        <span asp-validation-for="Contest.Type" class="text-danger"></span>
+        <label asp-for="Contest.Description"></label>
+        <input asp-for="Contest.Description" class="form-control" />
+        <span asp-validation-for="Contest.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Contest.Status"></label>
         <select asp-for="Contest.Status" class="form-control">
-            <option>Ready</option>
-            <option>In Progress</option>
-            <option>Ended</option>
-            <option>Canceled</option>
+            <option>@ContestStatus.Canceled</option>
+            <option>@ContestStatus.Ended</option>
+            <option>@ContestStatus.InProgress</option>
+            <option>@ContestStatus.Ready</option>
         </select>
-        <span asp-validation-for="Contest.Status" class="text-danger"></span>
+        <span asp-validation-for="Contest.Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <select asp-for="Contest.Type" class="form-control">
+            <option>@ContestType.AccumulatedLevels</option>
+            <option>@ContestType.AccumulatedPoints</option>
+            <option>@ContestType.Leaderboard</option>
+            <option>@ContestType.Level</option>
+            <option>@ContestType.TotalPoints</option>
+        </select>
+        <span asp-validation-for="Contest.Type" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Contest.TargetValue"></label>
         <input asp-for="Contest.TargetValue" class="form-control" />
         <span asp-validation-for="Contest.TargetValue" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Contest.Description"></label>
-        <input asp-for="Contest.Description" class="form-control" />
-        <span asp-validation-for="Contest.Description" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Contest.Prizes"></label>

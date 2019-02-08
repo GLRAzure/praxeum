@@ -30,7 +30,7 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "startDate")]
         [Display(Name = "Start Date")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [JsonProperty(PropertyName = "endDate")]
         [Display(Name = "End Date")]
@@ -40,7 +40,7 @@ namespace Praxeum.Data
         [Display(Name = "Target Value")]
         public int TargetValue { get; set; }
 
-        [JsonProperty(PropertyName = "numberOfLearner")]
+        [JsonProperty(PropertyName = "numberOfLearners")]
         public int NumberOfLearners { get; set; }
 
         [JsonProperty(PropertyName = "customCss")]

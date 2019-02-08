@@ -34,7 +34,14 @@ namespace Praxeum.Domain.Contests
                 contest.HasPrizes = true;
             }
 
+            if (contest.Type == ContestType.Leaderboard)
+            {
+                contest.TargetValue = 0;
+            }
+
             contest.Status = ContestStatus.Ready;
+            contest.StartDate = null;
+            contest.EndDate = null;
 
             var contestAdded =
                 _mapper.Map(contest, new ContestAdded());

@@ -1,4 +1,5 @@
 ﻿@page "/Contests/{id:Guid}"
+@using Praxeum.Data
 @model DetailsModel
 
 @{
@@ -20,12 +21,12 @@
         </div>
     }
     <div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <p class="form-control-static">@Model.Contest.Type</p>
-    </div>
-    <div class="form-group">
         <label asp-for="Contest.Status"></label>
         <p class="form-control-static">@Model.Contest.Status</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.TargetValue"></label>
@@ -78,8 +79,10 @@
         <tr>
             <th>Name</th>
             <th></th>
-            <th></th>
-            <th></th>
+            <th class="text-right">Start</th>
+            <th class="text-right">Target</th>
+            <th class="text-right">Current</th>
+            <th class="text-right">Progress</th>
             @if (this.User.IsInRole("Administrator"))
             {
                 <th class="text-center"><i class="fas fa-trash-alt"></i></th>
@@ -89,39 +92,35 @@
     <tbody>
         @foreach (var learner in Model.Contest.Learners)
         {
-            <tr>
-                <td>
-                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
-                        @learner.DisplayName
-                    </a>
-                    <small class="text-muted ml-2">@learner.UserName</small>
-                    <div class="d-block">
-                        <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
-                    </div>
-                </td>
-                <td>
-                    @if (learner.Status == "new")
-                    {
-                        <span class="badge badge-success">new</span>
-                    }
-                    else if (learner.Status == "failed")
-                    {
-                        <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
-                    }
-                </td>
-                <td class="text-center text-v-center" style="width: 200px;">
-                    <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width:@learner.ProgressPercentage%;" aria-valuenow="@learner.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </td>
-                <td class="text-center text-v-center">
-                    @learner.ProgressValue.ToString("N0")/@learner.TargetValue.ToString("N0")
-                </td>
-                @if (this.User.IsInRole("Administrator"))
+        <tr>
+            <td>
+                <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
+                    @learner.DisplayName
+                </a>
+                <small class="text-muted ml-2">@learner.UserName</small>
+                <div class="d-block">
+                    <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                </div>
+            </td>
+            <td>
+                @if (learner.Status == "new")
                 {
-                    <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
+                    <span class="badge badge-success">new</span>
                 }
-            </tr>
+                else if (learner.Status == "failed")
+                {
+                    <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
+                }
+            </td>
+            <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
+            <td class="text-right text-v-center">@learner.TargetValue.ToString("N0")</td>
+            <td class="text-right text-v-center">@learner.CurrentValue.ToString("N0")</td>
+            <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
+            @if (this.User.IsInRole("Administrator"))
+            {
+                <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
+            }
+        </tr>
         }
     </tbody>
 </table>

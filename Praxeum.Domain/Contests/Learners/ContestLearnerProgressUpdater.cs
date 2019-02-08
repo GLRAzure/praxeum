@@ -44,26 +44,46 @@ namespace Praxeum.Domain.Contests.Learners
                 await _contestLearnerRepository.FetchByIdAsync(
                     contestLearnerProgressUpdate.ContestId,
                     contestLearnerProgressUpdate.Id);
+
+            ContestLearnerProgressUpdated contestLearnerProgressUpdated;
+
+            // If the contest is not in progress then there is no need to update the learner
+            if (contest.Status != ContestStatus.InProgress)
+            {
+                contestLearnerProgressUpdated =
+                    _mapper.Map(contestLearner, new ContestLearnerProgressUpdated());
+
+                return contestLearnerProgressUpdated;
+            }
+
             try
             {
                 var microsoftProfile =
                     await _microsoftProfileRepository.FetchProfileAsync(
                         contestLearner.UserName);
 
-                if (contest.Type == ContestType.Points)
+                if (contest.Type == ContestType.TotalPoints)
                 {
                     var experiencePointsCalculator =
                         new ExperiencePointsCalculator();
 
+                    contestLearner.StartValue = 0;
                     contestLearner.CurrentValue =
                         experiencePointsCalculator.Calculate(
                             microsoftProfile.ProgressStatus.CurrentLevel,
                             microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
                 }
-                else if (contest.Type == ContestType.Level)
+                else if (contest.Type == ContestType.Leaderboard)
                 {
+                    var experiencePointsCalculator =
+                        new ExperiencePointsCalculator();
+
+                    contestLearner.StartValue = 0;
+                    contestLearner.TargetValue = 0;
                     contestLearner.CurrentValue =
-                        microsoftProfile.ProgressStatus.CurrentLevel;
+                        experiencePointsCalculator.Calculate(
+                            microsoftProfile.ProgressStatus.CurrentLevel,
+                            microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
                 }
                 else
                 {
@@ -97,7 +117,7 @@ namespace Praxeum.Domain.Contests.Learners
                     contestLearnerProgressUpdate.Id,
                     contestLearner);
 
-            var contestLearnerProgressUpdated =
+            contestLearnerProgressUpdated =
                 _mapper.Map(contestLearner, new ContestLearnerProgressUpdated());
 
             return contestLearnerProgressUpdated;

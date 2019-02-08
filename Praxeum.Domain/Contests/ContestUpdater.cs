@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
 
@@ -40,6 +41,27 @@ namespace Praxeum.Domain.Contests
             if (!string.IsNullOrWhiteSpace(contestUpdate.Prizes))
             {
                 contest.HasPrizes = true;
+            }
+
+            if (contest.Type == ContestType.Leaderboard)
+            {
+                contest.TargetValue = 0;
+            }
+
+            if (contest.Status == ContestStatus.InProgress)
+            {
+                if (contest.StartDate == null)
+                {
+                    contest.StartDate = DateTime.UtcNow;
+                }
+            }
+
+            if (contest.Status == ContestStatus.Ended)
+            {
+                if (contest.EndDate == null)
+                {
+                    contest.EndDate = DateTime.UtcNow;
+                }
             }
 
             var contestUpdated =

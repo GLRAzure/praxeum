@@ -21,9 +21,8 @@ namespace Praxeum.Domain.Contests
         [Required]
         public string Type { get; set; }
 
-        [Required]
         [Display(Name="Start Date")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         
         [Display(Name="End Date")]
         public DateTime? EndDate { get; set; }
@@ -37,7 +36,7 @@ namespace Praxeum.Domain.Contests
         public ContestAdd()
         {
             this.Id = Guid.NewGuid();
-            this.Type = ContestType.Points;
+            this.Type = ContestType.AccumulatedPoints;
             this.HasPrizes = false;
         }
     }

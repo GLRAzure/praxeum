@@ -4,22 +4,22 @@ namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetched : ContestLearner
     {
-        public int DeltaValue => this.CurrentValue - (this.StartValue + this.TargetValue);
+        public int ProgressValue => this.CurrentValue - this.TargetValue;
 
-        public int ProgressValue
-        {
-            get
-            {
-                var result = this.CurrentValue - this.StartValue;
+        //public int ProgressValue
+        //{
+        //    get
+        //    {
+        //        var result = this.CurrentValue - this.StartValue;
 
-                if (result > this.TargetValue)
-                {
-                    result = this.TargetValue;
-                }
+        //        if (result > this.TargetValue)
+        //        {
+        //            result = this.TargetValue;
+        //        }
 
-                return result;
-            }
-        }
+        //        return result;
+        //    }
+        //}
 
         public int ProgressPercentage
         {
