@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 
 namespace Praxeum.WebApp.Pages.Contests
 {
-    public class IndexModel : PageModel
+   [Authorize(Roles = "Administrator")]
+   public class IndexModel : PageModel
     {
         private readonly IHandler<ContestList, IEnumerable<ContestListed>> _contestLister;
 
