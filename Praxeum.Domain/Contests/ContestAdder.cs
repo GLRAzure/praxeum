@@ -25,10 +25,6 @@ namespace Praxeum.Domain.Contests
             var contest =
                 _mapper.Map(contestAdd, new Contest());
 
-            contest = 
-                await _contestRepository.AddAsync(
-                    contest);
-
             if(!string.IsNullOrWhiteSpace(contestAdd.Prizes))
             {
                 contest.HasPrizes = true;
@@ -42,6 +38,10 @@ namespace Praxeum.Domain.Contests
             contest.Status = ContestStatus.Ready;
             contest.StartDate = null;
             contest.EndDate = null;
+
+            contest = 
+                await _contestRepository.AddAsync(
+                    contest);
 
             var contestAdded =
                 _mapper.Map(contest, new ContestAdded());
