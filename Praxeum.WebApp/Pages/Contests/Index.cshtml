@@ -43,7 +43,15 @@
                         <span class="badge badge-danger">Canceled</span>
                     }
                 </td>
-                <td class="d-none d-lg-table-cell text-v-center">@contest.StartDate</td>
+                <td class="d-none d-lg-table-cell text-v-center">
+                    @if (contest.StartDate.HasValue)
+                    {
+                        <text>@contest.StartDate</text>}
+                    else
+                    {
+                        <text>TBD</text>
+                    }
+                </td>
                 <td class="d-none d-lg-table-cell text-v-center">
                     @if (contest.EndDate.HasValue)
                     {
