@@ -78,13 +78,22 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.StatusMessage = ex.Message;
             }
 
+            //Set the contestLearner.TargetValue based on the contest.Type.
             switch (contest.Type)
             {
+                case ContestType.AccumulatedLevels:
+                    contestLearner.TargetValue = contestLearner.StartValue + contest.TargetValue;
+                    break;
+                case ContestType.AccumulatedPoints:
+                    contestLearner.TargetValue = contestLearner.StartValue + contest.TargetValue;
+                    break;
                 case ContestType.Levels:
-                    contestLearner.StartValue = 1;
+                    contestLearner.TargetValue = contest.TargetValue;
                     break;
                 case ContestType.Points:
-                    contestLearner.StartValue = 0;
+                    contestLearner.TargetValue = contest.TargetValue;
+                    break;
+                case ContestType.Leaderboard:
                     break;
                 default:
                     break;
