@@ -78,9 +78,18 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.StatusMessage = ex.Message;
             }
 
-            contestLearner.TargetValue =
-                contest.TargetValue;
-            
+            switch (contest.Type)
+            {
+                case ContestType.Levels:
+                    contestLearner.StartValue = 1;
+                    break;
+                case ContestType.Points:
+                    contestLearner.StartValue = 0;
+                    break;
+                default:
+                    break;
+            }
+
             contestLearner =
                 await _contestLearnerRepository.AddAsync(
                     contestLearner.ContestId,

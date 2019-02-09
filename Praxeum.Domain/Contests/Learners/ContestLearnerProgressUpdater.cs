@@ -62,44 +62,62 @@ namespace Praxeum.Domain.Contests.Learners
                     await _microsoftProfileRepository.FetchProfileAsync(
                         contestLearner.UserName);
 
-                if (contest.Type == ContestType.TotalPoints)
-                {
-                    var experiencePointsCalculator =
-                        new ExperiencePointsCalculator();
+                var experiencePointsCalculator =
+                    new ExperiencePointsCalculator();
 
-                    contestLearner.StartValue = 0;
-                    contestLearner.CurrentValue =
-                        experiencePointsCalculator.Calculate(
-                            microsoftProfile.ProgressStatus.CurrentLevel,
-                            microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
-                }
-                else if (contest.Type == ContestType.Leaderboard)
+                switch (contest.Type)
                 {
-                    var experiencePointsCalculator =
-                        new ExperiencePointsCalculator();
+                    case ContestType.AccumulatedLevels:
 
-                    contestLearner.StartValue = 0;
-                    contestLearner.TargetValue = 0;
-                    contestLearner.CurrentValue =
-                        experiencePointsCalculator.Calculate(
-                            microsoftProfile.ProgressStatus.CurrentLevel,
-                            microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
-                }
-                else
-                {
-                    throw new NotImplementedException();
+                        // Insert code here.
+
+                        break;
+                    case ContestType.AccumulatedPoints:
+
+                        // Insert code here.
+
+                        break;
+                    case ContestType.Leaderboard:
+
+                        contestLearner.CurrentValue =
+                            experiencePointsCalculator.Calculate(
+                                microsoftProfile.ProgressStatus.CurrentLevel,
+                                microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
+
+                        break;
+                    case ContestType.Levels:
+
+                        // Insert code here.
+
+                        break;
+                    case ContestType.Points:
+
+                        contestLearner.CurrentValue =
+                            experiencePointsCalculator.Calculate(
+                                microsoftProfile.ProgressStatus.CurrentLevel,
+                                microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
+
+                        break;
                 }
 
                 contestLearner.Status = ContestLearnerStatus.Updated;
                 contestLearner.StatusMessage = string.Empty;
 
-                if ((contestLearner.CurrentValue - contestLearner.TargetValue) <= contest.TargetValue)
+                if (contest.Type == ContestType.Leaderboard)
                 {
-                    contestLearner.IsDone = true;
+                    contestLearner.IsDone = false;
+                    contestLearner.TargetValue = null;
                 }
                 else
                 {
-                    contestLearner.IsDone = false;
+                    if ((contestLearner.CurrentValue - contestLearner.TargetValue) <= contest.TargetValue)
+                    {
+                        contestLearner.IsDone = true;
+                    }
+                    else
+                    {
+                        contestLearner.IsDone = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -108,8 +126,8 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.StatusMessage = ex.Message;
             }
 
-            contestLearner.TargetValue =
-                contest.TargetValue;
+            //contestLearner.TargetValue =
+            //    contest.TargetValue;
 
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(

@@ -28,10 +28,13 @@
         <label asp-for="Contest.Type"></label>
         <p class="form-control-static">@Model.Contest.Type</p>
     </div>
-    <div class="form-group">
-        <label asp-for="Contest.TargetValue"></label>
-        <p class="form-control-static">@Model.Contest.TargetValue.ToString("N0")</p>
-    </div>
+    @if (Model.Contest.Type != ContestType.Leaderboard)
+    {
+        <div class="form-group">
+            <label asp-for="Contest.TargetValue"></label>
+            <p class="form-control-static">@Model.Contest.TargetValue.Value.ToString("N0")</p>
+        </div>
+    }
     <div class="form-group">
         <label asp-for="Contest.StartDate"></label>
         <p class="form-control-static">
@@ -87,10 +90,16 @@
         <tr>
             <th>Name</th>
             <th></th>
-            <th class="text-right">Start</th>
-            <th class="text-right">Target</th>
+            @if (Model.Contest.Type != ContestType.Leaderboard)
+            {
+                <th class="text-right">Start</th>
+                <th class="text-right">Target</th>
+            }
             <th class="text-right">Current</th>
-            <th class="text-right">Progress</th>
+            @if (Model.Contest.Type != ContestType.Leaderboard)
+            {
+                <th class="text-right">Progress</th>
+            }
             @if (this.User.IsInRole("Administrator"))
             {
                 <th class="text-center"><i class="fas fa-trash-alt"></i></th>
@@ -120,10 +129,16 @@
                     <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
                 }
             </td>
-            <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
-            <td class="text-right text-v-center">@learner.TargetValue.ToString("N0")</td>
+            @if (Model.Contest.Type != ContestType.Leaderboard)
+            {
+                <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
+                <td class="text-right text-v-center">@learner.TargetValue.Value.ToString("N0")</td>
+            }
             <td class="text-right text-v-center">@learner.CurrentValue.ToString("N0")</td>
-            <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
+            @if (Model.Contest.Type != ContestType.Leaderboard)
+            {
+                <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
+            }
             @if (this.User.IsInRole("Administrator"))
             {
                 <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>

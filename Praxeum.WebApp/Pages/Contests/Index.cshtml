@@ -12,8 +12,8 @@
         <tr>
             <th>Name</th>
             <th>Status</th>
-            <th class="d-none d-lg-table-cell">Start</th>
-            <th class="d-none d-lg-table-cell">End</th>
+            <th class="d-none d-xl-table-cell">Start</th>
+            <th class="d-none d-xl-table-cell">End</th>
             <th class="text-center">Learners</th>
         </tr>
     </thead>
@@ -43,7 +43,7 @@
                         <span class="badge badge-danger">Canceled</span>
                     }
                 </td>
-                <td class="d-none d-lg-table-cell text-v-center">
+                <td class="d-none d-xl-table-cell text-v-center">
                     @if (contest.StartDate.HasValue)
                     {
                         <text>@contest.StartDate</text>}
@@ -52,7 +52,7 @@
                         <text>TBD</text>
                     }
                 </td>
-                <td class="d-none d-lg-table-cell text-v-center">
+                <td class="d-none d-xl-table-cell text-v-center">
                     @if (contest.EndDate.HasValue)
                     {
                         <text>@contest.EndDate</text>}

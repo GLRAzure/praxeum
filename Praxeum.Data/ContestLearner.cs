@@ -41,7 +41,7 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "targetValue")]
         [Display(Name = "Target Value")]
-        public int TargetValue { get; set; }
+        public int? TargetValue { get; set; }
 
         [JsonProperty(PropertyName = "currentValue")]
         [Display(Name = "Current Value")]

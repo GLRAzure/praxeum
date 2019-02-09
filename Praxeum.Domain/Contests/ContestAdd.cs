@@ -20,15 +20,16 @@ namespace Praxeum.Domain.Contests
 
         [Required]
         public string Type { get; set; }
+        
+        [Display(Name="Target Value")]
+        [RequiredIf("Type", ContestType.Leaderboard, ErrorMessage = "Target Value is required when Type is not Leaderboard.", IsInverted = true)]
+        public int? TargetValue { get; set; }
 
         [Display(Name="Start Date")]
         public DateTime? StartDate { get; set; }
         
         [Display(Name="End Date")]
         public DateTime? EndDate { get; set; }
-        
-        [Display(Name="Target Value")]
-        public int TargetValue { get; set; }
         
         [Display(Name="Custom Css")]
         public string CustomCss { get; set; }

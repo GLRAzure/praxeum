@@ -4,7 +4,20 @@ namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetched : ContestLearner
     {
-        public int ProgressValue => this.CurrentValue - this.TargetValue;
+        public int ProgressValue
+        {
+            get
+            {
+                var result = 0;
+
+                if (this.TargetValue.HasValue)
+                {
+                    result = this.CurrentValue - this.TargetValue.Value;
+                }
+
+                return result;
+            }
+        }
 
         //public int ProgressValue
         //{
