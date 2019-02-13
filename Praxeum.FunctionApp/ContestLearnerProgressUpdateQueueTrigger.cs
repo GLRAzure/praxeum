@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Praxeum.Data;
 using Praxeum.Data.Helpers;
+using Praxeum.Domain;
 using Praxeum.Domain.Contests.Learners;
 
 namespace Praxeum.FunctionApp
@@ -19,15 +20,15 @@ namespace Praxeum.FunctionApp
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerProgressUpdate, Formatting.Indented)}");
 
-             // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
-            var mapperConfiguration = 
+            // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
+            var mapperConfiguration =
                 new MapperConfiguration(cfg =>
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<ContestLearnerProfile>();
                 });
-            
+
             var mapper =
                 mapperConfiguration.CreateMapper();
 
@@ -39,7 +40,9 @@ namespace Praxeum.FunctionApp
                     mapper,
                     new ContestRepository(Options.Create(azureCosmosDbOptions)),
                     new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
-                    new MicrosoftProfileRepository());
+                    new MicrosoftProfileRepository(),
+                    new ContestLearnerTargetValueUpdater(),
+                    new ContestLearnerCurrentValueUpdater(new ExperiencePointsCalculator()));
 
             var contestLearnerProgressUpdated =
                 await contestLearnerProgressUpdater.ExecuteAsync(

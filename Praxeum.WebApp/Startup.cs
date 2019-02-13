@@ -60,6 +60,9 @@ namespace Praxeum.WebApp
 
             services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
             services.AddScoped<IMicrosoftProfileRepository, MicrosoftProfileRepository>();
+            services.AddScoped<IExperiencePointsCalculator, ExperiencePointsCalculator>();
+            services.AddScoped<IContestLearnerCurrentValueUpdater, ContestLearnerCurrentValueUpdater>();
+            services.AddScoped<IContestLearnerTargetValueUpdater, ContestLearnerTargetValueUpdater>();
 
             // Add domain services
             services.AddTransient<IHandler<ContestAdd, ContestAdded>, ContestAdder>();

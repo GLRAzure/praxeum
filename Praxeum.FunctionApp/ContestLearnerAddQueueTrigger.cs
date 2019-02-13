@@ -45,7 +45,8 @@ namespace Praxeum.FunctionApp.Features.Learners
                     new AzureQueueStorageEventPublisher(Options.Create(azureQueueStorageEventPublisherOptions)),
                     new ContestRepository(Options.Create(azureCosmosDbOptions)),
                     new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
-                    new MicrosoftProfileRepository());
+                    new MicrosoftProfileRepository(),
+                    new ContestLearnerTargetValueUpdater());
 
             var contestLearnerAdded =
                 await contestLearnerAdder.ExecuteAsync(

@@ -12,13 +12,15 @@ namespace Praxeum.Domain.Contests.Learners
         private readonly IContestRepository _contestRepository;
         private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
 
         public ContestLearnerAdder(
             IMapper mapper,
             IEventPublisher eventPublisher,
             IContestRepository contestRepository,
             IContestLearnerRepository contestLearnerRepository,
-            IMicrosoftProfileRepository microsoftProfileRepository)
+            IMicrosoftProfileRepository microsoftProfileRepository,
+            IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater)
         {
             _mapper =
                 mapper;
@@ -30,6 +32,8 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearnerRepository;
             _microsoftProfileRepository =
                 microsoftProfileRepository;
+            _contestLearnerTargetValueUpdater =
+                contestLearnerTargetValueUpdater;
         }
 
         public async Task<ContestLearnerAdded> ExecuteAsync(
@@ -78,26 +82,10 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.StatusMessage = ex.Message;
             }
 
-            //Set the contestLearner.TargetValue based on the contest.Type.
-            switch (contest.Type)
-            {
-                case ContestType.AccumulatedLevels:
-                    contestLearner.TargetValue = contestLearner.StartValue + contest.TargetValue;
-                    break;
-                case ContestType.AccumulatedPoints:
-                    contestLearner.TargetValue = contestLearner.StartValue + contest.TargetValue;
-                    break;
-                case ContestType.Levels:
-                    contestLearner.TargetValue = contest.TargetValue;
-                    break;
-                case ContestType.Points:
-                    contestLearner.TargetValue = contest.TargetValue;
-                    break;
-                case ContestType.Leaderboard:
-                    break;
-                default:
-                    break;
-            }
+            contestLearner = 
+                _contestLearnerTargetValueUpdater.Update(
+                    contest,
+                    contestLearner);
 
             contestLearner =
                 await _contestLearnerRepository.AddAsync(

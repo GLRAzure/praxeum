@@ -11,12 +11,16 @@ namespace Praxeum.Domain.Contests.Learners
         private readonly IContestRepository _contestRepository;
         private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
+        private readonly IContestLearnerCurrentValueUpdater _contestLearnerCurrentValueUpdater;
 
         public ContestLearnerProgressUpdater(
             IMapper mapper,
             IContestRepository contestRepository,
             IContestLearnerRepository contestLearnerRepository,
-            IMicrosoftProfileRepository microsoftProfileRepository)
+            IMicrosoftProfileRepository microsoftProfileRepository,
+            IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater,
+            IContestLearnerCurrentValueUpdater contestLearnerCurrentValueUpdater)
         {
             _mapper =
                 mapper;
@@ -26,6 +30,10 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearnerRepository;
             _microsoftProfileRepository =
                 microsoftProfileRepository;
+            _contestLearnerTargetValueUpdater =
+                contestLearnerTargetValueUpdater;
+            _contestLearnerCurrentValueUpdater =
+                contestLearnerCurrentValueUpdater;
         }
 
         public async Task<ContestLearnerProgressUpdated> ExecuteAsync(
@@ -47,7 +55,8 @@ namespace Praxeum.Domain.Contests.Learners
 
             ContestLearnerProgressUpdated contestLearnerProgressUpdated;
 
-            // If the contest is not in progress then there is no need to update the learner
+            // If the contest is not in progress then there is no need 
+            // to update the learner
             if (contest.Status != ContestStatus.InProgress)
             {
                 contestLearnerProgressUpdated =
@@ -62,62 +71,36 @@ namespace Praxeum.Domain.Contests.Learners
                     await _microsoftProfileRepository.FetchProfileAsync(
                         contestLearner.UserName);
 
-                var experiencePointsCalculator =
-                    new ExperiencePointsCalculator();
+                contestLearner =
+                    _contestLearnerTargetValueUpdater.Update(
+                        contest,
+                        contestLearner);
 
-                switch (contest.Type)
-                {
-                    case ContestType.AccumulatedLevels:
-
-                        // Insert code here.
-
-                        break;
-                    case ContestType.AccumulatedPoints:
-
-                        // Insert code here.
-
-                        break;
-                    case ContestType.Leaderboard:
-
-                        contestLearner.CurrentValue =
-                            experiencePointsCalculator.Calculate(
-                                microsoftProfile.ProgressStatus.CurrentLevel,
-                                microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
-
-                        break;
-                    case ContestType.Levels:
-
-                        // Insert code here.
-
-                        break;
-                    case ContestType.Points:
-
-                        contestLearner.CurrentValue =
-                            experiencePointsCalculator.Calculate(
-                                microsoftProfile.ProgressStatus.CurrentLevel,
-                                microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
-
-                        break;
-                }
+                contestLearner =
+                    _contestLearnerCurrentValueUpdater.Update(
+                        contest,
+                        contestLearner,
+                        microsoftProfile);
 
                 contestLearner.Status = ContestLearnerStatus.Updated;
                 contestLearner.StatusMessage = string.Empty;
 
-                if (contest.Type == ContestType.Leaderboard)
+                // Update the done status based on the contest type
+                switch (contest.Type)
                 {
-                    contestLearner.IsDone = false;
-                    contestLearner.TargetValue = null;
-                }
-                else
-                {
-                    if ((contestLearner.CurrentValue - contestLearner.TargetValue) <= contest.TargetValue)
-                    {
-                        contestLearner.IsDone = true;
-                    }
-                    else
-                    {
+                    case ContestType.Leaderboard:
                         contestLearner.IsDone = false;
-                    }
+                        break;
+                    default:
+                        if (contestLearner.CurrentValue >= contestLearner.TargetValue)
+                        {
+                            contestLearner.IsDone = true;
+                        }
+                        else
+                        {
+                            contestLearner.IsDone = false;
+                        }
+                        break;
                 }
             }
             catch (Exception ex)
@@ -125,9 +108,6 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearner.Status = ContestLearnerStatus.Failed;
                 contestLearner.StatusMessage = ex.Message;
             }
-
-            //contestLearner.TargetValue =
-            //    contest.TargetValue;
 
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(
