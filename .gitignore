@@ -3,6 +3,8 @@
 
 # Azure Functions localsettings file
 local.settings.json
+local.development.settings.json
+local.production.settings.json
 appsettings.Development.json
 
 # User-specific files
