@@ -109,41 +109,49 @@
     <tbody>
         @foreach (var learner in Model.Contest.Learners)
         {
-        <tr>
-            <td>
-                <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
-                    @learner.DisplayName
-                </a>
-                <small class="text-muted ml-2">@learner.UserName</small>
-                <div class="d-block">
-                    <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
-                </div>
-            </td>
-            <td>
-                @if (learner.Status == "new")
+            <tr>
+                <td>
+                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
+                        @learner.DisplayName
+                    </a>
+                    <small class="text-muted ml-2">@learner.UserName</small>
+                    <div class="d-block">
+                        <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </td>
+                <td>
+                    @if (learner.Status == "new")
+                    {
+                        <span class="badge badge-success">new</span>
+                    }
+                    else if (learner.Status == "failed")
+                    {
+                        <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
+                    }
+                </td>
+                @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <span class="badge badge-success">new</span>
+                    <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
+                    <td class="text-right text-v-center">
+                        @if (!learner.TargetValue.HasValue)
+                        {
+                            <text>TBD</text>
+                        }
+                        else
+                        {
+                            <text>@learner.TargetValue.Value.ToString("N0")</text>
+                        }
+                    </td>
                 }
-                else if (learner.Status == "failed")
+                @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
+                    <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
                 }
-            </td>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
-                <td class="text-right text-v-center">@learner.TargetValue.Value.ToString("N0")</td>
-            }
-            <td class="text-right text-v-center">@learner.CurrentValue.ToString("N0")</td>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
-            }
-            @if (this.User.IsInRole("Administrator"))
-            {
-                <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
-            }
-        </tr>
+                @if (this.User.IsInRole("Administrator"))
+                {
+                    <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
+                }
+            </tr>
         }
     </tbody>
 </table>

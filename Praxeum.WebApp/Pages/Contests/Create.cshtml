@@ -26,6 +26,7 @@
     <div class="form-group">
         <label asp-for="Contest.Type"></label>
         <select asp-for="Contest.Type" class="form-control">
+            <option value="">Select...</option>
             <option>@ContestType.AccumulatedLevels</option>
             <option>@ContestType.AccumulatedPoints</option>
             <option>@ContestType.Leaderboard</option>

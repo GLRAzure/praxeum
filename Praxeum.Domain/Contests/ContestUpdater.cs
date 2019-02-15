@@ -10,11 +10,15 @@ namespace Praxeum.Domain.Contests
         private readonly IMapper _mapper;
         private readonly IEventPublisher _eventPublisher;
         private readonly IContestRepository _contestRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
+        private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
 
         public ContestUpdater(
             IMapper mapper,
             IEventPublisher eventPublisher,
-            IContestRepository contestRepository)
+            IContestRepository contestRepository,
+            IContestLearnerRepository contestLearnerRepository,
+            IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater)
         {
             _mapper =
                 mapper;
@@ -22,6 +26,10 @@ namespace Praxeum.Domain.Contests
                 eventPublisher;
             _contestRepository =
                 contestRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
+            _contestLearnerTargetValueUpdater =
+                contestLearnerTargetValueUpdater;
         }
 
         public async Task<ContestUpdated> ExecuteAsync(
@@ -32,11 +40,6 @@ namespace Praxeum.Domain.Contests
                     contestUpdate.Id);
 
             _mapper.Map(contestUpdate, contest);
-
-            contest =
-                await _contestRepository.UpdateByIdAsync(
-                    contestUpdate.Id,
-                    contest);
 
             if (!string.IsNullOrWhiteSpace(contestUpdate.Prizes))
             {
@@ -62,6 +65,24 @@ namespace Praxeum.Domain.Contests
                 {
                     contest.EndDate = DateTime.UtcNow;
                 }
+            }
+
+            contest =
+                await _contestRepository.UpdateByIdAsync(
+                    contestUpdate.Id,
+                    contest);
+
+            var contestLearners =
+                await _contestLearnerRepository.FetchListAsync(
+                    contest.Id);
+
+            foreach(var contestLearner in contestLearners)
+            {
+                _contestLearnerTargetValueUpdater.Update(
+                    contest, contestLearner);
+
+                await _contestLearnerRepository.UpdateByIdAsync(
+                    contest.Id, contestLearner.Id, contestLearner);
             }
 
             var contestUpdated =
