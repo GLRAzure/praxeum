@@ -17,6 +17,7 @@ namespace Praxeum.Domain.Contests
             CreateMap<ContestUpdate, Contest>()
                 .ForMember(d => d.CreatedOn, o => o.Ignore());
             CreateMap<Contest, ContestUpdated>();
+            CreateMap<Contest, ContestProgressUpdated>();
         }
     }
 }

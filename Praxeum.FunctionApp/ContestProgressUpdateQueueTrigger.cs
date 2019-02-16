@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -6,26 +7,26 @@ using Newtonsoft.Json;
 using Praxeum.Data;
 using Praxeum.Data.Helpers;
 using Praxeum.Domain;
-using Praxeum.Domain.Contests.Learners;
-using System.Threading.Tasks;
+using Praxeum.Domain.Contests;
 
-namespace Praxeum.FunctionApp.Features.Learners
+namespace Praxeum.FunctionApp
 {
-    public static class ContestLearnerAddQueueTrigger
+    public static class ContestProgressUpdateQueueTrigger
     {
-        [FunctionName("ContestLearnerAddQueueTrigger")]
+        [FunctionName("ContestProgressUpdateQueueTrigger")]
         public static async Task Run(
-            [QueueTrigger("contestlearner-add", Connection = "AzureStorageOptions:ConnectionString")] ContestLearnerAdd contestLearnerAdd,
+            [QueueTrigger("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ContestProgressUpdate contestProgressUpdate,
             ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerAdd, Formatting.Indented)}");
+            log.LogInformation(
+                JsonConvert.SerializeObject(contestProgressUpdate, Formatting.Indented));
 
             var mapperConfiguration =
                 new MapperConfiguration(cfg =>
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
-                    cfg.AddProfile<ContestLearnerProfile>();
+                    cfg.AddProfile<ContestProfile>();
                 });
 
             var mapper =
@@ -37,21 +38,19 @@ namespace Praxeum.FunctionApp.Features.Learners
             var azureQueueStorageEventPublisherOptions =
                 new AzureQueueStorageEventPublisherOptions();
 
-            var contestLearnerAdder =
-                new ContestLearnerAdder(
+            var contestProgressUpdater =
+                new ContestProgressUpdater(
                     mapper,
                     new AzureQueueStorageEventPublisher(Options.Create(azureQueueStorageEventPublisherOptions)),
                     new ContestRepository(Options.Create(azureCosmosDbOptions)),
-                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
-                    new MicrosoftProfileRepository(),
-                    new ContestLearnerTargetValueUpdater());
+                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)));
 
-            var contestLearnerAdded =
-                await contestLearnerAdder.ExecuteAsync(
-                    contestLearnerAdd);
+            var contestProgressUpdated =
+                await contestProgressUpdater.ExecuteAsync(
+                    contestProgressUpdate);
 
             log.LogInformation(
-                JsonConvert.SerializeObject(contestLearnerAdded, Formatting.Indented));
+                JsonConvert.SerializeObject(contestProgressUpdated, Formatting.Indented));
         }
     }
 }

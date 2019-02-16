@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 
 namespace Praxeum.Domain
 {
@@ -15,6 +16,11 @@ namespace Praxeum.Domain
             this.QueuePrefix =
                 Environment.GetEnvironmentVariable(
                     "AzureQueueStorageEventPublisherOptions:QueuePrefix");
+        }
+
+        public IOptions<AzureQueueStorageEventPublisherOptions> AsOptions()
+        {
+            return Options.Create(this);
         }
     }
 }

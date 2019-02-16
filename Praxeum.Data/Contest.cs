@@ -50,9 +50,22 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
+        [JsonProperty(PropertyName = "lastProgressUpdateOn")]
+        [Display(Name = "Last Progress Update On")]
+        public DateTime? LastProgressUpdateOn { get; set; }
+
+        [JsonProperty(PropertyName = "nextProgressUpdateOn")]
+        [Display(Name = "Next Progress Update On")]
+        public DateTime? NextProgressUpdateOn { get; set; }
+
+        [JsonProperty(PropertyName = "progressUpdateInterval")]
+        [Display(Name = "Progress Update Interval")]
+        public int ProgressUpdateInterval { get; set; }
+
         public Contest()
         {
             this.CreatedOn = DateTime.UtcNow;
+            this.ProgressUpdateInterval = 1440;
         }
     }
 }

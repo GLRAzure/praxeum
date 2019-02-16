@@ -12,6 +12,7 @@
     <None Remove="Features\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="ContestProgressUpdateHttpTrigger.cs" />
     <Compile Remove="ContestUpdaterTimerTrigger.cs" />
     <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
     <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />

@@ -4,6 +4,13 @@
     ViewData["Title"] = "Register";
 }
 
+@if (!string.IsNullOrWhiteSpace(Model.Contest.CustomCss))
+{
+    <style>
+        @Html.Raw(Model.Contest.CustomCss)
+    </style>
+}
+
 <h1>Register</h1>
 
 <form method="post">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 
 namespace Praxeum.Data.Helpers
 {
@@ -11,6 +12,11 @@ namespace Praxeum.Data.Helpers
             this.ConnectionString =
                 Environment.GetEnvironmentVariable(
                     "AzureTableStorageOptions:ConnectionString");
+        }
+
+        public IOptions<AzureTableStorageOptions> AsOptions()
+        {
+            return Options.Create(this);
         }
     }
 }

@@ -6,6 +6,13 @@
     ViewData["Title"] = "Contest - " + Model.Contest.Name;
 }
 
+@if (!string.IsNullOrWhiteSpace(Model.Contest.CustomCss))
+{
+    <style>
+        @Html.Raw(Model.Contest.CustomCss)
+    </style>
+}
+
 <h1>@Model.Contest.Name</h1>
 
 @if (!string.IsNullOrWhiteSpace(Model.Contest.Description))

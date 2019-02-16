@@ -33,6 +33,9 @@ namespace Praxeum.Domain.Contests
         
         [Display(Name="Custom Css")]
         public string CustomCss { get; set; }
+        
+        [Display(Name="Progress Update Interval")]
+        public int ProgressUpdateInterval { get; set; }
 
         public ContestAdd()
         {

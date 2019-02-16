@@ -10,6 +10,8 @@ using Praxeum.Data.Helpers;
 using Praxeum.Data;
 using Microsoft.Extensions.Options;
 using Praxeum.Domain.Contests.Learners;
+using System.Linq;
+using System;
 
 namespace Praxeum.FunctionApp
 {
@@ -55,7 +57,7 @@ namespace Praxeum.FunctionApp
                         Status = ContestStatus.InProgress
                     });
 
-            foreach (var contest in contests)
+            foreach (var contest in contests.Where(x => x.NextProgressUpdateOn <= DateTime.UtcNow))
             {
                 var contestLearners =
                    await contestLearnerLister.ExecuteAsync(
@@ -73,6 +75,13 @@ namespace Praxeum.FunctionApp
                             ContestId = contestLearner.ContestId
                         });
                 }
+
+                contest.LastProgressUpdateOn =
+                    DateTime.UtcNow;
+                contest.NextProgressUpdateOn =
+                    DateTime.UtcNow.AddMinutes(contest.ProgressUpdateInterval);
+
+                contestRep
             }
 
             return new OkResult();
