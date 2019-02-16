@@ -53,61 +53,31 @@ namespace Praxeum.Domain.Contests.Learners
                     contestLearnerProgressUpdate.ContestId,
                     contestLearnerProgressUpdate.Id);
 
-            ContestLearnerProgressUpdated contestLearnerProgressUpdated;
+            var contestLearnerProgressUpdated =
+                 new ContestLearnerProgressUpdated();
 
-            // If the contest is not in progress then there is no need 
-            // to update the learner
             if (contest.Status != ContestStatus.InProgress)
             {
                 contestLearnerProgressUpdated =
-                    _mapper.Map(contestLearner, new ContestLearnerProgressUpdated());
+                    _mapper.Map(contestLearner, contestLearnerProgressUpdated);
 
                 return contestLearnerProgressUpdated;
             }
 
-            try
-            {
-                var microsoftProfile =
-                    await _microsoftProfileRepository.FetchProfileAsync(
-                        contestLearner.UserName);
+            var microsoftProfile =
+                await _microsoftProfileRepository.FetchProfileAsync(
+                    contestLearner.UserName);
 
-                contestLearner =
-                    _contestLearnerTargetValueUpdater.Update(
-                        contest,
-                        contestLearner);
+            contestLearner =
+                _contestLearnerTargetValueUpdater.Update(
+                    contest,
+                    contestLearner);
 
-                contestLearner =
-                    _contestLearnerCurrentValueUpdater.Update(
-                        contest,
-                        contestLearner,
-                        microsoftProfile);
-
-                contestLearner.Status = ContestLearnerStatus.Updated;
-                contestLearner.StatusMessage = string.Empty;
-
-                // Update the done status based on the contest type
-                switch (contest.Type)
-                {
-                    case ContestType.Leaderboard:
-                        contestLearner.IsDone = false;
-                        break;
-                    default:
-                        if (contestLearner.CurrentValue >= contestLearner.TargetValue)
-                        {
-                            contestLearner.IsDone = true;
-                        }
-                        else
-                        {
-                            contestLearner.IsDone = false;
-                        }
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                contestLearner.Status = ContestLearnerStatus.Failed;
-                contestLearner.StatusMessage = ex.Message;
-            }
+            contestLearner =
+                _contestLearnerCurrentValueUpdater.Update(
+                    contest,
+                    contestLearner,
+                    microsoftProfile);
 
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(
@@ -116,7 +86,7 @@ namespace Praxeum.Domain.Contests.Learners
                     contestLearner);
 
             contestLearnerProgressUpdated =
-                _mapper.Map(contestLearner, new ContestLearnerProgressUpdated());
+                _mapper.Map(contestLearner, contestLearnerProgressUpdated);
 
             return contestLearnerProgressUpdated;
         }

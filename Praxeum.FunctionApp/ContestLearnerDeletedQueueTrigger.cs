@@ -1,11 +1,9 @@
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Praxeum.Data;
-using Praxeum.Data.Helpers;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
+using Praxeum.FunctionApp.Helpers;
 using System.Threading.Tasks;
 
 namespace Praxeum.FunctionApp.Features.Learners
@@ -17,15 +15,13 @@ namespace Praxeum.FunctionApp.Features.Learners
             [QueueTrigger("contestlearner-deleted", Connection = "AzureStorageOptions:ConnectionString")]ContestLearnerDeleted contestLearnerDeleted,
             ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerDeleted, Formatting.Indented)}");
-
-            var azureCosmosDbOptions =
-                new AzureCosmosDbOptions();
+            log.LogInformation(
+                JsonConvert.SerializeObject(contestLearnerDeleted, Formatting.Indented));
 
             var contestNumberOfLearnersUpdater =
                 new ContestNumberOfLearnersUpdater(
-                    new ContestRepository(Options.Create(azureCosmosDbOptions)),
-                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)));
+                    ObjectFactory.CreateContestRepository(),
+                    ObjectFactory.CreateContestLearnerRepository());
 
             var contestNumberOfLearnersUpdate =
                 new ContestNumberOfLearnersUpdate

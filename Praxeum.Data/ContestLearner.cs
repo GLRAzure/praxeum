@@ -24,20 +24,13 @@ namespace Praxeum.Data
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 
-        [JsonProperty(PropertyName = "status")]
-        public string Status { get; set; }
-
-        [JsonProperty(PropertyName = "statusMessage")]
-        [Display(Name = "Status Message")]
-        public string StatusMessage { get; set; }
-
         [JsonProperty(PropertyName = "hasSeenMicrosoftPrivacyNotice")]
         [Display(Name = "Has Seen Microsoft Privacy Notice")]
         public bool HasSeenMicrosoftPrivacyNotice { get; set; }
 
         [JsonProperty(PropertyName = "startValue")]
         [Display(Name = "Start Value")]
-        public int StartValue { get; set; }
+        public int? StartValue { get; set; }
 
         [JsonProperty(PropertyName = "targetValue")]
         [Display(Name = "Target Value")]
@@ -45,11 +38,7 @@ namespace Praxeum.Data
 
         [JsonProperty(PropertyName = "currentValue")]
         [Display(Name = "Current Value")]
-        public int CurrentValue { get; set; }
-
-        [JsonProperty(PropertyName = "isDone")]
-        [Display(Name = "Done")]
-        public bool IsDone { get; set; }
+        public int? CurrentValue { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         [Display(Name = "Created")]

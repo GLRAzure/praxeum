@@ -62,6 +62,7 @@ namespace Praxeum.WebApp
             services.AddScoped<IMicrosoftProfileRepository, MicrosoftProfileRepository>();
             services.AddScoped<IExperiencePointsCalculator, ExperiencePointsCalculator>();
             services.AddScoped<IContestLearnerCurrentValueUpdater, ContestLearnerCurrentValueUpdater>();
+            services.AddScoped<IContestLearnerStartValueUpdater, ContestLearnerStartValueUpdater>();
             services.AddScoped<IContestLearnerTargetValueUpdater, ContestLearnerTargetValueUpdater>();
 
             // Add domain services

@@ -117,7 +117,6 @@
     <thead>
         <tr>
             <th>Name</th>
-            <th></th>
             @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
             {
                 <th class="text-right">Start</th>
@@ -150,19 +149,18 @@
                         <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
                     </div>
                 </td>
-                <td>
-                    @if (learner.Status == "new")
-                    {
-                        <span class="badge badge-success">new</span>
-                    }
-                    else if (learner.Status == "failed")
-                    {
-                        <span class="badge badge-danger" title="@learner.StatusMessage">error</span>
-                    }
-                </td>
                 @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
                 {
-                    <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
+                    <td class="text-right text-v-center">
+                        @if (learner.CurrentValue.HasValue)
+                        {
+                            <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
                 }
                 @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
@@ -177,10 +175,28 @@
                         }
                     </td>
                 }
-                <td class="text-right text-v-center">@learner.CurrentValue.ToString("N0")</td>
+                <td class="text-right text-v-center">
+                    @if (learner.CurrentValue.HasValue)
+                    {
+                        <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                </td>
                 @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
+                    <td class="text-right text-v-center">
+                        @if (learner.ProgressValue.HasValue)
+                        {
+                            <text>@learner.ProgressValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
                 }
                 @if (this.User.IsInRole("Administrator"))
                 {

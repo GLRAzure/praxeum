@@ -12,6 +12,7 @@ namespace Praxeum.Domain.Contests.Learners
         private readonly IContestRepository _contestRepository;
         private readonly IContestLearnerRepository _contestLearnerRepository;
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
+        private readonly IContestLearnerStartValueUpdater _contestLearnerStartValueUpdater;
         private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
 
         public ContestLearnerAdder(
@@ -20,6 +21,7 @@ namespace Praxeum.Domain.Contests.Learners
             IContestRepository contestRepository,
             IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository,
+            IContestLearnerStartValueUpdater contestLearnerStartValueUpdater,
             IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater)
         {
             _mapper =
@@ -32,6 +34,8 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearnerRepository;
             _microsoftProfileRepository =
                 microsoftProfileRepository;
+            _contestLearnerStartValueUpdater =
+                contestLearnerStartValueUpdater;
             _contestLearnerTargetValueUpdater =
                 contestLearnerTargetValueUpdater;
         }
@@ -58,31 +62,27 @@ namespace Praxeum.Domain.Contests.Learners
 
             if (contestLearner != null)
             {
-                throw new ArgumentOutOfRangeException($"The contest learner {contestLearnerAdd.UserName} already exists.");
+                throw new ArgumentOutOfRangeException(
+                    $"The contest learner {contestLearnerAdd.UserName} already exists.");
             }
 
             contestLearner =
                  _mapper.Map(contestLearnerAdd, new ContestLearner());
 
-            try
-            {
-                var microsoftProfile =
-                    await _microsoftProfileRepository.FetchProfileAsync(
-                        contestLearnerAdd.UserName);
+            var microsoftProfile =
+                await _microsoftProfileRepository.FetchProfileAsync(
+                    contestLearnerAdd.UserName);
 
-                contestLearner =
-                    _mapper.Map(microsoftProfile, contestLearner);
+            contestLearner =
+                _mapper.Map(microsoftProfile, contestLearner);
 
-                contestLearner.Status = ContestLearnerStatus.Updated;
-                contestLearner.StatusMessage = string.Empty;
-            }
-            catch (Exception ex)
-            {
-                contestLearner.Status = ContestLearnerStatus.Failed;
-                contestLearner.StatusMessage = ex.Message;
-            }
+            contestLearner =
+                _contestLearnerStartValueUpdater.Update(
+                    contest,
+                    contestLearner,
+                    microsoftProfile);
 
-            contestLearner = 
+            contestLearner =
                 _contestLearnerTargetValueUpdater.Update(
                     contest,
                     contestLearner);

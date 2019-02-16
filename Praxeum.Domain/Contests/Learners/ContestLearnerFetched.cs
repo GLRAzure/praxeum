@@ -1,55 +1,42 @@
 ﻿using Praxeum.Data;
+using System;
 
 namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetched : ContestLearner
     {
-        public int ProgressValue
+        public int? ProgressValue
         {
             get
             {
-                var result = 0;
+                int? result = null;
 
-                if (this.TargetValue.HasValue)
+                if (this.CurrentValue.HasValue
+                    && this.TargetValue.HasValue)
                 {
-                    result = this.CurrentValue - this.TargetValue.Value;
+                    result = this.CurrentValue.Value - this.TargetValue.Value;
                 }
 
                 return result;
             }
         }
 
-        //public int ProgressValue
-        //{
-        //    get
-        //    {
-        //        var result = this.CurrentValue - this.StartValue;
+        public int? ProgressPercentage
+        {
+            get
+            {
+                int? result = null;
 
-        //        if (result > this.TargetValue)
-        //        {
-        //            result = this.TargetValue;
-        //        }
+                if (this.CurrentValue.HasValue
+                    && this.TargetValue.HasValue)
+                {
+                    result = Convert.ToInt32(
+                        ((decimal)this.CurrentValue.Value / (decimal)this.TargetValue.Value) * 100);
+                }
 
-        //        return result;
-        //    }
-        //}
-
-        public int ProgressPercentage => 0;
-
-        //public int ProgressPercentage
-        //{
-        //    get
-        //    {
-        //        var result = 0;
-
-        //        if (this.StartValue != 0 || this.TargetValue != 0)
-        //        {
-        //            result = (int)(((decimal)this.ProgressValue / (decimal)(this.TargetValue)) * 100);
-        //        }
-
-        //        return result;
-        //    }
-        //}
+                return result;
+            }
+        }
 
         public string DisplayNameAndUserName => $"{this.DisplayName} ({this.UserName})";
     }

@@ -20,65 +20,65 @@
     <p>@Model.Contest.Description</p>
 }
 
-    <form>
+<form>
+    <div class="form-group">
+        <label asp-for="Contest.Status"></label>
+        <p class="form-control-static">
+            @if (Model.Contest.Status == ContestStatus.Ready)
+            {
+                <span class="badge badge-secondary">Ready</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.InProgress)
+            {
+                <span class="badge badge-success">In Progress</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.Ended)
+            {
+                <span class="badge badge-info">Ended</span>
+            }
+            else if (Model.Contest.Status == ContestStatus.Canceled)
+            {
+                <span class="badge badge-danger">Canceled</span>
+            }
+        </p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    @if (Model.Contest.TargetValue.HasValue)
+    {
         <div class="form-group">
-            <label asp-for="Contest.Status"></label>
+            <label asp-for="Contest.TargetValue"></label>
+            <p class="form-control-static">@Model.Contest.TargetValue.Value.ToString("N0")</p>
+        </div>
+    }
+    @if (Model.Contest.StartDate.HasValue)
+    {
+        <div class="form-group">
+            <label asp-for="Contest.StartDate"></label>
             <p class="form-control-static">
-                @if (Model.Contest.Status == ContestStatus.Ready)
-                {
-                    <span class="badge badge-secondary">Ready</span>
-                }
-                else if (Model.Contest.Status == ContestStatus.InProgress)
-                {
-                    <span class="badge badge-success">In Progress</span>
-                }
-                else if (Model.Contest.Status == ContestStatus.Ended)
-                {
-                    <span class="badge badge-info">Ended</span>
-                }
-                else if (Model.Contest.Status == ContestStatus.Canceled)
-                {
-                    <span class="badge badge-danger">Canceled</span>
-                }
+                <text>@Model.Contest.StartDate</text>
             </p>
         </div>
+    }
+    @if (Model.Contest.EndDate.HasValue)
+    {
         <div class="form-group">
-            <label asp-for="Contest.Type"></label>
-            <p class="form-control-static">@Model.Contest.Type</p>
+            <label asp-for="Contest.EndDate"></label>
+            <p class="form-control-static">
+                <text>@Model.Contest.EndDate</text>
+            </p>
         </div>
-        @if (Model.Contest.TargetValue.HasValue)
-        {
-            <div class="form-group">
-                <label asp-for="Contest.TargetValue"></label>
-                <p class="form-control-static">@Model.Contest.TargetValue.Value.ToString("N0")</p>
-            </div>
-        }
-        @if (Model.Contest.StartDate.HasValue)
-        {
-            <div class="form-group">
-                <label asp-for="Contest.StartDate"></label>
-                <p class="form-control-static">
-                    <text>@Model.Contest.StartDate</text>
-                </p>
-            </div>
-        }
-        @if (Model.Contest.EndDate.HasValue)
-        {
-            <div class="form-group">
-                <label asp-for="Contest.EndDate"></label>
-                <p class="form-control-static">
-                    <text>@Model.Contest.EndDate</text>
-                </p>
-            </div>
-        }
-        @if (Model.Contest.HasPrizes)
-        {
-            <div class="form-group">
-                <label asp-for="Contest.Prizes"></label>
-                <p class="form-control-static">@Model.Contest.Prizes</p>
-            </div>
-        }
-    </form>
+    }
+    @if (Model.Contest.HasPrizes)
+    {
+        <div class="form-group">
+            <label asp-for="Contest.Prizes"></label>
+            <p class="form-control-static">@Model.Contest.Prizes</p>
+        </div>
+    }
+</form>
 
 <table class="table">
     <thead>
@@ -109,22 +109,50 @@
                 </td>
                 @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <td class="text-right text-v-center">@learner.StartValue.ToString("N0")</td>
-                    <td class="text-right text-v-center">@learner.TargetValue.Value.ToString("N0")</td>
+                    <td class="text-right text-v-center">
+                        @if (learner.StartValue.HasValue)
+                        {
+                            <text>@learner.StartValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
+                    <td class="text-right text-v-center">
+                        @if (learner.TargetValue.HasValue)
+                        {
+                            <text>@learner.TargetValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
                 }
-                <td class="text-right text-v-center">@learner.CurrentValue.ToString("N0")</td>
+                <td class="text-right text-v-center">
+                    @if (learner.CurrentValue.HasValue)
+                    {
+                        <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                </td>
                 @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <td class="text-right text-v-center">@learner.ProgressValue.ToString("N0")</td>
-                }
-                @*<td class="text-center text-v-center" style="width: 200px;">
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width:@learner.ProgressPercentage%;" aria-valuenow="@learner.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
+                    <td class="text-right text-v-center">
+                        @if (learner.ProgressValue.HasValue)
+                        {
+                            <text>@learner.ProgressValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
                     </td>
-                    <td class="text-center text-v-center">
-                        @learner.ProgressValue.ToString("N0")/@learner.TargetValue.ToString("N0")
-                    </td>*@
+                }
             </tr>
         }
     </tbody>

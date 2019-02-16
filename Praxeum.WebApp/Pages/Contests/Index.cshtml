@@ -12,8 +12,6 @@
         <tr>
             <th>Name</th>
             <th>Status</th>
-            <th class="d-none d-xl-table-cell">Start</th>
-            <th class="d-none d-xl-table-cell">End</th>
             <th>Target</th>
             <th class="text-center">Learners</th>
         </tr>
@@ -42,24 +40,6 @@
                     else if (contest.Status == ContestStatus.Canceled)
                     {
                         <span class="badge badge-danger">Canceled</span>
-                    }
-                </td>
-                <td class="d-none d-xl-table-cell text-v-center">
-                    @if (contest.StartDate.HasValue)
-                    {
-                        <text>@contest.StartDate</text>}
-                    else
-                    {
-                        <text>TBD</text>
-                    }
-                </td>
-                <td class="d-none d-xl-table-cell text-v-center">
-                    @if (contest.EndDate.HasValue)
-                    {
-                        <text>@contest.EndDate</text>}
-                    else
-                    {
-                        <text>TBD</text>
                     }
                 </td>
                 <td class="text-center text-v-center">
