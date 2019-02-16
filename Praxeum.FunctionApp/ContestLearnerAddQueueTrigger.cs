@@ -1,15 +1,12 @@
 using AutoMapper;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Praxeum.Data;
-using Praxeum.Data.Helpers;
-using Praxeum.Domain;
 using Praxeum.Domain.Contests.Learners;
+using Praxeum.FunctionApp.Helpers;
 using System.Threading.Tasks;
 
-namespace Praxeum.FunctionApp.Features.Learners
+namespace Praxeum.FunctionApp
 {
     public static class ContestLearnerAddQueueTrigger
     {
@@ -31,22 +28,16 @@ namespace Praxeum.FunctionApp.Features.Learners
             var mapper =
                 mapperConfiguration.CreateMapper();
 
-            var azureCosmosDbOptions =
-                new AzureCosmosDbOptions();
-
-            var azureQueueStorageEventPublisherOptions =
-                new AzureQueueStorageEventPublisherOptions();
-
             var contestLearnerAdder =
                 new ContestLearnerAdder(
                     mapper,
-                    new AzureQueueStorageEventPublisher(Options.Create(azureQueueStorageEventPublisherOptions)),
-                    new ContestRepository(Options.Create(azureCosmosDbOptions)),
-                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
-                    new MicrosoftProfileRepository(),
-                    new ContestLearnerStartValueUpdater(
-                        new ExperiencePointsCalculator()),
-                    new ContestLearnerTargetValueUpdater());
+                    ObjectFactory.CreateAzureQueueStorageEventPublisher(),
+                    ObjectFactory.CreateContestRepository(),
+                    ObjectFactory.CreateContestLearnerRepository(),
+                    ObjectFactory.CreateMicrosoftProfileRepository(),
+                    ObjectFactory.CreateContestLearnerStartValueUpdater(),
+                    ObjectFactory.CreateContestLearnerTargetValueUpdater(),
+                    ObjectFactory.CreateContestLearnerCurrentValueUpdater());
 
             var contestLearnerAdded =
                 await contestLearnerAdder.ExecuteAsync(

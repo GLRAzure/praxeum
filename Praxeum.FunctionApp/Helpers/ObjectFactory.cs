@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Praxeum.Data;
 using Praxeum.Data.Helpers;
+using Praxeum.Domain;
 
 namespace Praxeum.FunctionApp.Helpers
 {
@@ -19,6 +20,19 @@ namespace Praxeum.FunctionApp.Helpers
             return _azureCosmosDbOptions;
         }
 
+        private static IOptions<AzureQueueStorageEventPublisherOptions> _azureQueueStorageEventPublisherOptions;
+
+        public static IOptions<AzureQueueStorageEventPublisherOptions> CreateAzureQueueStorageEventPublisherOptions()
+        {
+            if (_azureQueueStorageEventPublisherOptions == null)
+            {
+                _azureQueueStorageEventPublisherOptions =
+                    Options.Create(new AzureQueueStorageEventPublisherOptions());
+            }
+
+            return _azureQueueStorageEventPublisherOptions;
+        }
+
         public static ContestRepository CreateContestRepository()
         {
             return new ContestRepository(
@@ -29,6 +43,34 @@ namespace Praxeum.FunctionApp.Helpers
         {
             return new ContestLearnerRepository(
                 ObjectFactory.CreateAzureCosmosDbOptions());
+        }
+       
+        public static AzureQueueStorageEventPublisher CreateAzureQueueStorageEventPublisher()
+        {
+            return new AzureQueueStorageEventPublisher(
+                ObjectFactory.CreateAzureQueueStorageEventPublisherOptions());
+        }
+
+        public static MicrosoftProfileRepository CreateMicrosoftProfileRepository()
+        {
+            return new MicrosoftProfileRepository();
+        }
+
+        public static ContestLearnerCurrentValueUpdater CreateContestLearnerCurrentValueUpdater()
+        {
+            return new ContestLearnerCurrentValueUpdater(
+                new ExperiencePointsCalculator());
+        }
+
+        public static ContestLearnerTargetValueUpdater CreateContestLearnerTargetValueUpdater()
+        {
+            return new ContestLearnerTargetValueUpdater();
+        }
+
+        public static ContestLearnerStartValueUpdater CreateContestLearnerStartValueUpdater()
+        {
+            return new ContestLearnerStartValueUpdater(
+                new ExperiencePointsCalculator());
         }
     } 
 }

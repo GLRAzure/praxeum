@@ -14,6 +14,7 @@ namespace Praxeum.Domain.Contests.Learners
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
         private readonly IContestLearnerStartValueUpdater _contestLearnerStartValueUpdater;
         private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
+        private readonly IContestLearnerCurrentValueUpdater _contestLearnerCurrentValueUpdater;
 
         public ContestLearnerAdder(
             IMapper mapper,
@@ -22,7 +23,8 @@ namespace Praxeum.Domain.Contests.Learners
             IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository,
             IContestLearnerStartValueUpdater contestLearnerStartValueUpdater,
-            IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater)
+            IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater,
+            IContestLearnerCurrentValueUpdater contestLearnerCurrentValueUpdater)
         {
             _mapper =
                 mapper;
@@ -38,6 +40,8 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearnerStartValueUpdater;
             _contestLearnerTargetValueUpdater =
                 contestLearnerTargetValueUpdater;
+            _contestLearnerCurrentValueUpdater =
+                contestLearnerCurrentValueUpdater;
         }
 
         public async Task<ContestLearnerAdded> ExecuteAsync(
@@ -86,6 +90,15 @@ namespace Praxeum.Domain.Contests.Learners
                 _contestLearnerTargetValueUpdater.Update(
                     contest,
                     contestLearner);
+
+            if (contest.Status == ContestStatus.InProgress)
+            {
+                contestLearner =
+                    _contestLearnerCurrentValueUpdater.Update(
+                        contest,
+                        contestLearner,
+                        microsoftProfile);
+            }
 
             contestLearner =
                 await _contestLearnerRepository.AddAsync(

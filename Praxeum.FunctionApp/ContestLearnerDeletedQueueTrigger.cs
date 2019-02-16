@@ -3,25 +3,19 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
-using Praxeum.FunctionApp.Helpers;
-using System.Threading.Tasks;
 
-namespace Praxeum.FunctionApp.Features.Learners
+namespace Praxeum.FunctionApp
 {
     public static class ContestLearnerDeletedQueueTrigger
     {
         [FunctionName("ContestLearnerDeletedQueueTrigger")]
-        public static async Task Run(
-            [QueueTrigger("contestlearner-deleted", Connection = "AzureStorageOptions:ConnectionString")]ContestLearnerDeleted contestLearnerDeleted,
+        public static void Run(
+            [QueueTrigger("contestlearner-deleted", Connection = "AzureStorageOptions:ConnectionString")] ContestLearnerDeleted contestLearnerDeleted,
+            [Queue("contestnumberoflearners-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestNumberOfLearnersUpdate> contestNumberOfLearnersUpdates,
             ILogger log)
         {
             log.LogInformation(
                 JsonConvert.SerializeObject(contestLearnerDeleted, Formatting.Indented));
-
-            var contestNumberOfLearnersUpdater =
-                new ContestNumberOfLearnersUpdater(
-                    ObjectFactory.CreateContestRepository(),
-                    ObjectFactory.CreateContestLearnerRepository());
 
             var contestNumberOfLearnersUpdate =
                 new ContestNumberOfLearnersUpdate
@@ -29,12 +23,11 @@ namespace Praxeum.FunctionApp.Features.Learners
                     ContestId = contestLearnerDeleted.ContestId
                 };
 
-            var contestNumberOfLearnersUpdated =
-                await contestNumberOfLearnersUpdater.ExecuteAsync(
-                    contestNumberOfLearnersUpdate);
-
             log.LogInformation(
-                JsonConvert.SerializeObject(contestNumberOfLearnersUpdated, Formatting.Indented));
+                JsonConvert.SerializeObject(contestNumberOfLearnersUpdate, Formatting.Indented));
+
+            contestNumberOfLearnersUpdates.Add(
+                contestNumberOfLearnersUpdate);
         }
     }
 }
