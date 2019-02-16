@@ -91,7 +91,7 @@ namespace Praxeum.Domain.Contests.Learners
                     contest,
                     contestLearner);
 
-            if (contest.Status == ContestStatus.InProgress)
+            if (contest.IsStatus(ContestStatus.InProgress))
             {
                 contestLearner =
                     _contestLearnerCurrentValueUpdater.Update(

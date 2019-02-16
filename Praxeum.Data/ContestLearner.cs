@@ -52,8 +52,6 @@ namespace Praxeum.Data
         {
             this.Id =
                 Guid.NewGuid();
-            this.StartValue = 0;
-            this.CurrentValue = 0;
             this.CreatedOn = DateTime.UtcNow;
             this.LastModifiedOn = this.CreatedOn;
         }

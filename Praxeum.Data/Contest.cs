@@ -67,5 +67,10 @@ namespace Praxeum.Data
             this.CreatedOn = DateTime.UtcNow;
             this.ProgressUpdateInterval = 1440;
         }
+
+        public bool IsStatus(string status)
+        {
+            return this.Status == status;
+        }
     }
 }
