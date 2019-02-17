@@ -48,6 +48,10 @@ namespace Praxeum.Data
         [Display(Name = "Last Modified")]
         public DateTime LastModifiedOn { get; set; }
 
+        [JsonProperty(PropertyName = "lastProgressUpdateOn")]
+        [Display(Name = "Last Progress Update On")]
+        public DateTime? LastProgressUpdateOn { get; set; }
+
         public ContestLearner()
         {
             this.Id =

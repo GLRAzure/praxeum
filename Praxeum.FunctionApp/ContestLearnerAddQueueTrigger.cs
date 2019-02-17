@@ -17,20 +17,9 @@ namespace Praxeum.FunctionApp
         {
             log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerAdd, Formatting.Indented)}");
 
-            var mapperConfiguration =
-                new MapperConfiguration(cfg =>
-                {
-                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
-
-                    cfg.AddProfile<ContestLearnerProfile>();
-                });
-
-            var mapper =
-                mapperConfiguration.CreateMapper();
-
             var contestLearnerAdder =
                 new ContestLearnerAdder(
-                    mapper,
+                    ObjectFactory.CreateMapper(),
                     ObjectFactory.CreateAzureQueueStorageEventPublisher(),
                     ObjectFactory.CreateContestRepository(),
                     ObjectFactory.CreateContestLearnerRepository(),

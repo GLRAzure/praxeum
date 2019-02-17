@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using Praxeum.Data;
 using Praxeum.Data.Helpers;
 using Praxeum.Domain;
+using Praxeum.Domain.Contests;
+using Praxeum.Domain.Contests.Learners;
+using Praxeum.Domain.Users;
 
 namespace Praxeum.FunctionApp.Helpers
 {
@@ -71,6 +75,25 @@ namespace Praxeum.FunctionApp.Helpers
         {
             return new ContestLearnerStartValueUpdater(
                 new ExperiencePointsCalculator());
+        }
+
+      
+        public static IMapper CreateMapper()
+        {
+            var mapperConfiguration =
+                new MapperConfiguration(cfg =>
+                {
+                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+
+                    cfg.AddProfile<ContestProfile>();
+                    cfg.AddProfile<ContestLearnerProfile>();
+                    cfg.AddProfile<UserProfile>();
+                });
+
+            var mapper =
+                mapperConfiguration.CreateMapper();
+
+            return mapper;
         }
     } 
 }

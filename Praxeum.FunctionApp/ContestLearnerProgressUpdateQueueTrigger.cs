@@ -1,13 +1,9 @@
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Praxeum.Data;
-using Praxeum.Data.Helpers;
-using Praxeum.Domain;
 using Praxeum.Domain.Contests.Learners;
+using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp
 {
@@ -18,31 +14,17 @@ namespace Praxeum.FunctionApp
             [QueueTrigger("contestlearnerprogress-update", Connection = "AzureStorageOptions:ConnectionString")]ContestLearnerProgressUpdate contestLearnerProgressUpdate,
             ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerProgressUpdate, Formatting.Indented)}");
-
-            // NOTE: Doing it this way as there because there is no startup file support to just run the mapping configuration once
-            var mapperConfiguration =
-                new MapperConfiguration(cfg =>
-                {
-                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
-
-                    cfg.AddProfile<ContestLearnerProfile>();
-                });
-
-            var mapper =
-                mapperConfiguration.CreateMapper();
-
-            var azureCosmosDbOptions =
-                new AzureCosmosDbOptions();
+            log.LogInformation(
+                JsonConvert.SerializeObject(contestLearnerProgressUpdate, Formatting.Indented));
 
             var contestLearnerProgressUpdater =
                 new ContestLearnerProgressUpdater(
-                    mapper,
-                    new ContestRepository(Options.Create(azureCosmosDbOptions)),
-                    new ContestLearnerRepository(Options.Create(azureCosmosDbOptions)),
-                    new MicrosoftProfileRepository(),
-                    new ContestLearnerTargetValueUpdater(),
-                    new ContestLearnerCurrentValueUpdater(new ExperiencePointsCalculator()));
+                    ObjectFactory.CreateMapper(),
+                    ObjectFactory.CreateContestRepository(),
+                    ObjectFactory.CreateContestLearnerRepository(),
+                    ObjectFactory.CreateMicrosoftProfileRepository(),
+                    ObjectFactory.CreateContestLearnerTargetValueUpdater(),
+                    ObjectFactory.CreateContestLearnerCurrentValueUpdater());
 
             var contestLearnerProgressUpdated =
                 await contestLearnerProgressUpdater.ExecuteAsync(

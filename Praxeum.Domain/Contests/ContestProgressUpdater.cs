@@ -36,26 +36,29 @@ namespace Praxeum.Domain.Contests
                 await _contestRepository.FetchByIdAsync(
                     contestUpdate.Id);
 
-            var contestLearners =
-                await _contestLearnerRepository.FetchListAsync(
-                    contest.Id);
-
-            contest.LastProgressUpdateOn =
-                DateTime.UtcNow;
-            contest.NextProgressUpdateOn =
-                contest.LastProgressUpdateOn.Value.AddMinutes(contest.ProgressUpdateInterval);
-
-            contest =
-                await _contestRepository.UpdateByIdAsync(
-                    contestUpdate.Id,
-                    contest);
-
-            foreach (var contestLearner in contestLearners)
+            if (contest.IsStatus(ContestStatus.InProgress))
             {
-                var contestLearnerProgressUpdate =
-                    _mapper.Map(contestLearner, new ContestLearnerProgressUpdate());
+                var contestLearners =
+                    await _contestLearnerRepository.FetchListAsync(
+                        contest.Id);
 
-                await _eventPublisher.PublishAsync("contestlearnerprogress.update", contestLearnerProgressUpdate);
+                foreach (var contestLearner in contestLearners)
+                {
+                    var contestLearnerProgressUpdate =
+                        _mapper.Map(contestLearner, new ContestLearnerProgressUpdate());
+
+                    await _eventPublisher.PublishAsync("contestlearnerprogress.update", contestLearnerProgressUpdate);
+                }
+
+                contest.LastProgressUpdateOn =
+                    DateTime.UtcNow;
+                contest.NextProgressUpdateOn =
+                    contest.LastProgressUpdateOn.Value.AddMinutes(contest.ProgressUpdateInterval);
+
+                contest =
+                    await _contestRepository.UpdateByIdAsync(
+                        contestUpdate.Id,
+                        contest);
             }
 
             var contestProgressUpdated =

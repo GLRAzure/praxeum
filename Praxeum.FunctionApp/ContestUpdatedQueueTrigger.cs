@@ -13,7 +13,8 @@ namespace Praxeum.FunctionApp.Features.Learners
             [Queue("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestProgressUpdate> contestProgressUpdates,
             ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestUpdated, Formatting.Indented)}");
+            log.LogInformation(
+                JsonConvert.SerializeObject(contestUpdated, Formatting.Indented));
 
             contestProgressUpdates.Add(
                 new ContestProgressUpdate

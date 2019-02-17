@@ -79,6 +79,9 @@ namespace Praxeum.Domain.Contests.Learners
                     contestLearner,
                     microsoftProfile);
 
+            contestLearner.LastProgressUpdateOn =
+                DateTime.UtcNow;
+
             contestLearner =
                 await _contestLearnerRepository.UpdateByIdAsync(
                     contestLearnerProgressUpdate.ContestId,
