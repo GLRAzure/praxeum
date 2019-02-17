@@ -107,6 +107,7 @@
 @if (this.User.IsInRole("Administrator"))
 {
     <a asp-page="./Edit" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+    <a asp-page="./Export" asp-route-id="@Model.Contest.Id" class="btn btn-link">Export</a>
     <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Delete</a>
     <a asp-page="./Index" class="btn btn-link">Cancel</a>
 }
@@ -140,18 +141,42 @@
     <tbody>
         @foreach (var learner in Model.Contest.Learners)
         {
-        <tr>
-            <td>
-                <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
-                    @learner.DisplayName
-                </a>
-                <small class="text-muted ml-2">@learner.UserName</small>
-                <div class="d-block">
-                    <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
-                </div>
-            </td>
-            @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
-            {
+            <tr>
+                <td>
+                    <a asp-page="./Learners/Edit" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id">
+                        @learner.DisplayName
+                    </a>
+                    <small class="text-muted ml-2">@learner.UserName</small>
+                    <div class="d-block">
+                        <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </td>
+                @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
+                {
+                    <td class="text-right text-v-center">
+                        @if (learner.CurrentValue.HasValue)
+                        {
+                            <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
+                }
+                @if (Model.Contest.Type != ContestType.Leaderboard)
+                {
+                    <td class="text-right text-v-center">
+                        @if (!learner.TargetValue.HasValue)
+                        {
+                            <text>TBD</text>
+                        }
+                        else
+                        {
+                            <text>@learner.TargetValue.Value.ToString("N0")</text>
+                        }
+                    </td>
+                }
                 <td class="text-right text-v-center">
                     @if (learner.CurrentValue.HasValue)
                     {
@@ -162,58 +187,34 @@
                         <text>N/A</text>
                     }
                 </td>
-            }
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">
-                    @if (!learner.TargetValue.HasValue)
-                    {
-                        <text>TBD</text>
-                    }
-                    else
-                    {
-                        <text>@learner.TargetValue.Value.ToString("N0")</text>
-                    }
-                </td>
-            }
-            <td class="text-right text-v-center">
-                @if (learner.CurrentValue.HasValue)
+                @if (Model.Contest.Type != ContestType.Leaderboard)
                 {
-                    <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                    <td class="text-right text-v-center">
+                        @if (learner.ProgressValue.HasValue)
+                        {
+                            <text>@learner.ProgressValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
                 }
-                else
-                {
-                    <text>N/A</text>
-                }
-            </td>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">
-                    @if (learner.ProgressValue.HasValue)
+                <td class="text-center text-v-center">
+                    @if (learner.LastProgressUpdateOn.HasValue)
                     {
-                        <text>@learner.ProgressValue.Value.ToString("N0")</text>
+                        <text>@learner.LastProgressUpdateOn.Value</text>
                     }
                     else
                     {
                         <text>N/A</text>
                     }
                 </td>
-            }
-            <td class="text-center text-v-center">
-                @if (learner.LastProgressUpdateOn.HasValue)
+                @if (this.User.IsInRole("Administrator"))
                 {
-                    <text>@learner.LastProgressUpdateOn.Value</text>
+                    <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
                 }
-                else
-                {
-                    <text>N/A</text>
-                }
-            </td>
-            @if (this.User.IsInRole("Administrator"))
-            {
-                <td class="text-center text-v-center"><a asp-page="./Learners/Delete" asp-route-contestId="@Model.Contest.Id" asp-route-id="@learner.Id"><i class="fas fa-trash-alt"></i></a></td>
-            }
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

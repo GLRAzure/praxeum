@@ -34,6 +34,11 @@ namespace Praxeum.Domain.Contests.Learners
                         ((decimal)this.CurrentValue.Value / (decimal)this.TargetValue.Value) * 100);
                 }
 
+                if (result > 100)
+                {
+                    result = 100;
+                }
+
                 return result;
             }
         }
