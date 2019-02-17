@@ -1,24 +1,23 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Praxeum.Domain.Contests;
 using Praxeum.Data;
+using Praxeum.Domain.Contests;
 using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp
 {
-    public static class ContestProgressUpdateHttpTrigger
+    public static class ContestProgressUpdateTimerTrigger
     {
-        [FunctionName("ContestProgressUpdateHttpTrigger")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "contests/progress")] HttpRequest req,
+        [FunctionName("ContestProgressUpdateTimerTrigger")]
+        public static async Task Run(
+            [TimerTrigger("0 */5 * * * *")] TimerInfo myTimer,
             [Queue("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestProgressUpdate> contestProgressUpdates,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
             var contestLister =
                 new ContestLister(
@@ -32,7 +31,8 @@ namespace Praxeum.FunctionApp
                         Status = ContestStatus.InProgress
                     });
 
-            foreach (var contest in contests)
+            foreach (var contest in contests
+                .Where(x => x.NextProgressUpdateOn >= DateTime.UtcNow))
             {
                 contestProgressUpdates.Add(
                     new ContestProgressUpdate
@@ -40,8 +40,6 @@ namespace Praxeum.FunctionApp
                         Id = contest.Id
                     });
             }
-
-            return new OkResult();
         }
     }
 }
