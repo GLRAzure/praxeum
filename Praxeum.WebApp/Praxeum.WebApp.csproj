@@ -8,18 +8,22 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <Compile Remove="Helpers\**" />
     <Compile Remove="Models\**" />
     <Compile Remove="Pages\LeaderBoards\**" />
     <Compile Remove="Pages\Learners\**" />
     <Content Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <Content Remove="Helpers\**" />
     <Content Remove="Models\**" />
     <Content Remove="Pages\LeaderBoards\**" />
     <Content Remove="Pages\Learners\**" />
     <EmbeddedResource Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <EmbeddedResource Remove="Helpers\**" />
     <EmbeddedResource Remove="Models\**" />
     <EmbeddedResource Remove="Pages\LeaderBoards\**" />
     <EmbeddedResource Remove="Pages\Learners\**" />
     <None Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <None Remove="Helpers\**" />
     <None Remove="Models\**" />
     <None Remove="Pages\LeaderBoards\**" />
     <None Remove="Pages\Learners\**" />
@@ -28,11 +32,6 @@
   <ItemGroup>
     <Compile Remove="Controllers\ContestsController.cs" />
     <Compile Remove="Controllers\DebugController.cs" />
-    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
-    <Compile Remove="Helpers\AzureQueueStorageEventPublisher.cs" />
-    <Compile Remove="Helpers\AzureQueueStorageEventPublisherOptions.cs" />
-    <Compile Remove="Helpers\Profile.cs" />
-    <Compile Remove="Helpers\ProfileService.cs" />
   </ItemGroup>
 
   <ItemGroup>

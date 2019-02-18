@@ -16,7 +16,6 @@ using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
 using Praxeum.Domain.Users;
-using Praxeum.WebApp.Helpers;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -46,10 +45,6 @@ namespace Praxeum.WebApp
             });
 
             // Add support services
-            services.Configure<AzureADB2COptions>(
-                Configuration.GetSection(
-                    nameof(AzureADB2COptions)));
-
             services.Configure<AzureCosmosDbOptions>(
                 Configuration.GetSection(nameof(AzureCosmosDbOptions)));
 
@@ -96,11 +91,11 @@ namespace Praxeum.WebApp
             .AddCookie()
             .AddOpenIdConnect("AzureADB2C", options =>
             {
-                options.Authority = $"https://glrpraxeum.b2clogin.com/glrpraxeum.onmicrosoft.com/v2.0";
-                options.ClientId = "f6e6ecf1-ce4e-481d-b6f4-6195a94bfc95";
-                options.ClientSecret = "+9yJXfD[EB,V2IJ?Z.[bOu9l"; // OpenIdConnectProtocolException: Message contains error: 'invalid_request', error_description: 'AADB2C90079: Clients must send a client_secret when redeeming a confidential grant.
+                options.Authority = Configuration.GetValue<string>("AzureADB2COptions:Authority");
+                options.ClientId = Configuration.GetValue<string>("AzureADB2COptions:ClientId");
+                options.ClientSecret = Configuration.GetValue<string>("AzureADB2COptions:ClientSecret");
                 options.RequireHttpsMetadata = false;
-                options.MetadataAddress = "https://glrpraxeum.b2clogin.com/glrpraxeum.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_Default_SignIn_SignUp";
+                options.MetadataAddress = Configuration.GetValue<string>("AzureADB2COptions:MetadataAddress");
 
                 // Set response type to code
                 options.ResponseType = OpenIdConnectResponseType.IdToken;
@@ -109,7 +104,8 @@ namespace Praxeum.WebApp
                 options.Scope.Clear();
                 options.Scope.Add("openid");
 
-                options.CallbackPath = new PathString("/signin-oidc");
+                options.CallbackPath = new PathString(
+                    Configuration.GetValue<string>("AzureADB2COptions:CallbackPath"));
 
                 // Configure the Claims Issuer to be AzureADB2C
                 options.ClaimsIssuer = "AzureADB2C";
