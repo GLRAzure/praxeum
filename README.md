@@ -43,12 +43,12 @@ The following tools, technologies and languages were used to construct the appli
 
 ## Release Notes ##
 
-**1.0.0
+**1.0.0**
 
 * Support Contest management.
 * Support Learner management for a Contest.
 
-**1.1.0
+**1.1.0**
 
 * Support multiple types of contests: Leaderboard, Total Point, Total Levels, Accumulated Points and Accumulated Levels.
 * Customized public contest pages.
