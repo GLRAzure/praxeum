@@ -53,5 +53,5 @@ The following tools, technologies and languages were used to construct the appli
 * Azure AppInsights
 * Azure ADB2C
 
-[screenshot-contest-list]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
-[screenshot-contest-details-public]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+[screenshot-contest-list]: https://github.com/GLRAzure/praxeum/blob/master/screenshot-contest-list.png?raw=true
+[screenshot-contest-details-public]: https://github.com/GLRAzure/praxeum/blob/master/screenshot-contest-details-public.png?raw=true
