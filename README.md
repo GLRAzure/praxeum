@@ -32,5 +32,26 @@ This is similar to the Accumulated Points contest, except it focuses on levels.
 
 There is a public board for each contest, as well as a self-registration page. The links can be found on the Contests Details or the Contest List.
 
+![Contest List Screenshot][screenshot-contest-list]
+
 You can also customize the CSS for each public board and self-registration page through the `CustomCss` property on the contest.
 
+![Contest Details Screenshot][screenshot-contest-details-public]
+
+## Tools, Technologies and Languages ##
+
+The following tools, technologies and languages were used to construct the application.
+
+* C#, HTML and JavaScript
+* ASP.NET Core 2.2
+* ASP.NET MVC Razor Pages
+* Azure App Services
+* Azure Functions
+* Azure CosmosDB
+* Azure Table Storage
+* Azure Storage Queues
+* Azure AppInsights
+* Azure ADB2C
+
+[screenshot-contest-list]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
+[screenshot-contest-details-public]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
