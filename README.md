@@ -30,5 +30,7 @@ This is a great contest to support initiatives, such as, the first to achieve 5,
 **Accumulated Levels**
 This is similar to the Accumulated Points contest, except it focuses on levels.
 
+There is a public board for each contest, as well as a self-registration page. The links can be found on the Contests Details or the Contest List.
 
+You can also customize the CSS for each public board and self-registration page through the `CustomCss` property on the contest.
 
