@@ -104,8 +104,8 @@ namespace Praxeum.WebApp
                 options.Scope.Clear();
                 options.Scope.Add("openid");
 
-                options.CallbackPath = new PathString(
-                    Configuration.GetValue<string>("AzureADB2COptions:CallbackPath"));
+                //options.CallbackPath = new PathString(
+                //    Configuration.GetValue<string>("AzureADB2COptions:CallbackPath"));
 
                 // Configure the Claims Issuer to be AzureADB2C
                 options.ClaimsIssuer = "AzureADB2C";
