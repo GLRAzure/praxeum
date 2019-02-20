@@ -4,19 +4,8 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Data\**" />
-    <Compile Remove="Features\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="Features\**" />
-    <None Remove="Data\**" />
-    <None Remove="Features\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="ContestUpdaterTimerTrigger.cs" />
-    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
-    <Compile Remove="Helpers\AzureCosmosDbRepository.cs" />
-    <Compile Remove="Helpers\AzureQueueStorageEventPublisher.cs" />
-    <Compile Remove="Helpers\AzureQueueStorageEventPublisherOptions.cs" />
+    <Compile Remove="Helpers\DateTimeExtensions.cs" />
+    <Compile Remove="Helpers\UriExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />

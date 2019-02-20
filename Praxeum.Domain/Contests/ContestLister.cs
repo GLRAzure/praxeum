@@ -31,6 +31,9 @@ namespace Praxeum.Domain.Contests
             var contestListed =
                 contests.Select(x => _mapper.Map(x, new ContestListed()));
 
+            contestListed = 
+                contestListed.OrderBy(x => x.Name);
+
             return contestListed;
         }
     }
