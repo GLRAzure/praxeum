@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.Domain", "Praxeum.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.Domain.Tests", "Praxeum.Domain.Tests\Praxeum.Domain.Tests.csproj", "{0C224061-0F02-40EF-8B7F-3C0877927E51}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praxeum.ConsoleApp.DatabaseMigrator", "Praxeum.ConsoleApp.DatabaseMigrator\Praxeum.ConsoleApp.DatabaseMigrator.csproj", "{18337EA0-A333-4920-89BF-4F9A15CA70FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{0C224061-0F02-40EF-8B7F-3C0877927E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C224061-0F02-40EF-8B7F-3C0877927E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C224061-0F02-40EF-8B7F-3C0877927E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18337EA0-A333-4920-89BF-4F9A15CA70FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18337EA0-A333-4920-89BF-4F9A15CA70FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18337EA0-A333-4920-89BF-4F9A15CA70FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18337EA0-A333-4920-89BF-4F9A15CA70FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
