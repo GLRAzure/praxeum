@@ -54,4 +54,8 @@ The following tools, technologies and languages were used to construct the appli
 * Customized public contest pages.
 * Export of contest learner results from the contest details page.
 
+**1.2.0**
+
+* Support management of users.
+
 
