@@ -23,9 +23,6 @@
     <Compile Remove="Contests\Learners\ContestLearnerAdderController.cs" />
     <Compile Remove="Contests\Learners\ContestLearnerDeleterController.cs" />
     <Compile Remove="Contests\Learners\ContestLearnerFetcherController.cs" />
-    <Compile Remove="Users\UserUpdate.cs" />
-    <Compile Remove="Users\UserUpdated.cs" />
-    <Compile Remove="Users\UserUpdater.cs" />
   </ItemGroup>
 
   <ItemGroup>

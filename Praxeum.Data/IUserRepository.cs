@@ -12,5 +12,11 @@ namespace Praxeum.Data
 
         Task<User> FetchByIdAsync(
             string id);
+
+        Task<IEnumerable<User>> FetchListAsync();
+
+        Task<User> UpdateByIdAsync(
+            string id,
+            User user);
     }
 }

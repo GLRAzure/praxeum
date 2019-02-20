@@ -74,7 +74,10 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestLearnerListAdd, ContestLearnerListAdded>, ContestLearnerListAdder>();
             services.AddTransient<IHandler<ContestLearnerUpdate, ContestLearnerUpdated>, ContestLearnerUpdater>();
 
+            services.AddTransient<IHandler<UserList, IEnumerable<UserListed>>, UserLister>();
             services.AddTransient<IHandler<UserFetchAdd, UserFetchedAdded>, UserFetcherAdder>();
+            services.AddTransient<IHandler<UserFetch, UserFetched>, UserFetcher>();
+            services.AddTransient<IHandler<UserUpdate, UserUpdated>, UserUpdater>();
 
             // Add data services
             services.AddTransient<IContestRepository, ContestRepository>();
