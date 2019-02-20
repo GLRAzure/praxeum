@@ -5,9 +5,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{258B66F5-299C-4299-9939-A2BAADFF9FC2}"
 	ProjectSection(SolutionItems) = preProject
 		api.yaml = api.yaml
-		local.development.settings.json = local.development.settings.json
-		local.production.settings.json = local.production.settings.json
-		local.staging.settings.json = local.staging.settings.json
 		..\..\..\Downloads\sample.json = ..\..\..\Downloads\sample.json
 	EndProjectSection
 EndProject
