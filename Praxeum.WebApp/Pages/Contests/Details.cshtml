@@ -139,7 +139,9 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var learner in Model.Contest.Learners)
+        @foreach (var learner in Model.Contest.Learners
+            .OrderByDescending(x => x.CurrentValue)
+            .ThenBy(x => x.DisplayName))
         {
             <tr>
                 <td>
