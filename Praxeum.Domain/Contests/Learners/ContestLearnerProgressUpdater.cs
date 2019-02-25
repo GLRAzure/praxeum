@@ -68,41 +68,48 @@ namespace Praxeum.Domain.Contests.Learners
                 return contestLearnerProgressUpdated;
             }
 
-            var microsoftProfile =
-                await _microsoftProfileRepository.FetchProfileAsync(
-                    contestLearner.UserName);
+            try
+            {
+                var microsoftProfile =
+                    await _microsoftProfileRepository.FetchProfileAsync(
+                        contestLearner.UserName);
 
-            contestLearner.Level = 
-                microsoftProfile.ProgressStatus.CurrentLevel;
-            contestLearner.Points =
-                _experiencePointsCalculator.Calculate(
-                    microsoftProfile.ProgressStatus.CurrentLevel, 
-                    microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
+                contestLearner.Level =
+                    microsoftProfile.ProgressStatus.CurrentLevel;
+                contestLearner.Points =
+                    _experiencePointsCalculator.Calculate(
+                        microsoftProfile.ProgressStatus.CurrentLevel,
+                        microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
 
-            contestLearner =
-                _contestLearnerTargetValueUpdater.Update(
-                    contest,
-                    contestLearner);
+                contestLearner =
+                    _contestLearnerTargetValueUpdater.Update(
+                        contest,
+                        contestLearner);
 
-            contestLearner =
-                _contestLearnerCurrentValueUpdater.Update(
-                    contest,
-                    contestLearner,
-                    microsoftProfile);
+                contestLearner =
+                    _contestLearnerCurrentValueUpdater.Update(
+                        contest,
+                        contestLearner,
+                        microsoftProfile);
 
-            contestLearner.LastProgressUpdateOn =
-                DateTime.UtcNow;
+                contestLearner.LastProgressUpdateOn =
+                    DateTime.UtcNow;
 
-            contestLearner =
-                await _contestLearnerRepository.UpdateByIdAsync(
-                    contestLearnerProgressUpdate.ContestId,
-                    contestLearnerProgressUpdate.Id,
-                    contestLearner);
+                contestLearner =
+                    await _contestLearnerRepository.UpdateByIdAsync(
+                        contestLearnerProgressUpdate.ContestId,
+                        contestLearnerProgressUpdate.Id,
+                        contestLearner);
 
-            contestLearnerProgressUpdated =
-                _mapper.Map(contestLearner, contestLearnerProgressUpdated);
+                contestLearnerProgressUpdated =
+                    _mapper.Map(contestLearner, contestLearnerProgressUpdated);
 
-            return contestLearnerProgressUpdated;
+                return contestLearnerProgressUpdated;
+            }
+            catch (Exception ex)
+            {
+                throw new MicrosoftProfileException(contestLearner, ex);
+            }
         }
     }
 }

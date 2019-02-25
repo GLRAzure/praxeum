@@ -1,7 +1,9 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Praxeum.Domain;
 using Praxeum.Domain.Contests.Learners;
 using Praxeum.FunctionApp.Helpers;
 
@@ -27,9 +29,16 @@ namespace Praxeum.FunctionApp
                     ObjectFactory.CreateContestLearnerCurrentValueUpdater(),
                     ObjectFactory.CreateExperiencePointsCalculator());
 
-            var contestLearnerProgressUpdated =
-                await contestLearnerProgressUpdater.ExecuteAsync(
-                    contestLearnerProgressUpdate);
+            try
+            {
+                var contestLearnerProgressUpdated =
+                    await contestLearnerProgressUpdater.ExecuteAsync(
+                        contestLearnerProgressUpdate);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             log.LogInformation(
                 JsonConvert.SerializeObject(contestLearnerProgressUpdated, Formatting.Indented));
