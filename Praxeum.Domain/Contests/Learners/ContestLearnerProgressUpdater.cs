@@ -60,7 +60,8 @@ namespace Praxeum.Domain.Contests.Learners
             var contestLearnerProgressUpdated =
                  new ContestLearnerProgressUpdated();
 
-            if (contest.Status != ContestStatus.InProgress)
+            if (contest.Status != ContestStatus.InProgress
+                || string.IsNullOrWhiteSpace(contestLearner.DisplayName))
             {
                 contestLearnerProgressUpdated =
                     _mapper.Map(contestLearner, contestLearnerProgressUpdated);

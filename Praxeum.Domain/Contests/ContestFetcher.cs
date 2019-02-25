@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
@@ -42,6 +43,10 @@ namespace Praxeum.Domain.Contests
             var contestLearners =
                 await _contestLearnerRepository.FetchListAsync(
                     contestFetch.Id);
+
+            contestLearners = 
+                contestLearners.Where(
+                    x => !string.IsNullOrWhiteSpace(x.DisplayName));
 
             _mapper.Map(contestLearners, contestFetched.Learners);
 

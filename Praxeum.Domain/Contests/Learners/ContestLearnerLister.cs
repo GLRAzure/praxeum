@@ -28,8 +28,13 @@ namespace Praxeum.Domain.Contests.Learners
                 await _contestLearnerRepository.FetchListAsync(
                     contestLearnerList.ContestId);
 
+            contestLearners = 
+                contestLearners.Where(
+                    x => !string.IsNullOrWhiteSpace(x.DisplayName));
+
             var contestLearnerListed =
-                contestLearners.Select(x => _mapper.Map(x, new ContestLearnerListed()));
+                contestLearners.Select(
+                    x => _mapper.Map(x, new ContestLearnerListed()));
 
             return contestLearnerListed;
         }
