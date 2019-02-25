@@ -5,9 +5,51 @@
     ViewData["Title"] = "Contests";
 }
 
+
+
+@if (this.User.IsInRole("Administrator"))
+{
+    <a asp-page="Create" class="btn btn-primary float-right"><i class="fas fa-plus"></i><span>Add Contest</span></a>
+}
+
 <h1>Contests</h1>
 
-<table class="table">
+<div class="row cards d-lg-none d-xl-none">
+    @foreach (var contest in Model.Contests)
+    {
+        <div class="col-sm-6 col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@contest.Name</h5>
+                    <dl>
+                        <dt>Type</dt>
+                        <dd>@contest.Type</dd>
+                        <dt>Status</dt>
+                        <dd>@contest.Status</dd>
+                        <dt>Target</dt>
+                        <dd>
+                            @if (contest.TargetValue.HasValue)
+                            {
+                                <text>contest.TargetValue</text>
+                            }
+                            else
+                            {
+                                <text>N/A</text>
+                            }
+                        </dd>
+                        <dt>Learners</dt>
+                        <dd>@contest.NumberOfLearners</dd>
+                    </dl>
+                    <a class="btn btn-outline-primary" asp-page="./Details" asp-route-id="@contest.Id"><i class="fas fa-eye"></i><span>View</span></a>
+                    <a class="btn btn-link" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div> 
+
+    }
+</div>
+
+<table class="table d-none d-lg-table d-xl-table">
     <thead>
         <tr>
             <th>Name</th>
@@ -20,46 +62,46 @@
     <tbody>
         @foreach (var contest in Model.Contests)
         {
-        <tr>
-            <td>
-                <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
-                <div class="d-block">https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a></div>
-            </td>
-            <td class="text-center text-v-center">@contest.Type</td>
-            <td class="text-center text-v-center">
-                @if (contest.Status == ContestStatus.Ready)
-                {
-                    <span class="badge badge-secondary">Ready</span>
-                }
-                else if (contest.Status == ContestStatus.InProgress)
-                {
-                    <span class="badge badge-success">In Progress</span>
-                }
-                else if (contest.Status == ContestStatus.Ended)
-                {
-                    <span class="badge badge-info">Ended</span>
-                }
-                else if (contest.Status == ContestStatus.Canceled)
-                {
-                    <span class="badge badge-danger">Canceled</span>
-                }
-            </td>
-            <td class="text-center text-v-center">
-                @if (contest.Type == ContestType.Leaderboard)
-                {
-                    <text>N/A</text>
-                }
-                else if (!contest.TargetValue.HasValue)
-                {
-                    <text>TBD</text>
-                }
-                else
-                {
-                    <text>@contest.TargetValue.Value.ToString("N0")</text>
-                }
-            </td>
-            <td class="text-center text-v-center">@contest.NumberOfLearners</td>
-        </tr>
+            <tr>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@contest.Id">@contest.Name</a>
+                    <div class="d-block">https://@Request.Host/Public/Contests/@contest.Id<a class="ml-2" href="https://@Request.Host/Public/Contests/@contest.Id" target="_blank"><i class="fas fa-external-link-alt"></i></a></div>
+                </td>
+                <td class="text-center text-v-center">@contest.Type</td>
+                <td class="text-center text-v-center">
+                    @if (contest.Status == ContestStatus.Ready)
+                    {
+                        <span class="badge badge-secondary">Ready</span>
+                    }
+                    else if (contest.Status == ContestStatus.InProgress)
+                    {
+                        <span class="badge badge-success">In Progress</span>
+                    }
+                    else if (contest.Status == ContestStatus.Ended)
+                    {
+                        <span class="badge badge-info">Ended</span>
+                    }
+                    else if (contest.Status == ContestStatus.Canceled)
+                    {
+                        <span class="badge badge-danger">Canceled</span>
+                    }
+                </td>
+                <td class="text-center text-v-center">
+                    @if (contest.Type == ContestType.Leaderboard)
+                    {
+                        <text>N/A</text>
+                    }
+                    else if (!contest.TargetValue.HasValue)
+                    {
+                        <text>TBD</text>
+                    }
+                    else
+                    {
+                        <text>@contest.TargetValue.Value.ToString("N0")</text>
+                    }
+                </td>
+                <td class="text-center text-v-center">@contest.NumberOfLearners</td>
+            </tr>
         }
     </tbody>
 </table>

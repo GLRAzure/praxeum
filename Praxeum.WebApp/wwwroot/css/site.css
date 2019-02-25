@@ -126,7 +126,8 @@ section + section {
 }
 
 
-h1 + table {
+.table,
+.cards {
     margin-top: 2rem;
 }
 
@@ -203,4 +204,8 @@ h1 + table {
 .bg-info,
 .badge-info {
     background-color: #8763c5 !important;
+}
+
+div[class*="col-"] {
+    margin-bottom: 30px;
 }
