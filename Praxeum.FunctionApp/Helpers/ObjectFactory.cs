@@ -74,9 +74,13 @@ namespace Praxeum.FunctionApp.Helpers
         public static ContestLearnerStartValueUpdater CreateContestLearnerStartValueUpdater()
         {
             return new ContestLearnerStartValueUpdater(
-                new ExperiencePointsCalculator());
+                ObjectFactory.CreateExperiencePointsCalculator());
         }
 
+        public static ExperiencePointsCalculator CreateExperiencePointsCalculator()
+        {
+            return  new ExperiencePointsCalculator();
+        }
       
         public static IMapper CreateMapper()
         {

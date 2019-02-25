@@ -13,6 +13,7 @@ namespace Praxeum.Domain.Contests.Learners
         private readonly IMicrosoftProfileRepository _microsoftProfileRepository;
         private readonly IContestLearnerTargetValueUpdater _contestLearnerTargetValueUpdater;
         private readonly IContestLearnerCurrentValueUpdater _contestLearnerCurrentValueUpdater;
+        private readonly IExperiencePointsCalculator _experiencePointsCalculator;
 
         public ContestLearnerProgressUpdater(
             IMapper mapper,
@@ -20,7 +21,8 @@ namespace Praxeum.Domain.Contests.Learners
             IContestLearnerRepository contestLearnerRepository,
             IMicrosoftProfileRepository microsoftProfileRepository,
             IContestLearnerTargetValueUpdater contestLearnerTargetValueUpdater,
-            IContestLearnerCurrentValueUpdater contestLearnerCurrentValueUpdater)
+            IContestLearnerCurrentValueUpdater contestLearnerCurrentValueUpdater,
+            IExperiencePointsCalculator experiencePointsCalculator)
         {
             _mapper =
                 mapper;
@@ -34,6 +36,8 @@ namespace Praxeum.Domain.Contests.Learners
                 contestLearnerTargetValueUpdater;
             _contestLearnerCurrentValueUpdater =
                 contestLearnerCurrentValueUpdater;
+            _experiencePointsCalculator =
+                experiencePointsCalculator;
         }
 
         public async Task<ContestLearnerProgressUpdated> ExecuteAsync(
@@ -67,6 +71,13 @@ namespace Praxeum.Domain.Contests.Learners
             var microsoftProfile =
                 await _microsoftProfileRepository.FetchProfileAsync(
                     contestLearner.UserName);
+
+            contestLearner.Level = 
+                microsoftProfile.ProgressStatus.CurrentLevel;
+            contestLearner.Points =
+                _experiencePointsCalculator.Calculate(
+                    microsoftProfile.ProgressStatus.CurrentLevel, 
+                    microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
 
             contestLearner =
                 _contestLearnerTargetValueUpdater.Update(

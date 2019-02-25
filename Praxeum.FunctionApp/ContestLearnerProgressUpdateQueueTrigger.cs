@@ -24,7 +24,8 @@ namespace Praxeum.FunctionApp
                     ObjectFactory.CreateContestLearnerRepository(),
                     ObjectFactory.CreateMicrosoftProfileRepository(),
                     ObjectFactory.CreateContestLearnerTargetValueUpdater(),
-                    ObjectFactory.CreateContestLearnerCurrentValueUpdater());
+                    ObjectFactory.CreateContestLearnerCurrentValueUpdater(),
+                    ObjectFactory.CreateExperiencePointsCalculator());
 
             var contestLearnerProgressUpdated =
                 await contestLearnerProgressUpdater.ExecuteAsync(
