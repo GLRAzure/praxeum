@@ -10,6 +10,10 @@ body {
     font-size: 2.0rem;
 }
 
+.h2, h2 {
+    font-size: 1.5rem;
+}
+
 header {
     margin-bottom: 2rem;
 }
@@ -127,7 +131,8 @@ section + section {
 
 
 .table,
-.cards {
+.cards,
+.nav-tabs {
     margin-top: 2rem;
 }
 
@@ -208,4 +213,8 @@ section + section {
 
 div[class*="col-"] {
     margin-bottom: 30px;
+}
+
+.tab-pane > h2 {
+    margin-top: 2rem;
 }
