@@ -29,16 +29,9 @@ namespace Praxeum.FunctionApp
                     ObjectFactory.CreateContestLearnerCurrentValueUpdater(),
                     ObjectFactory.CreateExperiencePointsCalculator());
 
-            try
-            {
-                var contestLearnerProgressUpdated =
-                    await contestLearnerProgressUpdater.ExecuteAsync(
-                        contestLearnerProgressUpdate);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            var contestLearnerProgressUpdated =
+                await contestLearnerProgressUpdater.ExecuteAsync(
+                    contestLearnerProgressUpdate);
 
             log.LogInformation(
                 JsonConvert.SerializeObject(contestLearnerProgressUpdated, Formatting.Indented));
