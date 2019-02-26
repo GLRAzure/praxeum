@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Users
 {
     public class UserAdder : IHandler<UserAdd, UserAdded>
     {
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
         public UserAdder(
+            IMapper mapper,
             IUserRepository userRepository)
         {
+            _mapper =
+                mapper;
             _userRepository =
                 userRepository;
         }
@@ -19,14 +23,14 @@ namespace Praxeum.Domain.Users
             UserAdd userAdd)
         {
             var user =
-                Mapper.Map(userAdd, new User());
+                _mapper.Map(userAdd, new User());
 
             user = 
                 await _userRepository.AddAsync(
                     user);
 
             var userAdded =
-                Mapper.Map(user, new UserAdded());
+                _mapper.Map(user, new UserAdded());
 
             return userAdded;
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -14,11 +15,7 @@ using Praxeum.Data.Helpers;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
-using Praxeum.Domain.LeaderBoards;
-using Praxeum.Domain.Learners;
-using Praxeum.Domain.Learners.LeaderBoards;
 using Praxeum.Domain.Users;
-using Praxeum.WebApp.Helpers;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -48,10 +45,6 @@ namespace Praxeum.WebApp
             });
 
             // Add support services
-            services.Configure<AzureADB2COptions>(
-                Configuration.GetSection(
-                    nameof(AzureADB2COptions)));
-
             services.Configure<AzureCosmosDbOptions>(
                 Configuration.GetSection(nameof(AzureCosmosDbOptions)));
 
@@ -61,8 +54,12 @@ namespace Praxeum.WebApp
             services.Configure<AzureQueueStorageEventPublisherOptions>(
                 Configuration.GetSection(nameof(AzureQueueStorageEventPublisherOptions)));
 
-
             services.AddScoped<IEventPublisher, AzureQueueStorageEventPublisher>();
+            services.AddScoped<IMicrosoftProfileRepository, MicrosoftProfileRepository>();
+            services.AddScoped<IExperiencePointsCalculator, ExperiencePointsCalculator>();
+            services.AddScoped<IContestLearnerCurrentValueUpdater, ContestLearnerCurrentValueUpdater>();
+            services.AddScoped<IContestLearnerStartValueUpdater, ContestLearnerStartValueUpdater>();
+            services.AddScoped<IContestLearnerTargetValueUpdater, ContestLearnerTargetValueUpdater>();
 
             // Add domain services
             services.AddTransient<IHandler<ContestAdd, ContestAdded>, ContestAdder>();
@@ -71,33 +68,20 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestList, IEnumerable<ContestListed>>, ContestLister>();
             services.AddTransient<IHandler<ContestUpdate, ContestUpdated>, ContestUpdater>();
 
+            services.AddTransient<IHandler<ContestLearnerAdd, ContestLearnerAdded>, ContestLearnerAdder>();
             services.AddTransient<IHandler<ContestLearnerDelete, ContestLearnerDeleted>, ContestLearnerDeleter>();
             services.AddTransient<IHandler<ContestLearnerFetch, ContestLearnerFetched>, ContestLearnerFetcher>();
             services.AddTransient<IHandler<ContestLearnerListAdd, ContestLearnerListAdded>, ContestLearnerListAdder>();
+            services.AddTransient<IHandler<ContestLearnerUpdate, ContestLearnerUpdated>, ContestLearnerUpdater>();
 
-            services.AddTransient<IHandler<LeaderBoardAdd, LeaderBoardAdded>, LeaderBoardAdder>();
-            services.AddTransient<IHandler<LeaderBoardDelete, LeaderBoardDeleted>, LeaderBoardDeleter>();
-            services.AddTransient<IHandler<LeaderBoardFetch, LeaderBoardFetched>, LeaderBoardFetcher>();
-            services.AddTransient<IHandler<LeaderBoardList, IEnumerable<LeaderBoardListed>>, LeaderBoardLister>();
-            services.AddTransient<IHandler<LeaderBoardUpdate, LeaderBoardUpdated>, LeaderBoardUpdater>();
-
-            services.AddTransient<IHandler<LearnerLeaderBoardAdd, LearnerLeaderBoardAdded>, LearnerLeaderBoardAdder>();
-            services.AddTransient<IHandler<LearnerLeaderBoardDelete, LearnerLeaderBoardDeleted>, LearnerLeaderBoardDeleter>();
-
-            services.AddTransient<IHandler<LearnerAdd, LearnerAdded>, LearnerAdder>();
-            services.AddTransient<IHandler<LearnerDelete, LearnerDeleted>, LearnerDeleter>();
-            services.AddTransient<IHandler<LearnerFetch, LearnerFetched>, LearnerFetcher>();
-            services.AddTransient<IHandler<LearnerList, IEnumerable<LearnerListed>>, LearnerLister>();
-            services.AddTransient<IHandler<LearnerListAdd, LearnerListAdded>, LearnerListAdder>();
-            services.AddTransient<IHandler<LearnerUpdate, LearnerUpdated>, LearnerUpdater>();
-
+            services.AddTransient<IHandler<UserList, IEnumerable<UserListed>>, UserLister>();
             services.AddTransient<IHandler<UserFetchAdd, UserFetchedAdded>, UserFetcherAdder>();
+            services.AddTransient<IHandler<UserFetch, UserFetched>, UserFetcher>();
+            services.AddTransient<IHandler<UserUpdate, UserUpdated>, UserUpdater>();
 
             // Add data services
             services.AddTransient<IContestRepository, ContestRepository>();
-            services.AddTransient<ILeaderBoardRepository, LeaderBoardRepository>();
-            services.AddTransient<ILearnerRepository, LearnerRepository>();
-            services.AddTransient<ILearnerLeaderBoardRepository, LearnerLeaderBoardRepository>();
+            services.AddTransient<IContestLearnerRepository, ContestLearnerRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             // Add authentication services
@@ -110,11 +94,11 @@ namespace Praxeum.WebApp
             .AddCookie()
             .AddOpenIdConnect("AzureADB2C", options =>
             {
-                options.Authority = $"https://glrpraxeum.b2clogin.com/glrpraxeum.onmicrosoft.com/v2.0";
-                options.ClientId = "f6e6ecf1-ce4e-481d-b6f4-6195a94bfc95";
-                options.ClientSecret = "+9yJXfD[EB,V2IJ?Z.[bOu9l"; // OpenIdConnectProtocolException: Message contains error: 'invalid_request', error_description: 'AADB2C90079: Clients must send a client_secret when redeeming a confidential grant.
+                options.Authority = Configuration.GetValue<string>("AzureADB2COptions:Authority");
+                options.ClientId = Configuration.GetValue<string>("AzureADB2COptions:ClientId");
+                options.ClientSecret = Configuration.GetValue<string>("AzureADB2COptions:ClientSecret");
                 options.RequireHttpsMetadata = false;
-                options.MetadataAddress = "https://glrpraxeum.b2clogin.com/glrpraxeum.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_Default_SignIn_SignUp";
+                options.MetadataAddress = Configuration.GetValue<string>("AzureADB2COptions:MetadataAddress");
 
                 // Set response type to code
                 options.ResponseType = OpenIdConnectResponseType.IdToken;
@@ -123,7 +107,8 @@ namespace Praxeum.WebApp
                 options.Scope.Clear();
                 options.Scope.Add("openid");
 
-                options.CallbackPath = new PathString("/signin-oidc");
+                //options.CallbackPath = new PathString(
+                //    Configuration.GetValue<string>("AzureADB2COptions:CallbackPath"));
 
                 // Configure the Claims Issuer to be AzureADB2C
                 options.ClaimsIssuer = "AzureADB2C";
@@ -180,21 +165,24 @@ namespace Praxeum.WebApp
                 };
             });
 
-            Mapper.Initialize(
-                cfg =>
+            var mapperConfiguration =
+                new MapperConfiguration(cfg =>
                 {
                     cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
 
                     cfg.AddProfile<ContestProfile>();
                     cfg.AddProfile<ContestLearnerProfile>();
-                    cfg.AddProfile<LeaderBoardProfile>();
-                    cfg.AddProfile<LearnerProfile>();
-                    cfg.AddProfile<LearnerLeaderBoardProfile>();
                     cfg.AddProfile<UserProfile>();
                 });
 
+            var mapper =
+                 mapperConfiguration.CreateMapper();
+
+            services.AddSingleton<IMapper>(mapper);
+
             services
                 .AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddRazorPagesOptions(options =>
                 {
                     options.AllowAreas = true;

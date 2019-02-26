@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Azure Skills Challenges</title>
+    <title>@ViewData["Title"] - Cloud Skills Challenges</title>
     <link rel="icon"
           type="image/png"
           href="~/images/azure-logo-small.png">
@@ -11,28 +11,36 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <script src="~/vendor/@@fortawesome/fontawesome-pro/js/all.js"></script>
+        <link rel="stylesheet" href="~/css/site-public.css" />
+        <script src="~/vendor/@@fortawesome/fontawesome-free/js/all.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet"
-              href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-              integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-              crossorigin="anonymous"
-              asp-fallback-href="~/vendor/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only"
-              asp-fallback-test-property="position"
-              asp-fallback-test-value="absolute" />
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
         <link rel="stylesheet"
               href="~/css/site.min.css"
               asp-append-version="true" />
-        <script src="https://pro.fontawesome.com/releases/v5.6.3/js/all.js"
-                asp-fallback-src="~/vendor/@@fortawesome/fontawesome-pro/js/all.min.js"
-                asp-fallback-test="window.jQuery"
-                integrity="sha384-4Gm0M5DjJ0zGaEtLu0ztNIoHWiuJ5rKiaVlpZKeNqXAW49eIIa2ymxb3C4c3uEXR"
-                crossorigin="anonymous"></script>
+        <link rel="stylesheet"
+              href="~/css/site-public.min.css"
+              asp-append-version="true" />
+        <script defer
+                src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+                integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+                crossorigin="anonymous">
+        </script>
     </environment>
 </head>
-<body class="public-leaderboard">
+
+@{
+    var pageId = ViewContext.RouteData.Values["page"].ToString();
+    pageId = pageId.Replace("/", "-");
+    pageId = pageId.ToLower();
+    pageId = "page" + pageId;
+}
+
+<body class="page @pageId">
 
     <div class="container body-content">
         @RenderBody()
@@ -40,7 +48,7 @@
 
     <footer>
         <div class="container">
-            <p>If you have any questions or feedback please hit me up at <a href="mailto:maruma@microsoft.com">maruma@@microsoft.com</a>.
+            <p>If you have any questions or feedback please hit us up at <a href="mailto:matt.ruma@microsoft.com">matt.ruma@@microsoft.com</a>, <a href="mailto:bdykstra@microsoft.com">bdykstra@@microsoft.com</a> or <a href="mailto:alex.lowe@microsoft.com">alex.lowe@@microsoft.com</a>.
         </div>
     </footer>
 
@@ -52,19 +60,13 @@
     </environment>
     <environment exclude="Development">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-                asp-fallback-src="~/vendor/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                 crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-                asp-fallback-src="~/vendor/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
                 crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-                asp-fallback-src="~/vendor/popper.js/dist/popper.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>

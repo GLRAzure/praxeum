@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th class="text-center">Roles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userProfile in Model.UserProfiles)
+        {
+        <tr>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@userProfile.RowKey">@userProfile.Name</a>
+            </td>
+            <td class="text-center text-v-center">@userProfile.Roles</td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -4,48 +4,57 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-Praxeum.WebApp-4847934C-D573-4529-A6A2-4BCCF7066246</UserSecretsId>
     <WebProject_DirectoryAccessLevelKey>1</WebProject_DirectoryAccessLevelKey>
+    <ApplicationInsightsResourceId>/subscriptions/dd6adab9-969f-431c-9613-833a2636f44f/resourcegroups/glr-praxeum-dev-rg/providers/microsoft.insights/components/glr-praxeum-dev-webapp</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/dd6adab9-969f-431c-9613-833a2636f44f/resourcegroups/glr-praxeum-dev-rg/providers/microsoft.insights/components/glr-praxeum-dev-webapp</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <Compile Remove="Helpers\**" />
     <Compile Remove="Models\**" />
+    <Compile Remove="Pages\LeaderBoards\**" />
+    <Compile Remove="Pages\Learners\**" />
+    <Content Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <Content Remove="Helpers\**" />
     <Content Remove="Models\**" />
+    <Content Remove="Pages\LeaderBoards\**" />
+    <Content Remove="Pages\Learners\**" />
+    <EmbeddedResource Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <EmbeddedResource Remove="Helpers\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Pages\LeaderBoards\**" />
+    <EmbeddedResource Remove="Pages\Learners\**" />
+    <None Remove="Areas\Public\Pages\LeaderBoards\**" />
+    <None Remove="Helpers\**" />
     <None Remove="Models\**" />
+    <None Remove="Pages\LeaderBoards\**" />
+    <None Remove="Pages\Learners\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\AzureCosmosDbOptions.cs" />
-    <Compile Remove="Helpers\Profile.cs" />
-    <Compile Remove="Helpers\ProfileService.cs" />
-    <Compile Remove="Pages\Learners\Delete.cshtml.cs" />
-    <Compile Remove="Pages\Learners\Details.cshtml.cs" />
-    <Compile Remove="Pages\Learners\Edit.cshtml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Learners\Delete.cshtml" />
-    <Content Remove="Pages\Learners\Details.cshtml" />
-    <Content Remove="Pages\Learners\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\LeaderBoards\Create.cshtml" />
-    <None Include="Pages\LeaderBoards\Details.cshtml" />
-    <None Include="Pages\LeaderBoards\Index.cshtml" />
+    <Compile Remove="Controllers\ContestsController.cs" />
+    <Compile Remove="Controllers\DebugController.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="Humanizer" Version="2.5.16" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.6.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Web" Version="2.9.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.2" PrivateAssets="All" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Praxeum.Data\Praxeum.Data.csproj" />
     <ProjectReference Include="..\Praxeum.Domain\Praxeum.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>

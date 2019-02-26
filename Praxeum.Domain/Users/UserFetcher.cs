@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Users
 {
     public class UserFetcher : IHandler<UserFetch, UserFetched>
     {
-        private readonly IUserRepository _userRepository;
+       private readonly IMapper _mapper;
+       private readonly IUserRepository _userRepository;
 
         public UserFetcher(
+            IMapper mapper,
             IUserRepository userRepository)
         {
+            _mapper =
+                mapper;
             _userRepository =
                 userRepository;
         }
@@ -23,7 +27,7 @@ namespace Praxeum.Domain.Users
                     userFetch.Id);
 
             var userFetched =
-                Mapper.Map(user, new UserFetched());
+                _mapper.Map(user, new UserFetched());
 
             return userFetched;
         }

@@ -7,48 +7,36 @@ using Praxeum.Data;
 namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetcher : IHandler<ContestLearnerFetch, ContestLearnerFetched>
-    {
-        private readonly IContestRepository _contestRepository;
-        private readonly ILearnerRepository _learnerRepository;
+    {        
+        private readonly IMapper _mapper;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestLearnerFetcher(
-            IContestRepository contestRepository,
-            ILearnerRepository learnerRepository)
+            IMapper mapper,
+            IContestLearnerRepository contestLearnerRepository)
         {
-            _contestRepository =
-                contestRepository;
-            _learnerRepository =
-                learnerRepository;
+            _mapper =
+                mapper;
+            _contestLearnerRepository =
+                contestLearnerRepository;
         }
 
         public async Task<ContestLearnerFetched> ExecuteAsync(
             ContestLearnerFetch contestLearnerFetch)
         {
-            var contest =
-                await _contestRepository.FetchByIdAsync(
-                    contestLearnerFetch.ContestId);
-
-            if (contest == null)
-            {
-                throw new NullReferenceException($"Contest {contestLearnerFetch.ContestId} does not exist.");
-            }
-
             var contestLearner =
-                contest.Learners.SingleOrDefault(
-                    x => x.LearnerId == contestLearnerFetch.LearnerId);
+                await _contestLearnerRepository.FetchByIdAsync(
+                    contestLearnerFetch.ContestId,
+                    contestLearnerFetch.Id);
 
             if (contestLearner == null)
             {
-                throw new NullReferenceException($"Learner {contestLearnerFetch.LearnerId} does not exist.");
+                throw new NullReferenceException($"Contest {contestLearnerFetch.ContestId} not found.");
             }
 
-            var learner =
-                await _learnerRepository.FetchByIdAsync(
-                    contestLearnerFetch.LearnerId);
-
             var contestLearnerFetched =
-                Mapper.Map(learner, new ContestLearnerFetched());
-
+                _mapper.Map(contestLearner, new ContestLearnerFetched());
+            
             return contestLearnerFetched;
         }
     }

@@ -1,0 +1,26 @@
+﻿@page "/Contests/{contestId:Guid}/Learners/{id:Guid}"
+@model DetailsModel
+
+@{
+    ViewData["Title"] = "Learner";
+}
+
+<h1>Learner</h1>
+
+<form>
+    <div class="form-group">
+        <label asp-for="Learner.DisplayName"></label>
+        <p class="form-control-static">@Model.Learner.DisplayName</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Learner.UserName"></label>
+        <p class="form-control-static">@Model.Learner.UserName</p>
+    </div>
+</form>
+
+@if (this.User.IsInRole("Administrator"))
+{
+    <a class="btn btn-primary" asp-page="./Edit" asp-route-contestId="@Model.Learner.ContestId" asp-route-id="@Model.Learner.Id"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+    <a class="btn btn-link" asp-page="./Delete" asp-route-contestId="@Model.Learner.ContestId" asp-route-id="@Model.Learner.Id">Delete</a>
+    <a class="btn btn-link" asp-page="./Details">Cancel</a>
+}

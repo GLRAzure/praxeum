@@ -5,9 +5,9 @@ namespace Praxeum.Domain.Contests.Learners
     public class ContestLearnerFetch
     {
         [SwaggerExclude]
-        public Guid LearnerId { get; set; }
+        public Guid ContestId { get; set; }
 
         [SwaggerExclude]
-        public Guid ContestId { get; set; }
+        public Guid Id { get; set; }
     }
 }

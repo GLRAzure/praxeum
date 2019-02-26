@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,7 @@ namespace Praxeum.WebApp.Pages.Contests
     [Authorize(Roles = "Administrator")]
     public class EditModel : PageModel
     {
+        private readonly IMapper _mapper;
         private readonly IHandler<ContestFetch, ContestFetched> _contestFetcher;
         private readonly IHandler<ContestUpdate, ContestUpdated> _contestUpdater;
 
@@ -18,9 +20,11 @@ namespace Praxeum.WebApp.Pages.Contests
         public ContestFetched Contest { get; set; }
 
         public EditModel(
-           IHandler<ContestFetch, ContestFetched> contestFetcher,
-           IHandler<ContestUpdate, ContestUpdated> contestUpdater)
+            IMapper mapper,
+            IHandler<ContestFetch, ContestFetched> contestFetcher,
+            IHandler<ContestUpdate, ContestUpdated> contestUpdater)
         {
+            _mapper = mapper;
             _contestFetcher = contestFetcher;
             _contestUpdater = contestUpdater;
         }
@@ -44,19 +48,23 @@ namespace Praxeum.WebApp.Pages.Contests
         }
 
         public async Task<IActionResult> OnPostAsync(
-            Guid id)
+           Guid? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             var contestUpdate =
-                new ContestUpdate();
-
-            contestUpdate.Id = id;
-            contestUpdate.Name  = this.Contest.Name;
-            contestUpdate.Description = this.Contest.Description;
+                _mapper.Map(
+                    this.Contest, new ContestUpdate());
+            
+            contestUpdate.Id = id.Value;
 
             var contestUpdated =
                 await _contestUpdater.ExecuteAsync(

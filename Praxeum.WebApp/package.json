@@ -1,13 +1,13 @@
 {
-  "name": "praxeum.webapp",
+  "name": "praxeum",
   "version": "1.0.0",
-  "description": "",
-  "author": "",
+  "description": "cloud skills challenge contest management",
+  "author": "alex lowe, bryan dykstra and matt ruma",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.6.3",
-    "bootstrap": "^4.2.1",
+    "@fortawesome/fontawesome-free": "^5.7.2",
+    "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
-    "popper.js": "^1.14.6"
+    "popper.js": "^1.14.7"
   }
 }

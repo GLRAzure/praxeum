@@ -1,4 +1,5 @@
 ﻿@page
+@using Praxeum.Data
 @model CreateModel
 @{
     ViewData["Title"] = "Create Contest";
@@ -12,17 +13,32 @@
         <label asp-for="Contest.Name"></label>
         <input asp-for="Contest.Name" class="form-control" />
         <span asp-validation-for="Contest.Name" class="text-danger"></span>
-    </div><div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <select asp-for="Contest.Type" class="form-control">
-            <option>Points</option>
-        </select>
-        <span asp-validation-for="Contest.Type" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Contest.Description"></label>
         <input asp-for="Contest.Description" class="form-control" />
         <span asp-validation-for="Contest.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Status</label>
+        <p class="form-control-static">@ContestStatus.Ready</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <select asp-for="Contest.Type" class="form-control">
+            <option value="">Select...</option>
+            <option>@ContestType.AccumulatedLevels</option>
+            <option>@ContestType.AccumulatedPoints</option>
+            <option>@ContestType.Leaderboard</option>
+            <option>@ContestType.Levels</option>
+            <option>@ContestType.Points</option>
+        </select>
+        <span asp-validation-for="Contest.Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.TargetValue"></label>
+        <input asp-for="Contest.TargetValue" class="form-control" />
+        <span asp-validation-for="Contest.TargetValue" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Contest.Prizes"></label>
@@ -40,9 +56,16 @@
         <span asp-validation-for="Contest.EndDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Contest.TargetValue"></label>
-        <input asp-for="Contest.TargetValue" class="form-control" />
-        <span asp-validation-for="Contest.TargetValue" class="text-danger"></span>
+        <label asp-for="Contest.ProgressUpdateInterval"></label>
+        <input asp-for="Contest.ProgressUpdateInterval" class="form-control" />
+        <span asp-validation-for="Contest.ProgressUpdateInterval" class="text-danger"></span>
+        <small class="form-text text-muted">Determines how often progress, in minutes, is updated for a contest.</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.CustomCss"></label>
+        <textarea asp-for="Contest.CustomCss" class="form-control" rows="10"></textarea>
+        <span asp-validation-for="Contest.CustomCss" class="text-danger"></span>
+        <small class="form-text text-muted">You can customize the look and feel of your challenge and sign-up pages, just paste your custom CSS in the box provided above.</small>
     </div>
     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Save Changes</span></button>
     <a class="btn btn-link" asp-page="Index">Cancel</a>

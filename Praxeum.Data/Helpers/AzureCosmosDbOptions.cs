@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 
 namespace Praxeum.Data.Helpers
 {
@@ -17,6 +18,11 @@ namespace Praxeum.Data.Helpers
                 Environment.GetEnvironmentVariable(
                     "AzureCosmosDbOptions:ConnectionString");
             this.MaxConcurrency = 4;
+        }
+
+        public IOptions<AzureCosmosDbOptions> AsOptions()
+        {
+            return Options.Create(this);
         }
     }
 }

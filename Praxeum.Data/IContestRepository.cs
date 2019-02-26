@@ -18,7 +18,8 @@ namespace Praxeum.Data
         Task<Contest> FetchByIdAsync(
             Guid id);
 
-        Task<IEnumerable<Contest>> FetchListAsync();
+        Task<IEnumerable<Contest>> FetchListAsync(
+            string status);
 
         Task<Contest> UpdateByIdAsync(
             Guid id,

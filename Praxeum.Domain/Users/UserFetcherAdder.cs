@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Users
 {
     public class UserFetcherAdder : IHandler<UserFetchAdd, UserFetchedAdded>
     {
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
         public UserFetcherAdder(
+            IMapper mapper,
             IUserRepository userRepository)
         {
+            _mapper =
+                mapper;
             _userRepository =
                 userRepository;
         }
@@ -24,8 +28,10 @@ namespace Praxeum.Domain.Users
 
             if (user == null)
             {
-                user =
-                    Mapper.Map(userFetchAdd, new User());
+                user = new User(
+                    userFetchAdd.Id);
+
+                _mapper.Map(userFetchAdd, user);
 
                 user = 
                     await _userRepository.AddAsync(
@@ -33,7 +39,7 @@ namespace Praxeum.Domain.Users
             }
 
             var userFetchedAdded =
-                Mapper.Map(user, new UserFetchedAdded());
+                _mapper.Map(user, new UserFetchedAdded());
 
             return userFetchedAdded;
         }

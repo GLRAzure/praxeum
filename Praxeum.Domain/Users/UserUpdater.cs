@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.Extensions.Options;
 using Praxeum.Data;
 
 namespace Praxeum.Domain.Users
 {
     public class UserUpdater : IHandler<UserUpdate, UserUpdated>
     {
+        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
 
         public UserUpdater(
+            IMapper mapper,
             IUserRepository userRepository)
         {
+            _mapper =
+                mapper;
             _userRepository =
                 userRepository;
         }
@@ -29,10 +32,7 @@ namespace Praxeum.Domain.Users
                 throw new NullReferenceException($"User {userUpdate.Id} does not exist.");
             }
 
-            Mapper.Map(userUpdate, user);
-
-            user.LastModifiedOn =
-                DateTime.UtcNow;
+            _mapper.Map(userUpdate, user);
 
             user =
                 await _userRepository.UpdateByIdAsync(
@@ -40,9 +40,7 @@ namespace Praxeum.Domain.Users
                     user);
 
             var userUpdated =
-                Mapper.Map(user, new UserUpdated());
-
-            userUpdated.IsCached = false;
+                _mapper.Map(user, new UserUpdated());
 
             return userUpdated;
         }

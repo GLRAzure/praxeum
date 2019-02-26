@@ -7,7 +7,8 @@ namespace Praxeum.Data.Helpers
     public class AzureTableStorageRepository
     {
         protected readonly IOptions<AzureTableStorageOptions> _azureTableStorageOptions;
-        protected readonly CloudTable _cloudTable;
+        protected readonly CloudTableClient _cloudTableClient;
+        protected CloudTable _cloudTable;
 
         public AzureTableStorageRepository(
             IOptions<AzureTableStorageOptions> azureTableStorageOptions)
@@ -18,11 +19,8 @@ namespace Praxeum.Data.Helpers
             var cloudStorageAccount = CloudStorageAccount.Parse(
                 azureTableStorageOptions.Value.ConnectionString);
         
-            var cloudTableClient =
+            _cloudTableClient =
                 cloudStorageAccount.CreateCloudTableClient();
-
-            _cloudTable =
-                cloudTableClient.GetTableReference("profiles");
         }
     }
 }

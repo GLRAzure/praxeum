@@ -1,14 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Domain.Users
 {
     public class UserUpdate 
     {
         [SwaggerExclude]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string Roles { get; set; }
     }
 }

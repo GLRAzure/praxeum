@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Praxeum.Data
 {
@@ -16,6 +16,7 @@ namespace Praxeum.Data
         public string Description { get; set; }
 
         [JsonProperty(PropertyName = "hasPrizes")]
+        [Display(Name = "Has Prizes")]
         public bool HasPrizes { get; set; }
 
         [JsonProperty(PropertyName = "prizes")]
@@ -24,32 +25,52 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
+        [JsonProperty(PropertyName = "status")]
+        public string Status { get; set; }
+
         [JsonProperty(PropertyName = "startDate")]
-        public DateTime StartDate { get; set; }
+        [Display(Name = "Start Date")]
+        public DateTime? StartDate { get; set; }
 
         [JsonProperty(PropertyName = "endDate")]
+        [Display(Name = "End Date")]
         public DateTime? EndDate { get; set; }
 
         [JsonProperty(PropertyName = "targetValue")]
-        public int? TargetValue { get; set; } // Note: Could be points, levels, badge and/or achievements
-
-        [JsonProperty(PropertyName = "isActive")]
-        public bool IsActive { get; set; }
+        [Display(Name = "Target Value")]
+        public int? TargetValue { get; set; }
 
         [JsonProperty(PropertyName = "numberOfLearners")]
         public int NumberOfLearners { get; set; }
 
-        [JsonProperty(PropertyName = "learners")]
-        public ICollection<ContestLearner> Learners { get; set; }
+        [JsonProperty(PropertyName = "customCss")]
+        [Display(Name = "Custom Css")]
+        public string CustomCss { get; set; }
 
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
+        [JsonProperty(PropertyName = "lastProgressUpdateOn")]
+        [Display(Name = "Last Progress Update On")]
+        public DateTime? LastProgressUpdateOn { get; set; }
+
+        [JsonProperty(PropertyName = "nextProgressUpdateOn")]
+        [Display(Name = "Next Progress Update On")]
+        public DateTime? NextProgressUpdateOn { get; set; }
+
+        [JsonProperty(PropertyName = "progressUpdateInterval")]
+        [Display(Name = "Progress Update Interval")]
+        public int ProgressUpdateInterval { get; set; }
+
         public Contest()
         {
             this.CreatedOn = DateTime.UtcNow;
-            this.IsActive = true;
-            this.Learners = new List<ContestLearner>();
+            this.ProgressUpdateInterval = 1440;
+        }
+
+        public bool IsStatus(string status)
+        {
+            return this.Status == status;
         }
     }
 }

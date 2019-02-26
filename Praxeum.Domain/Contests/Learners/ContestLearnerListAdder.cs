@@ -1,38 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Praxeum.Data;
 
 namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerListAdder : IHandler<ContestLearnerListAdd, ContestLearnerListAdded>
     {
-        private readonly IContestRepository _contestRepository;
-        private readonly ILearnerRepository _learnerRepository;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestLearnerListAdder(
-            IContestRepository contestRepository,
-            ILearnerRepository learnerRepository)
+            IContestLearnerRepository contestLearnerRepository,
+            IEventPublisher eventPublisher)
         {
-            _contestRepository =
-                contestRepository;
-            _learnerRepository =
-                learnerRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
+            _eventPublisher =
+                eventPublisher;
         }
 
         public async Task<ContestLearnerListAdded> ExecuteAsync(
             ContestLearnerListAdd contestLearnerListAdd)
         {
-            var contest =
-                await _contestRepository.FetchByIdAsync(
+            var contestLearners =
+                await _contestLearnerRepository.FetchListAsync(
                     contestLearnerListAdd.ContestId);
-
-            if (contest == null)
-            {
-                throw new NullReferenceException("Contest does not exist.");
-            }
 
             var contestLearnerListAdded =
                 new ContestLearnerListAdded
@@ -43,21 +36,21 @@ namespace Praxeum.Domain.Contests.Learners
             var separators =
                 new[] { Environment.NewLine, ",", ";", "|" };
 
-            var names = contestLearnerListAdd.Names
+            var userNames = contestLearnerListAdd.UserNames
                 .Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
-            var learners =
-                await _learnerRepository.FetchListAsync(names);
-
-            foreach (var learner in learners)
+            foreach (var userName in userNames)
             {
-                if (contest.Learners.All(x => x.LearnerId != learner.Id))
+                if (contestLearners.All(x => x.UserName != userName))
                 {
-                    contest.Learners.Add(
-                        new ContestLearner
+                    var contestLearnerAdd =
+                        new ContestLearnerAdd
                         {
-                            LearnerId = learner.Id
-                        });
+                            ContestId = contestLearnerListAdd.ContestId,
+                            UserName = userName
+                        };
+
+                    await _eventPublisher.PublishAsync("contestlearner.add", contestLearnerAdd);
                 }
             }
 

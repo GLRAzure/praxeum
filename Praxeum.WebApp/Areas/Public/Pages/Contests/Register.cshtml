@@ -1,0 +1,59 @@
+﻿@page "/Public/Contests/{id:Guid}/Register"
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.Contest.CustomCss))
+{
+    <style>
+        @Html.Raw(Model.Contest.CustomCss)
+    </style>
+}
+
+<h1>Register</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Contest.Name"></label>
+        <p class="form-control-static">@Model.Contest.Name</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.Type"></label>
+        <p class="form-control-static">@Model.Contest.Type</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.StartDate"></label>
+        <p class="form-control-static">@Model.Contest.StartDate</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Contest.EndDate"></label>
+        <p class="form-control-static">
+            @if (Model.Contest.EndDate.HasValue)
+            {
+                <text>@Model.Contest.EndDate</text>}
+            else
+            {
+                <text>TBD</text>
+            }
+        </p>
+    </div>
+    <div class="form-group">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consequat gravida sagittis. Etiam odio est, convallis ut nunc vel, dignissim elementum enim. Maecenas hendrerit ipsum in erat dictum hendrerit. Ut ornare massa at leo posuere, eget efficitur diam rhoncus. Morbi a pretium velit. Integer ut turpis commodo, lobortis orci ac, ornare nisi. Suspendisse auctor bibendum suscipit. Mauris id odio ut enim interdum mattis. Etiam rutrum justo a massa aliquam placerat. Proin dolor libero, pellentesque sit amet dolor et, venenatis mattis arcu. Suspendisse auctor faucibus massa in imperdiet.
+        </p><p>
+            Mauris vitae lectus quis elit condimentum laoreet quis id mi. Sed cursus faucibus purus eget tempus. Donec mi purus, viverra quis pretium non, dictum id elit. Donec feugiat dictum arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed bibendum aliquet erat nec laoreet. In hac habitasse platea dictumst. Phasellus laoreet dapibus eros, a venenatis elit vulputate ac. Morbi fringilla tempor porta. Nullam ex erat, volutpat vel consectetur luctus, rhoncus at nisl. Suspendisse ullamcorper, felis et mollis interdum, tortor purus gravida ex, volutpat blandit nunc ante ut ipsum. Pellentesque ac sem lobortis, scelerisque ex vitae, auctor diam. Nulla et diam sit amet mi ornare euismod.
+        </p><p>
+            Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed orci diam, aliquam tincidunt sapien at, consequat ultrices purus. Pellentesque pharetra, justo eu pulvinar mollis, erat risus fringilla sem, a euismod leo nisi vitae sem. Donec lobortis orci ac enim aliquam, quis semper ipsum posuere. Nam tincidunt aliquam erat ut dictum. Nam quis massa semper, tempus sem quis, egestas ex. Aenean tincidunt sem ante, at tempor enim gravida in. Curabitur aliquam pharetra venenatis. Sed nec augue bibendum, iaculis quam a, varius felis. Vivamus orci ipsum, ultrices sed posuere in, dapibus vel risus.
+        </p>
+    </div>
+    <div class="form-group">
+        <label asp-for="Learner.UserName">Enter your Microsoft Learn user name</label>
+        <input asp-for="Learner.UserName" class="form-control" />
+        <span asp-validation-for="Learner.UserName" class="text-danger"></span>
+    </div>
+    <input asp-for="Learner.ContestId" type="hidden" />
+    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i><span>Add</span></button>
+    <a class="btn btn-link" asp-page="Index">Cancel</a>
+</form>

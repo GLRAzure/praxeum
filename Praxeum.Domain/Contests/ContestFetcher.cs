@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Praxeum.Data;
@@ -7,17 +8,21 @@ namespace Praxeum.Domain.Contests
 {
     public class ContestFetcher : IHandler<ContestFetch, ContestFetched>
     {
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
-        private readonly ILearnerRepository _learnerRepository;
+        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestFetcher(
+            IMapper mapper,
             IContestRepository contestRepository,
-            ILearnerRepository learnerRepository)
+            IContestLearnerRepository contestLearnerRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
-            _learnerRepository =
-                learnerRepository;
+            _contestLearnerRepository =
+                contestLearnerRepository;
         }
 
         public async Task<ContestFetched> ExecuteAsync(
@@ -27,8 +32,23 @@ namespace Praxeum.Domain.Contests
                 await _contestRepository.FetchByIdAsync(
                     contestFetch.Id);
 
+            if (contest == null)
+            {
+                throw new NullReferenceException($"Contest {contestFetch.Id} not found");
+            }
+
             var contestFetched =
-                Mapper.Map(contest, new ContestFetched());
+                _mapper.Map(contest, new ContestFetched());
+
+            var contestLearners =
+                await _contestLearnerRepository.FetchListAsync(
+                    contestFetch.Id);
+
+            contestLearners = 
+                contestLearners.Where(
+                    x => !string.IsNullOrWhiteSpace(x.DisplayName));
+
+            _mapper.Map(contestLearners, contestFetched.Learners);
 
             var learners =
                 await _learnerRepository.FetchListAsync(

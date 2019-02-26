@@ -5,9 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="LeaderBoards\Learners\**" />
-    <EmbeddedResource Remove="LeaderBoards\Learners\**" />
-    <None Remove="LeaderBoards\Learners\**" />
+    <Compile Remove="LeaderBoards\**" />
+    <Compile Remove="Learners\**" />
+    <EmbeddedResource Remove="LeaderBoards\**" />
+    <EmbeddedResource Remove="Learners\**" />
+    <None Remove="LeaderBoards\**" />
+    <None Remove="Learners\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,26 +23,6 @@
     <Compile Remove="Contests\Learners\ContestLearnerAdderController.cs" />
     <Compile Remove="Contests\Learners\ContestLearnerDeleterController.cs" />
     <Compile Remove="Contests\Learners\ContestLearnerFetcherController.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardAdderController.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardDeleterController.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardFetcherController.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardListerController.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardServices.cs" />
-    <Compile Remove="LeaderBoards\LeaderBoardUpdaterController.cs" />
-    <Compile Remove="Learners\LeaderBoards\LeaderBoardLearnerServices.cs" />
-    <Compile Remove="Learners\LeaderBoards\LearnerLeaderBoardAdderController.cs" />
-    <Compile Remove="Learners\LeaderBoards\LearnerLeaderBoardDeleterController.cs" />
-    <Compile Remove="Learners\LearnerAdderController.cs" />
-    <Compile Remove="Learners\LearnerDeleterController.cs" />
-    <Compile Remove="Learners\LearnerFetcherController.cs" />
-    <Compile Remove="Learners\LearnerListAdderController.cs" />
-    <Compile Remove="Learners\LearnerListerController.cs" />
-    <Compile Remove="Learners\LearnerOptions.cs" />
-    <Compile Remove="Learners\LearnerServices.cs" />
-    <Compile Remove="Learners\LearnerUpdaterController.cs" />
-    <Compile Remove="Users\UserUpdate.cs" />
-    <Compile Remove="Users\UserUpdated.cs" />
-    <Compile Remove="Users\UserUpdater.cs" />
   </ItemGroup>
 
   <ItemGroup>

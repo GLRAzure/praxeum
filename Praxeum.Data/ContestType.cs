@@ -2,10 +2,10 @@
 {
     public class ContestType
     {
-        public const string Points = "points";
-        public const string Level = "level";
-        public const string Achievement = "achievement";
-        public const string Badge = "badge";
-        public const string Course = "course";
+        public const string AccumulatedLevels = "Accumulated Levels";
+        public const string AccumulatedPoints = "Accumulated Points";
+        public const string Leaderboard = "Leaderboard";
+        public const string Levels = "Levels";
+        public const string Points = "Points";
     }
 }

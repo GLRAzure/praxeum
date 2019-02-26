@@ -6,11 +6,15 @@ namespace Praxeum.Domain.Contests
 {
     public class ContestDeleter : IHandler<ContestDelete, ContestDeleted>
     {
+        private readonly IMapper _mapper;
         private readonly IContestRepository _contestRepository;
 
         public ContestDeleter(
+            IMapper mapper,
             IContestRepository contestRepository)
         {
+            _mapper =
+                mapper;
             _contestRepository =
                 contestRepository;
         }
@@ -23,7 +27,7 @@ namespace Praxeum.Domain.Contests
                     contestDelete.Id);
 
             var contestDeleted =
-                Mapper.Map(contest, new ContestDeleted());
+                _mapper.Map(contest, new ContestDeleted());
 
             return contestDeleted;
         }

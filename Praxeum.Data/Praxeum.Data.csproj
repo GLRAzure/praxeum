@@ -8,13 +8,26 @@
     <Compile Remove="Course.cs" />
     <Compile Remove="CourseRepository.cs" />
     <Compile Remove="ICourseRepository.cs" />
+    <Compile Remove="ILeaderBoardRepository.cs" />
+    <Compile Remove="ILearnerLeaderBoardRepository.cs" />
+    <Compile Remove="ILearnerRepository.cs" />
+    <Compile Remove="LeaderBoard.cs" />
     <Compile Remove="LeaderBoardLearner.cs" />
+    <Compile Remove="LeaderBoardRepository.cs" />
+    <Compile Remove="Learner.cs" />
+    <Compile Remove="LearnerAchievement.cs" />
+    <Compile Remove="LearnerLeaderBoard.cs" />
+    <Compile Remove="LearnerLeaderBoardRepository.cs" />
+    <Compile Remove="LearnerProgressStatus.cs" />
+    <Compile Remove="LearnerRepository.cs" />
+    <Compile Remove="LearnerStatus.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+    <PackageReference Include="ScrapySharp" Version="3.0.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
