@@ -59,7 +59,6 @@ namespace Praxeum.Data
         [JsonProperty(PropertyName = "points")]
         [Display(Name = "Points")]
         public int? Points { get; set; }
-
         public ContestLearner()
         {
             this.Id =

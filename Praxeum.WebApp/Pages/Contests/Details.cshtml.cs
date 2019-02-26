@@ -38,9 +38,9 @@ namespace Praxeum.WebApp.Pages.Contests
 
             this.Contest.Learners =
                 this.Contest.Learners
-                    .OrderByDescending(x => x.ProgressValue)
-                    .ThenBy(x => x.UserName)
-                        .ToList();
+                    .OrderByDescending(x => x.CurrentValue)
+                    .ThenBy(x => x.DisplayName)
+                    .ToList();
 
             return Page();
         }

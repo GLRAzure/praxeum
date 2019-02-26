@@ -20,6 +20,8 @@
     <p>@Model.Contest.Description</p>
 }
 
+<h2>Details</h2>
+
 <form>
     <div class="form-group">
         <label asp-for="Contest.Status"></label>
@@ -80,111 +82,209 @@
     }
 </form>
 
-<table class="table">
+<h2>Learners</h2>
+
+<div class="row cards d-lg-none d-xl-none">
+    @{var rank = 1;}
+    @foreach (var learner in Model.Contest.Learners)
+    {
+        <div class="col-sm-12 col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@learner.UserName</h5>
+                    <dl>
+                        <dt>Display Name</dt>
+                        <dd>@learner.DisplayName</dd>
+                        <dt>Rank</dt>
+                        <dd>@rank</dd>
+                        <dt>Level</dt>
+                        @if (learner.Level.HasValue)
+                        {
+                            <dd>@learner.Level.Value.ToString("N0")</dd>
+                        }
+                        else
+                        {
+                            <dd>N/A</dd>
+                        }
+                        <dt>Points</dt>
+                        @if (learner.Points.HasValue)
+                        {
+                            <dd>@learner.Points.Value.ToString("N0")</dd>
+                        }
+                        else
+                        {
+                            <dd>N/A</dd>
+                        }
+                        @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
+                        {
+                            <dt>Contest Start</dt>
+                            @if (learner.StartValue.HasValue)
+                            {
+                                <dd>@learner.StartValue.Value.ToString("N0")</dd>
+                            }
+                            else
+                            {
+                                <dd>TBD</dd>
+                            }
+                        }
+                        @if (Model.Contest.Type != ContestType.Leaderboard)
+                        {
+                            <dt>Contest Target</dt>
+                            @if (learner.TargetValue.HasValue)
+                            {
+                                <dd>@learner.TargetValue.Value.ToString("N0")</dd>
+                            }
+                            else
+                            {
+                                <dd>TBD</dd>
+                            }
+                            <dt>Contest Current</dt>
+                            @if (learner.CurrentValue.HasValue)
+                            {
+                                <dd>@learner.CurrentValue.Value.ToString("N0")</dd>
+                            }
+                            else
+                            {
+                                <dd>N/A</dd>
+                            }
+                            <dt>Contest Progress</dt>
+                            @if (learner.ProgressValue.HasValue)
+                            {
+                                <dd>@learner.ProgressValue.Value.ToString("N0")</dd>
+                            }
+                            else
+                            {
+                                <dd>N/A</dd>
+                            }
+                        }
+                        <dt>Progress Updated On</dt>
+                        @if (learner.LastProgressUpdateOn.HasValue)
+                        {
+                            <dd>@learner.LastProgressUpdateOn.Value</dd>
+                        }
+                        else
+                        {
+                            <dd>N/A</dd>
+                        }
+                        <dt>Profile</dt>
+                        <dd><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank">https://techprofile.microsoft.com/@learner.UserName</a></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        rank++;
+    }
+</div>
+
+<table class="table d-none d-lg-table d-xl-table">
     <thead>
         <tr>
+            <th class="text-center" style="width:1px;">Rank</th>
             <th>Name</th>
-            <th class="text-center d-none d-xl-table-cell"><i class="fas fa-chart-line" title="Level/Points"></i></th>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
+            <th class="text-center d-none d-lg-table-cell"><i class="fas fa-chart-line" title="Level/Points"></i></th>
+            @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
             {
                 <th class="text-right">Start</th>
-                <th class="text-right">Target</th>
             }
-            <th class="text-right">Current</th>
             @if (Model.Contest.Type != ContestType.Leaderboard)
             {
+                <th class="text-right">Target</th>
+                <th class="text-right">Current</th>
                 <th class="text-right">Progress</th>
             }
             <th class="text-center d-none d-xl-table-cell"><i class="far fa-calendar-alt" title="Last Progress Update"></i></th>
         </tr>
     </thead>
     <tbody>
+        @{rank = 1;}
         @foreach (var learner in Model.Contest.Learners)
         {
-        <tr>
-            <td>
-                @learner.DisplayName
-                <small class="text-muted ml-2">@learner.UserName</small>
-                <div class="d-block">
-                    <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
-                </div>
-            </td>
-            <td class="text-center text-v-center d-none d-xl-table-cell">
-                @if (learner.Level.HasValue)
-                {
-                    <text>@learner.Level.Value</text>
-                }
-                else
-                {
-                    <text>N/A</text>
-                }
-                /
-                @if (learner.Points.HasValue)
-                {
-                    <text>@learner.Points.Value.ToString("N0")</text>
-                }
-                else
-                {
-                    <text>N/A</text>
-                }
-            </td>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">
-                    @if (learner.StartValue.HasValue)
+            <tr>
+                <td class="text-center text-v-center" style="width:1px;">@rank</td>
+                <td>
+                    @learner.DisplayName
+                    <small class="text-muted ml-2">@learner.UserName</small>
+                    <div class="d-block">
+                        <span>https://techprofile.microsoft.com/@learner.UserName</span><a href="https://techprofile.microsoft.com/@learner.UserName" target="_blank"><i class="fas fa-external-link-alt ml-2"></i></a>
+                    </div>
+                </td>
+                <td class="text-center text-v-center d-none d-lg-table-cell">
+                    @if (learner.Level.HasValue)
                     {
-                        <text>@learner.StartValue.Value.ToString("N0")</text>
+                        <text>@learner.Level.Value.ToString("N0")</text>
+                    }
+                    else
+                    {
+                        <text>N/A</text>
+                    }
+                    /
+                    @if (learner.Points.HasValue)
+                    {
+                        <text>@learner.Points.Value.ToString("N0")</text>
                     }
                     else
                     {
                         <text>N/A</text>
                     }
                 </td>
-                <td class="text-right text-v-center">
-                    @if (learner.TargetValue.HasValue)
+                @if (Model.Contest.Type == ContestType.AccumulatedLevels || Model.Contest.Type == ContestType.AccumulatedPoints)
+                {
+                    <td class="text-right text-v-center">
+                        @if (learner.CurrentValue.HasValue)
+                        {
+                            <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
+                }
+                @if (Model.Contest.Type != ContestType.Leaderboard)
+                {
+                    <td class="text-right text-v-center">
+                        @if (learner.TargetValue.HasValue)
+                        {
+                            <text>@learner.TargetValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </td>
+                    <td class="text-right text-v-center">
+                        @if (learner.CurrentValue.HasValue)
+                        {
+                            <text>@learner.CurrentValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
+                    <td class="text-right text-v-center">
+                        @if (learner.ProgressValue.HasValue)
+                        {
+                            <text>@learner.ProgressValue.Value.ToString("N0")</text>
+                        }
+                        else
+                        {
+                            <text>N/A</text>
+                        }
+                    </td>
+                }
+                <td class="text-center text-v-center d-none d-xl-table-cell">
+                    @if (learner.LastProgressUpdateOn.HasValue)
                     {
-                        <text>@learner.TargetValue.Value.ToString("N0")</text>
+                        <text>@learner.LastProgressUpdateOn.Value</text>
                     }
                     else
                     {
                         <text>N/A</text>
                     }
                 </td>
-            }
-            <td class="text-right text-v-center">
-                @if (learner.CurrentValue.HasValue)
-                {
-                    <text>@learner.CurrentValue.Value.ToString("N0")</text>
-                }
-                else
-                {
-                    <text>N/A</text>
-                }
-            </td>
-            @if (Model.Contest.Type != ContestType.Leaderboard)
-            {
-                <td class="text-right text-v-center">
-                    @if (learner.ProgressValue.HasValue)
-                    {
-                        <text>@learner.ProgressValue.Value.ToString("N0")</text>
-                    }
-                    else
-                    {
-                        <text>N/A</text>
-                    }
-                </td>
-            }
-            <td class="text-center text-v-center d-none d-xl-table-cell">
-                @if (learner.LastProgressUpdateOn.HasValue)
-                {
-                    <text>@learner.LastProgressUpdateOn.Value</text>
-                }
-                else
-                {
-                    <text>N/A</text>
-                }
-            </td>
-        </tr>
+            </tr>
+            rank++;
         }
     </tbody>
 </table>
