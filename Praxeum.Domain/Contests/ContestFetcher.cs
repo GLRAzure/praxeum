@@ -50,19 +50,6 @@ namespace Praxeum.Domain.Contests
 
             _mapper.Map(contestLearners, contestFetched.Learners);
 
-            var learners =
-                await _learnerRepository.FetchListAsync(
-                    contest.Learners.Select(x => x.LearnerId).ToArray());
-
-            foreach (var learner in learners)
-            {
-                var contestLearner =
-                    contestFetched.Learners.Single(x => x.LearnerId == learner.Id);
-
-                contestLearner.UserName = learner.UserName;
-                contestLearner.DisplayName = learner.DisplayName;
-            }
-
             return contestFetched;
         }
     }

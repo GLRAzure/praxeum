@@ -54,10 +54,6 @@ namespace Praxeum.Domain.Contests.Learners
                 }
             }
 
-            await _contestRepository.UpdateByIdAsync(
-                contestLearnerListAdd.ContestId,
-                contest);
-
             return contestLearnerListAdded;
         }
     }
