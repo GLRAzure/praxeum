@@ -46,8 +46,17 @@
             @if (Model.Contest.Type != ContestType.Leaderboard)
             {
                 <div class="form-group">
-                    <label asp-for="Contest.TargetValue"></label>
-                    <p class="form-control-static">@Model.Contest.TargetValue.Value.ToString("N0")</p>
+                    <label asp-for="Contest.TargetValue"></label><p class="form-control-static">
+                        @if (Model.Contest.TargetValue.HasValue)
+                        {
+                            @Model.Contest.TargetValue.Value.ToString("N0")
+
+                        }
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </p>
                 </div>
             }
             <div class="form-group">
