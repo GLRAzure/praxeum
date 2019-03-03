@@ -31,13 +31,22 @@
     </div>
     <div class="form-group">
         <label asp-for="Contest.Type"></label>
-        <select asp-for="Contest.Type" class="form-control">
-            <option>@ContestType.AccumulatedLevels</option>
-            <option>@ContestType.AccumulatedPoints</option>
-            <option>@ContestType.Leaderboard</option>
-            <option>@ContestType.Levels</option>
-            <option>@ContestType.Points</option>
-        </select>
+        @if (Model.Contest.Status == ContestStatus.InProgress)
+        {
+            <p class="form-control-static">@Model.Contest.Type</p>
+            <input asp-for="Contest.Type" type="hidden" />
+            <small class="form-text text-muted">Contest type cannot be changed for contests in progress.</small>
+        }
+        else
+        {
+            <select asp-for="Contest.Type" class="form-control">
+                <option>@ContestType.AccumulatedLevels</option>
+                <option>@ContestType.AccumulatedPoints</option>
+                <option>@ContestType.Leaderboard</option>
+                <option>@ContestType.Levels</option>
+                <option>@ContestType.Points</option>
+            </select>
+        }
         <span asp-validation-for="Contest.Type" class="text-danger"></span>
     </div>
     <div class="form-group">

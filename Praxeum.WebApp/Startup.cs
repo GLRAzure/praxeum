@@ -63,6 +63,7 @@ namespace Praxeum.WebApp
 
             // Add domain services
             services.AddTransient<IHandler<ContestAdd, ContestAdded>, ContestAdder>();
+            services.AddTransient<IHandler<ContestCopy, ContestCopied>, ContestCopier>();
             services.AddTransient<IHandler<ContestDelete, ContestDeleted>, ContestDeleter>();
             services.AddTransient<IHandler<ContestFetch, ContestFetched>, ContestFetcher>();
             services.AddTransient<IHandler<ContestList, IEnumerable<ContestListed>>, ContestLister>();

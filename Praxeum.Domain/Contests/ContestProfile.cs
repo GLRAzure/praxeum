@@ -7,6 +7,9 @@ namespace Praxeum.Domain.Contests
     {
         public ContestProfile()
         {
+            CreateMap<Contest, ContestAdd>()
+                .ForMember(d => d.Id, o => o.Ignore());
+            CreateMap<Contest, ContestCopied>();
             CreateMap<Contest, ContestDeleted>();
             CreateMap<Contest, ContestListed>();
             CreateMap<Contest, ContestFetched>();

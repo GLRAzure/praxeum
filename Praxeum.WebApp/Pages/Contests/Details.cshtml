@@ -131,6 +131,7 @@
         @if (this.User.IsInRole("Administrator"))
         {
             <a asp-page="./Edit" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+            <a asp-page="./Copy" asp-route-id="@Model.Contest.Id" class="btn btn-link">Copy</a>
             <a asp-page="./Export" asp-route-id="@Model.Contest.Id" class="btn btn-link">Export</a>
             <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Delete</a>
             <a asp-page="./Index" class="btn btn-link">Cancel</a>
