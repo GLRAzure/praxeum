@@ -192,7 +192,6 @@
                 <th class="text-right">Current</th>
                 <th class="text-right">Progress</th>
             }
-            <th class="text-center d-none d-xl-table-cell"><i class="far fa-calendar-alt" title="Last Progress Update"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -273,16 +272,6 @@
                         }
                     </td>
                 }
-                <td class="text-center text-v-center d-none d-xl-table-cell">
-                    @if (learner.LastProgressUpdateOn.HasValue)
-                    {
-                        <text>@learner.LastProgressUpdateOn.Value</text>
-                    }
-                    else
-                    {
-                        <text>N/A</text>
-                    }
-                </td>
             </tr>
             rank++;
         }
