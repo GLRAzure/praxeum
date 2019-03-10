@@ -64,7 +64,7 @@
                 <p class="form-control-static">
                     @if (Model.Contest.StartDate.HasValue)
                     {
-                        <text>@Model.Contest.StartDate</text>}
+                        <text>@Model.Contest.StartDate.Value.ToString("d")</text>}
                     else
                     {
                         <text>TBD</text>
@@ -76,7 +76,7 @@
                 <p class="form-control-static">
                     @if (Model.Contest.EndDate.HasValue)
                     {
-                        <text>@Model.Contest.EndDate</text>}
+                        <text>@Model.Contest.EndDate.Value.ToString("d")</text>}
                     else
                     {
                         <text>TBD</text>

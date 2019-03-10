@@ -65,6 +65,7 @@ namespace Praxeum.WebApp.Pages.Contests
                     this.Contest, new ContestUpdate());
             
             contestUpdate.Id = id.Value;
+            contestUpdate.Status = this.Contest.Status; // NOTE:For some reason status does not get mapped
 
             var contestUpdated =
                 await _contestUpdater.ExecuteAsync(
