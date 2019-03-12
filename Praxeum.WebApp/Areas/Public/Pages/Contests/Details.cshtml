@@ -60,7 +60,7 @@
         <div class="form-group">
             <label asp-for="Contest.StartDate"></label>
             <p class="form-control-static">
-                <text>@Model.Contest.StartDate</text>
+                <text>@Model.Contest.StartDate.Value.ToString("d")</text>
             </p>
         </div>
     }
@@ -69,7 +69,7 @@
         <div class="form-group">
             <label asp-for="Contest.EndDate"></label>
             <p class="form-control-static">
-                <text>@Model.Contest.EndDate</text>
+                <text>@Model.Contest.EndDate.Value.ToString("d")</text>
             </p>
         </div>
     }
