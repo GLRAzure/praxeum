@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -10,12 +12,12 @@ using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp
 {
-    public static class ContestProgressUpdateHttpTrigger
+    public static class ContestStatusUpdateHttpTrigger
     {
-        [FunctionName("ContestProgressUpdateHttpTrigger")]
+        [FunctionName("ContestStatusUpdateHttpTrigger")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "contests/progress")] HttpRequest req,
-            [Queue("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestProgressUpdate> contestProgressUpdates,
+            [HttpTrigger(AuthorizationLevel.Function, "put", Route = "contests/status")] HttpRequest req,
+            [Queue("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestStatusUpdate> contestStatusUpdates,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -25,17 +27,35 @@ namespace Praxeum.FunctionApp
                     ObjectFactory.CreateMapper(),
                     ObjectFactory.CreateContestRepository());
 
-            var contests =
+            var readyContests =
+                await contestLister.ExecuteAsync(
+                    new ContestList
+                    {
+                        Status = ContestStatus.Ready
+                    });
+
+            foreach (var contest in readyContests
+                .Where(x => x.StartDate <= DateTime.UtcNow))
+            {
+                contestStatusUpdates.Add(
+                    new ContestStatusUpdate
+                    {
+                        Id = contest.Id
+                    });
+            }
+
+            var inProgressContests =
                 await contestLister.ExecuteAsync(
                     new ContestList
                     {
                         Status = ContestStatus.InProgress
                     });
 
-            foreach (var contest in contests)
+            foreach (var contest in inProgressContests
+                .Where(x => x.EndDate <= DateTime.UtcNow))
             {
-                contestProgressUpdates.Add(
-                    new ContestProgressUpdate
+                contestStatusUpdates.Add(
+                    new ContestStatusUpdate
                     {
                         Id = contest.Id
                     });
