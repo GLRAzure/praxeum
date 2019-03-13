@@ -30,6 +30,7 @@ namespace Praxeum.Domain
                     }
                     break;
                 case ContestType.AccumulatedPoints:
+                case ContestType.Leaderboard:
                     if (contestLearner.StartValue == null || forceUpdate)
                     {
                         contestLearner.StartValue =
