@@ -76,11 +76,11 @@ namespace Praxeum.Domain.Contests.Learners
                         contestLearner.UserName);
 
                 contestLearner.Level =
-                    microsoftProfile.ProgressStatus.CurrentLevel;
+                    microsoftProfile.GameStatus.Level.LevelNumber;
                 contestLearner.Points =
                     _experiencePointsCalculator.Calculate(
-                        microsoftProfile.ProgressStatus.CurrentLevel,
-                        microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
+                        microsoftProfile.GameStatus.Level.LevelNumber,
+                        microsoftProfile.GameStatus.CurrentLevelPointsEarned);
 
                 contestLearner =
                     _contestLearnerTargetValueUpdater.Update(

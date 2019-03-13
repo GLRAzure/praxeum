@@ -24,15 +24,15 @@ namespace Praxeum.Domain
                 case ContestType.AccumulatedLevels:
                 case ContestType.Levels:
                     contestLearner.CurrentValue =
-                        microsoftProfile.ProgressStatus.CurrentLevel;
+                        microsoftProfile.GameStatus.Level.LevelNumber;
                     break;
                 case ContestType.AccumulatedPoints:
                 case ContestType.Leaderboard:
                 case ContestType.Points:
                     contestLearner.CurrentValue =
                         _experiencePointsCalculator.Calculate(
-                            microsoftProfile.ProgressStatus.CurrentLevel,
-                            microsoftProfile.ProgressStatus.CurrentLevelPointsEarned);
+                            microsoftProfile.GameStatus.Level.LevelNumber,
+                            microsoftProfile.GameStatus.CurrentLevelPointsEarned);
                     break;
             }
 
