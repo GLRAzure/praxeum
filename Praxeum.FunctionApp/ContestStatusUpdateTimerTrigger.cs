@@ -11,11 +11,14 @@ namespace Praxeum.FunctionApp
 {
     public static class ContestStatusUpdateTimerTrigger
     {
+        // https://codehollow.com/2017/02/azure-functions-time-trigger-cron-cheat-sheet/
+        // https://github.com/Azure/azure-webjobs-sdk-extensions/wiki/TimerTrigger
+
         [FunctionName("ContestStatusUpdateTimerTrigger")]
         public static async Task Run(
-            [TimerTrigger("0 */15 * * * *")] TimerInfo myTimer,
-            [Queue("conteststatus-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestStatusUpdate> contestStatusUpdates,
-            ILogger log)
+             [TimerTrigger("0 0 8 * * *", RunOnStartup = true, UseMonitor = false)] TimerInfo myTimer,
+             [Queue("conteststatus-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestStatusUpdate> contestStatusUpdates,
+             ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
