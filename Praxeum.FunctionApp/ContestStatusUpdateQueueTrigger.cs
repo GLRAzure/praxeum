@@ -7,15 +7,15 @@ using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp
 {
-    public static class ContestProgressUpdateQueueTrigger
+    public static class ContestStatusUpdateQueueTrigger
     {
-        [FunctionName("ContestProgressUpdateQueueTrigger")]
+        [FunctionName("ContestStatusUpdateQueueTrigger")]
         public static async Task Run(
-            [QueueTrigger("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ContestProgressUpdate contestProgressUpdate,
+            [QueueTrigger("conteststatus-update", Connection = "AzureStorageOptions:ConnectionString")] ContestStatusUpdate contestStatusUpdate,
             ILogger log)
         {
             log.LogInformation(
-                JsonConvert.SerializeObject(contestProgressUpdate, Formatting.Indented));
+                JsonConvert.SerializeObject(contestStatusUpdate, Formatting.Indented));
 
             var contestProgressUpdater =
                 new ContestProgressUpdater(
@@ -24,12 +24,12 @@ namespace Praxeum.FunctionApp
                     ObjectFactory.CreateContestRepository(),
                     ObjectFactory.CreateContestLearnerRepository());
 
-            var contestProgressUpdated =
-                await contestProgressUpdater.ExecuteAsync(
-                    contestProgressUpdate);
+            var contestStatusUpdated =
+                await contestStatusUpdater.ExecuteAsync(
+                    contestStatusUpdate);
 
             log.LogInformation(
-                JsonConvert.SerializeObject(contestProgressUpdated, Formatting.Indented));
+                JsonConvert.SerializeObject(contestStatusUpdated, Formatting.Indented));
         }
     }
 }
