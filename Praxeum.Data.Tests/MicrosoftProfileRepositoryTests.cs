@@ -26,5 +26,19 @@ namespace MeijerDataCollectMVP.FuncAppTests
             microsoftProfile.UserName.Should().NotBeNull();
             microsoftProfile.DisplayName.Should().NotBeNull();
         }
+
+        [Test]
+        public async Task When_FetchProfile2_ThenResponseIsNotNull()
+        {
+            var microsoftProfileRepository =
+                new MicrosoftProfileRepository();
+
+            var microsoftProfile =
+                await microsoftProfileRepository.FetchProfileAsync("bpd");
+
+            microsoftProfile.Should().NotBeNull();
+            microsoftProfile.UserName.Should().NotBeNull();
+            microsoftProfile.DisplayName.Should().NotBeNull();
+        }
     }
 }
