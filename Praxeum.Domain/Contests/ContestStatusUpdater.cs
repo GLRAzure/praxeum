@@ -11,13 +11,11 @@ namespace Praxeum.Domain.Contests
         private readonly IMapper _mapper;
         private readonly IEventPublisher _eventPublisher;
         private readonly IContestRepository _contestRepository;
-        private readonly IContestLearnerRepository _contestLearnerRepository;
 
         public ContestStatusUpdater(
             IMapper mapper,
             IEventPublisher eventPublisher,
-            IContestRepository contestRepository,
-            IContestLearnerRepository contestLearnerRepository)
+            IContestRepository contestRepository)
         {
             _mapper =
                 mapper;
@@ -25,8 +23,6 @@ namespace Praxeum.Domain.Contests
                 eventPublisher;
             _contestRepository =
                 contestRepository;
-            _contestLearnerRepository =
-                contestLearnerRepository;
         }
 
         public async Task<ContestStatusUpdated> ExecuteAsync(
@@ -38,14 +34,15 @@ namespace Praxeum.Domain.Contests
 
             if (contest.IsStatus(ContestStatus.Ready) && contest.StartDate <= DateTime.UtcNow)
             {
-                contest.Status = ContestStatus.InProgress;          
-                
+                contest.Status = ContestStatus.InProgress;
+
                 contest =
                     await _contestRepository.UpdateByIdAsync(
                         contestUpdate.Id,
                         contest);
 
-            } else if (contest.IsStatus(ContestStatus.InProgress) && contest.EndDate <= DateTime.UtcNow)
+            }
+            else if (contest.IsStatus(ContestStatus.InProgress) && contest.EndDate <= DateTime.UtcNow)
             {
                 contest.Status = ContestStatus.Ended;
 
@@ -57,6 +54,8 @@ namespace Praxeum.Domain.Contests
 
             var contestStatusUpdated =
                 _mapper.Map(contest, new ContestStatusUpdated());
+
+            await _eventPublisher.PublishAsync("contest.updated", contestStatusUpdated);
 
             return contestStatusUpdated;
         }

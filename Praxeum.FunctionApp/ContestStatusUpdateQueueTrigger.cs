@@ -21,8 +21,7 @@ namespace Praxeum.FunctionApp
                 new ContestStatusUpdater(
                     ObjectFactory.CreateMapper(),
                     ObjectFactory.CreateAzureQueueStorageEventPublisher(),
-                    ObjectFactory.CreateContestRepository(),
-                    ObjectFactory.CreateContestLearnerRepository());
+                    ObjectFactory.CreateContestRepository());
 
             var contestStatusUpdated =
                 await contestStatusUpdater.ExecuteAsync(

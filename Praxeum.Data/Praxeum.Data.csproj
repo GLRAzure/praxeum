@@ -21,6 +21,8 @@
     <Compile Remove="LearnerProgressStatus.cs" />
     <Compile Remove="LearnerRepository.cs" />
     <Compile Remove="LearnerStatus.cs" />
+    <Compile Remove="MicrosoftProfileAchievement.cs" />
+    <Compile Remove="MicrosoftProfileStatus.cs" />
   </ItemGroup>
 
   <ItemGroup>
