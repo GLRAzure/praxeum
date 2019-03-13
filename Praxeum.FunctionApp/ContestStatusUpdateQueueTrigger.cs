@@ -17,8 +17,8 @@ namespace Praxeum.FunctionApp
             log.LogInformation(
                 JsonConvert.SerializeObject(contestStatusUpdate, Formatting.Indented));
 
-            var contestProgressUpdater =
-                new ContestProgressUpdater(
+            var contestStatusUpdater =
+                new ContestStatusUpdater(
                     ObjectFactory.CreateMapper(),
                     ObjectFactory.CreateAzureQueueStorageEventPublisher(),
                     ObjectFactory.CreateContestRepository(),
