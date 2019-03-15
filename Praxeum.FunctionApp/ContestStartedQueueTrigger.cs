@@ -3,6 +3,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Praxeum.Domain.Contests;
+using Praxeum.Domain.Contests.Learners;
 using Praxeum.FunctionApp.Helpers;
 
 namespace Praxeum.FunctionApp
@@ -11,24 +12,35 @@ namespace Praxeum.FunctionApp
     {
         [FunctionName("ContestStartedQueueTrigger")]
         public static async Task Run(
-            [QueueTrigger("contest-started", Connection = "AzureStorageOptions:ConnectionString")],
+            [QueueTrigger("contest-started", Connection = "AzureStorageOptions:ConnectionString")] ContestStarted contestStarted,
+            [Queue("contestlearner-start", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestLearnerStart> contestLearnerStarts,
             ILogger log)
         {
             log.LogInformation(
-                JsonConvert.SerializeObject(contestFetch, Formatting.Indented));
+                JsonConvert.SerializeObject(contestStarted, Formatting.Indented));
 
-            var contestFetch =
+            var contestFetcher =
                 new ContestFetcher(
                     ObjectFactory.CreateMapper(),
                     ObjectFactory.CreateContestRepository(),
                     ObjectFactory.CreateContestLearnerRepository());
 
-            var contestFetch =
-                await contestFetch.ExecuteAsync(
-                    contestFetch);
+            var contestFetched =
+                await contestFetcher.ExecuteAsync(
+                    new ContestFetch
+                    {
+                        Id = contestStarted.Id
+                    });
 
-            log.LogInformation(
-                JsonConvert.SerializeObject(contestFetch, Formatting.Indented));
+            foreach (var learner in contestFetched.Learners)
+            {
+                contestLearnerStarts.Add(
+                    new ContestLearnerStart
+                    {
+                        ContestId = learner.ContestId,
+                        Id = learner.Id
+                    });
+            }
         }
     }
 }
