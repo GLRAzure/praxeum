@@ -1,0 +1,23 @@
+﻿@page "{id:Guid}"
+@model StartModel
+@{
+    ViewData["Title"] = "Start Contest";
+}
+
+<h1>Start Contest</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Contest.Name"></label>
+        <p class="form-control-static">@Model.Contest.Name</p>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Contest.Description))
+    {
+        <div class="form-group">
+            <label asp-for="Contest.Description"></label>
+            <p class="form-control-static">@Model.Contest.Description</p>
+        </div>
+    }
+    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i><span>Start</span></button>
+    <a class="btn btn-link" asp-page="./Details">Cancel</a>
+</form>
