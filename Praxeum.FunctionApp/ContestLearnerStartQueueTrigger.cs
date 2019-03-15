@@ -12,28 +12,27 @@ namespace Praxeum.FunctionApp
     {
         [FunctionName("ContestLearnerStartQueueTrigger")]
         public static async Task Run(
-            [QueueTrigger("contestlearner-start", Connection = "AzureStorageOptions:ConnectionString")] ContestLearnerAdd contestLearnerAdd,
+            [QueueTrigger("contestlearner-start", Connection = "AzureStorageOptions:ConnectionString")] ContestLearnerStart contestLearnerStart,
             ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerAdd, Formatting.Indented)}");
+            log.LogInformation($"C# Queue trigger function processed: {JsonConvert.SerializeObject(contestLearnerStart, Formatting.Indented)}");
 
-            var contestLearnerAdder =
-                new ContestLearnerAdder(
+            var contestLearnerStarter =
+                new ContestLearnerStarter(
                     ObjectFactory.CreateMapper(),
-                    ObjectFactory.CreateAzureQueueStorageEventPublisher(),
                     ObjectFactory.CreateContestRepository(),
                     ObjectFactory.CreateContestLearnerRepository(),
                     ObjectFactory.CreateMicrosoftProfileRepository(),
                     ObjectFactory.CreateContestLearnerStartValueUpdater(),
-                    ObjectFactory.CreateContestLearnerTargetValueUpdater(),
-                    ObjectFactory.CreateContestLearnerCurrentValueUpdater());
+                    ObjectFactory.CreateContestLearnerCurrentValueUpdater(),
+                    ObjectFactory.CreateExperiencePointsCalculator());
 
-            var contestLearnerAdded =
-                await contestLearnerAdder.ExecuteAsync(
-                    contestLearnerAdd);
+            var contestLearnerStarted =
+                await contestLearnerStarter.ExecuteAsync(
+                    contestLearnerStart);
 
             log.LogInformation(
-                JsonConvert.SerializeObject(contestLearnerAdded, Formatting.Indented));
+                JsonConvert.SerializeObject(contestLearnerStarted, Formatting.Indented));
         }
     }
 }
