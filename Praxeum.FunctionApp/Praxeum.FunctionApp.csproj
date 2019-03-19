@@ -4,6 +4,10 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ContestStatusUpdateQueueTrigger.cs" />
+    <Compile Remove="ContestStatusUpdateTimerTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
