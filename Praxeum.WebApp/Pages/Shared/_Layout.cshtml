@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Azure Skills Challenges</title>
+    <title>Microsoft Cloud Skills Challenge - @ViewData["Title"]</title>
     <link rel="icon"
           type="image/png"
-          href="~/images/azure-logo-small.png">
+          href="~/images/microsoft-logo.png">
     <environment include="Development">
         <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -31,8 +31,7 @@
 <body>
     <header class="navbar navbar-expand-md navbar-light bg-light">
         <a asp-page="/Index" class="navbar-brand">
-            <img src="~/images/azure-logo.png" height="30" class="d-inline-block align-top" alt="Azure Logo" />
-            <span>Cloud Skills Challenge</span>
+            <img src="~/images/microsoft-logo-and-text.png" class="d-inline-block align-top logo" alt="Microsoft Logo" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
@@ -54,10 +53,15 @@
         @RenderBody()
     </div>
 
-    <footer>
-        <div class="container">
-            <p class="text-center">If you have any questions or feedback please hit us up at <a href="mailto:matt.ruma@microsoft.com">matt.ruma@@microsoft.com</a>, <a href="mailto:bdykstra@microsoft.com">bdykstra@@microsoft.com</a> or <a href="mailto:alex.lowe@microsoft.com">alex.lowe@@microsoft.com</a>.
-            <p class="text-center text-muted">This is the <strong>@hostingEnv.EnvironmentName</strong> environment.</p>
+    <footer class="border-top footer text-muted">
+        <div class="d-flex h-100">
+            <div class="nav mr-auto align-self-center">
+                <a class="nav-item nav-link" href="https://privacy.microsoft.com/en-US/privacystatement">Microsoft Privacy Statement</a>
+                <a class="nav-item nav-link" asp-page="/Terms">Terms of Use</a>
+            </div>
+            <div class="nav align-self-center">
+                <span class="nav-text float-right">© Microsoft 2019</span>
+            </div>
         </div>
     </footer>
 

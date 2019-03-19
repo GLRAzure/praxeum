@@ -14,18 +14,22 @@ body {
     font-size: 1.5rem;
 }
 
+.h3, h3 {
+    font-size: 1.25rem;
+}
+
+.h4, h4 {
+    font-size: 1rem;
+}
+
 header {
-    margin-bottom: 2rem;
+    height: 60px;
 }
 
 i + span,
 svg + span,
 td > a + a {
     margin-left: .5rem;
-}
-
-footer {
-    margin-top: 2rem;
 }
 
 .navbar {
@@ -217,4 +221,44 @@ div[class*="col-"] {
 
 .tab-pane > h2 {
     margin-top: 2rem;
+}
+
+.body-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+header .logo {
+    height: 23px;
+}
+
+header .navbar-brand {
+    height: 23px;
+    padding: 1px 0 1px 0;
+}
+
+.nav-text {
+    font-size: 13px;
+    padding: .5rem 1rem;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    /* Set the fixed height of the footer here */
+    height: 60px;
 }
