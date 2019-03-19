@@ -35,7 +35,7 @@ namespace Praxeum.FunctionApp
                     });
 
             foreach (var contest in contests
-                .Where(x => x.NextProgressUpdateOn >= DateTime.UtcNow))
+                .Where(x => x.NextProgressUpdateOn <= DateTime.UtcNow))
             {
                 contestProgressUpdates.Add(
                     new ContestProgressUpdate
