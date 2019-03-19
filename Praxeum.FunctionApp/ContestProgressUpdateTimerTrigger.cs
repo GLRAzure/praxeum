@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Praxeum.Data;
 using Praxeum.Domain.Contests;
 using Praxeum.FunctionApp.Helpers;
@@ -16,7 +17,7 @@ namespace Praxeum.FunctionApp
 
         [FunctionName("ContestProgressUpdateTimerTrigger")]
         public static async Task Run(
-            [TimerTrigger("0 0 */6 * * *")] TimerInfo myTimer,
+            [TimerTrigger("0 0 */1 * * *")] TimerInfo myTimer,
             [Queue("contestprogress-update", Connection = "AzureStorageOptions:ConnectionString")] ICollector<ContestProgressUpdate> contestProgressUpdates,
             ILogger log)
         {
@@ -42,6 +43,8 @@ namespace Praxeum.FunctionApp
                     {
                         Id = contest.Id
                     });
+
+                log.LogInformation(JsonConvert.SerializeObject(contest, Formatting.Indented));
             }
         }
     }
