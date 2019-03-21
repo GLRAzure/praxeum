@@ -22,6 +22,7 @@ namespace Praxeum.Domain
         {
             switch (contest.Type)
             {
+                case ContestType.Levels:
                 case ContestType.AccumulatedLevels:
                     if (contestLearner.StartValue == null || forceUpdate)
                     {
@@ -29,6 +30,7 @@ namespace Praxeum.Domain
                             microsoftProfile.GameStatus.Level.LevelNumber;
                     }
                     break;
+                case ContestType.Points:
                 case ContestType.AccumulatedPoints:
                 case ContestType.Leaderboard:
                     if (contestLearner.StartValue == null || forceUpdate)
@@ -38,9 +40,6 @@ namespace Praxeum.Domain
                                 microsoftProfile.GameStatus.Level.LevelNumber,
                                 microsoftProfile.GameStatus.CurrentLevelPointsEarned);
                     }
-                    break;
-                case ContestType.Levels:
-                    contestLearner.StartValue = 1;
                     break;
                 default:
                     contestLearner.StartValue = 0;
