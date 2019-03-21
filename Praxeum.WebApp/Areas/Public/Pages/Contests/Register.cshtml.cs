@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Praxeum.Domain;
 using Praxeum.Domain.Contests;
 using Praxeum.Domain.Contests.Learners;
+using Praxeum.WebApp.Areas.Public.Models;
 
 namespace Praxeum.WebApp.Areas.Public.Pages.Contests
 {
@@ -17,7 +18,7 @@ namespace Praxeum.WebApp.Areas.Public.Pages.Contests
         public ContestFetched Contest { get; set; }
 
         [BindProperty]
-        public ContestLearnerAdd Learner { get; set; }
+        public ContestLearnerRegistrationAdd Learner { get; set; }
 
         public RegisterModel(
            IHandler<ContestFetch, ContestFetched> contestFetcher,
@@ -41,7 +42,7 @@ namespace Praxeum.WebApp.Areas.Public.Pages.Contests
                 id.Value);
 
             this.Learner =
-                new ContestLearnerAdd
+                new ContestLearnerRegistrationAdd
                 {
                     ContestId = id.Value
                 };
