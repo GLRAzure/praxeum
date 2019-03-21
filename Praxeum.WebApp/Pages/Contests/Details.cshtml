@@ -42,6 +42,8 @@
                     @if (this.User.IsInRole("Administrator"))
                     {
                         <a asp-page="./Start" asp-route-id="@Model.Contest.Id">Start</a>
+                        <text> | </text>
+                        <a asp-page="./End" asp-route-id="@Model.Contest.Id">End</a>
                     }
                 </p>
             </div>
