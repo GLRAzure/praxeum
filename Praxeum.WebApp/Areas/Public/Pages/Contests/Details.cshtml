@@ -80,6 +80,20 @@
             <p class="form-control-static">@Model.Contest.Prizes</p>
         </div>
     }
+    <div class="form-group">
+        <label>Total Learner Growth</label>
+        <p class="form-control-static">
+            @Model.Contest.GetTotalLearnerGrowth()
+            @if (Model.Contest.IsPointsContest())
+            {
+                <text> points</text>
+            }
+            else
+            {
+                <text> levels</text>
+            }
+        </p>
+    </div>
 </form>
 
 <h2>Learners</h2>
