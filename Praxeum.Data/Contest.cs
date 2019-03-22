@@ -72,5 +72,18 @@ namespace Praxeum.Data
         {
             return this.Status == status;
         }
+
+        public bool IsPointsContest()
+        {
+            switch (this.Type)
+            {
+                case ContestType.Points:
+                case ContestType.AccumulatedPoints:
+                case ContestType.Leaderboard:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
 }

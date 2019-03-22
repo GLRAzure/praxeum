@@ -5,6 +5,38 @@ namespace Praxeum.Domain.Contests.Learners
 {
     public class ContestLearnerFetched : ContestLearner
     {
+        public int? LevelGrowthValue
+        {
+            get
+            {
+                int? result = null;
+
+                if (this.Level.HasValue
+                    && this.StartValue.HasValue)
+                {
+                    result = this.Level.Value - this.StartValue.Value;
+                }
+
+                return result;
+            }
+        }
+
+        public int? PointsGrowthValue
+        {
+            get
+            {
+                int? result = null;
+
+                if (this.Points.HasValue
+                    && this.StartValue.HasValue)
+                {
+                    result = this.Points.Value - this.StartValue.Value;
+                }
+
+                return result;
+            }
+        }
+
         public int? ProgressValue
         {
             get

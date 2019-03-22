@@ -70,6 +70,7 @@ namespace Praxeum.WebApp
             services.AddTransient<IHandler<ContestStart, ContestStarted>, ContestStarter>();
             services.AddTransient<IHandler<ContestEnd, ContestEnded>, ContestEnder>();
             services.AddTransient<IHandler<ContestUpdate, ContestUpdated>, ContestUpdater>();
+            services.AddTransient<IHandler<ContestProgressUpdate, ContestProgressUpdated>, ContestProgressUpdater>();
 
             services.AddTransient<IHandler<ContestLearnerAdd, ContestLearnerAdded>, ContestLearnerAdder>();
             services.AddTransient<IHandler<ContestLearnerDelete, ContestLearnerDeleted>, ContestLearnerDeleter>();

@@ -12,5 +12,24 @@ namespace Praxeum.Domain.Contests
         {
             this.Learners = new List<ContestLearnerFetched>();
         }
+
+        public int GetTotalLearnerGrowth()
+        {
+            int result = 0;
+
+            foreach (var learner in this.Learners)
+            {
+                if (this.IsPointsContest())
+                {
+                    result += learner.PointsGrowthValue.Value;
+                }
+                else
+                {
+                    result += learner.LevelGrowthValue.Value;
+                }
+            }
+
+            return result;
+        }
     }
 }
