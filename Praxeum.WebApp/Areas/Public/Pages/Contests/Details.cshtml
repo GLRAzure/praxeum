@@ -83,7 +83,7 @@
     <div class="form-group">
         <label>Total Learner Growth</label>
         <p class="form-control-static">
-            @Model.Contest.GetTotalLearnerGrowth().ToString("N0")
+            @Model.Contest.Growth.ToString("N0")
             @if (Model.Contest.IsPointsContest())
             {
                 <text> points</text>
