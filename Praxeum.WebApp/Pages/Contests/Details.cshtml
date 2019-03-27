@@ -39,12 +39,6 @@
                 <label asp-for="Contest.Status"></label>
                 <p class="form-control-static">
                     @Model.Contest.Status
-                    @if (this.User.IsInRole("Administrator"))
-                    {
-                        <a asp-page="./Start" asp-route-id="@Model.Contest.Id">Start</a>
-                        <text> | </text>
-                        <a asp-page="./End" asp-route-id="@Model.Contest.Id">End</a>
-                    }
                 </p>
             </div>
             <div class="form-group">
@@ -115,12 +109,7 @@
             <div class="form-group">
                 <label asp-for="Contest.ProgressUpdateInterval"></label>
                 <p class="form-control-static">
-                    @Model.Contest.ProgressUpdateInterval minute(s)
-
-                    @if (this.User.IsInRole("Administrator"))
-                    {
-                        <a asp-page="./ProgressUpdate" asp-route-id="@Model.Contest.Id">Update</a>
-                    }
+                    @Model.Contest.ProgressUpdateInterval.ToString("N0") minute(s)
                 </p>
             </div>
             <div class="form-group">
@@ -159,11 +148,24 @@
 
         @if (this.User.IsInRole("Administrator"))
         {
-            <a asp-page="./Edit" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
-            <a asp-page="./Copy" asp-route-id="@Model.Contest.Id" class="btn btn-link">Copy</a>
-            <a asp-page="./Export" asp-route-id="@Model.Contest.Id" class="btn btn-link">Export</a>
-            <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Delete</a>
-            <a asp-page="./Index" class="btn btn-link">Cancel</a>
+            <div class="btn-group">
+                <a asp-page="./Edit" asp-route-id="@Model.Contest.Id" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><span>Edit</span></a>
+                <a asp-page="./Copy" asp-route-id="@Model.Contest.Id" class="btn btn-link">Copy</a>
+                <a asp-page="./Export" asp-route-id="@Model.Contest.Id" class="btn btn-link">Export</a>
+                <a asp-page="./Delete" asp-route-id="@Model.Contest.Id" class="btn btn-link">Delete</a>
+                <a asp-page="./Index" class="btn btn-link">Cancel</a>
+                <div class="dropdown">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown">
+                        More
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-page="./Start" asp-route-id="@Model.Contest.Id">Start</a>
+                        <a class="dropdown-item" asp-page="./End" asp-route-id="@Model.Contest.Id">Finish</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-page="./ProgressUpdate" asp-route-id="@Model.Contest.Id">Update Progress</a>
+                    </div>
+                </div>
+            </div>
         }
 
     </div>

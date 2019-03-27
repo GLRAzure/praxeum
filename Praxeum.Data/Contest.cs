@@ -47,6 +47,9 @@ namespace Praxeum.Data
         [Display(Name = "Custom Css")]
         public string CustomCss { get; set; }
 
+        [JsonProperty(PropertyName = "selfRegistrationEnabled")]
+        public bool SelfRegistrationEnabled { get; set; }
+
         [JsonProperty(PropertyName = "createdOn")]
         public DateTime CreatedOn { get; set; }
 
@@ -66,6 +69,7 @@ namespace Praxeum.Data
         {
             this.CreatedOn = DateTime.UtcNow;
             this.ProgressUpdateInterval = 1440;
+            this.SelfRegistrationEnabled = false;
         }
 
         public bool IsStatus(string status)

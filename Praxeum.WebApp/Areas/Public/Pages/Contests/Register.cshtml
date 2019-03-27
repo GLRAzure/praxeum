@@ -25,7 +25,15 @@
     </div>
     <div class="form-group">
         <label asp-for="Contest.StartDate"></label>
-        <p class="form-control-static">@Model.Contest.StartDate.Value.ToString("d")</p>
+        <p class="form-control-static">
+            @if (Model.Contest.StartDate.HasValue)
+            {
+                <text>@Model.Contest.StartDate.Value.ToString("d")</text>}
+            else
+            {
+                <text>TBD</text>
+            }
+        </p>
     </div>
     <div class="form-group">
         <label asp-for="Contest.EndDate"></label>

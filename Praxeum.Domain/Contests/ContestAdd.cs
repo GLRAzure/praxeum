@@ -36,12 +36,16 @@ namespace Praxeum.Domain.Contests
         
         [Display(Name="Progress Update Interval")]
         public int ProgressUpdateInterval { get; set; }
+        
+        [Display(Name="SelfRegistrationEnabled")]
+        public bool SelfRegistrationEnabled { get; set; }
 
         public ContestAdd()
         {
             this.Id = Guid.NewGuid();
             this.Type = ContestType.AccumulatedPoints;
             this.HasPrizes = false;
+            this.SelfRegistrationEnabled = false;
         }
     }
 }

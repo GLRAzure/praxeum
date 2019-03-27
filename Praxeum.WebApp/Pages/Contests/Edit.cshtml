@@ -75,6 +75,11 @@
         <span asp-validation-for="Contest.ProgressUpdateInterval" class="text-danger"></span>
         <small class="form-text text-muted">Determines how often progress, in minutes, is updated for a contest.</small>
     </div>
+    <div class="form-check mb-4">
+        <input asp-for="Contest.SelfRegistrationEnabled" class="form-check-input" />
+        <label class="form-check-label" for="Contest.SelfRegistrationEnabled">Learners are able to register for contests</label>
+        <span asp-validation-for="Contest.SelfRegistrationEnabled" class="text-danger d-block"></span>
+    </div>
     <div class="form-group">
         <label asp-for="Contest.CustomCss"></label>
         <textarea asp-for="Contest.CustomCss" class="form-control" rows="10"></textarea>
