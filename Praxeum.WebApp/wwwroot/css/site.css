@@ -219,6 +219,10 @@ div[class*="col-"] {
     margin-bottom: 30px;
 }
 
+.form-row div[class*="col-"] {
+    margin-bottom: inherit;
+}
+
 .tab-pane > h2 {
     margin-top: 2rem;
 }

@@ -35,15 +35,17 @@
                     <p class="form-control-static">@Model.Contest.Description</p>
                 </div>
             }
-            <div class="form-group">
-                <label asp-for="Contest.Status"></label>
-                <p class="form-control-static">
-                    @Model.Contest.Status
-                </p>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contest.Type"></label>
-                <p class="form-control-static">@Model.Contest.Type</p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.Status"></label>
+                    <p class="form-control-static">
+                        @Model.Contest.Status
+                    </p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.Type"></label>
+                    <p class="form-control-static">@Model.Contest.Type</p>
+                </div>
             </div>
             @if (Model.Contest.Type != ContestType.Leaderboard)
             {
@@ -61,29 +63,31 @@
                     </p>
                 </div>
             }
-            <div class="form-group">
-                <label asp-for="Contest.StartDate"></label>
-                <p class="form-control-static">
-                    @if (Model.Contest.StartDate.HasValue)
-                    {
-                        <text>@Model.Contest.StartDate.Value.ToString("d")</text>}
-                    else
-                    {
-                        <text>TBD</text>
-                    }
-                </p>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contest.EndDate"></label>
-                <p class="form-control-static">
-                    @if (Model.Contest.EndDate.HasValue)
-                    {
-                        <text>@Model.Contest.EndDate.Value.ToString("d")</text>}
-                    else
-                    {
-                        <text>TBD</text>
-                    }
-                </p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.StartDate"></label>
+                    <p class="form-control-static">
+                        @if (Model.Contest.StartDate.HasValue)
+                        {
+                            <text>@Model.Contest.StartDate.Value.ToString("d")</text>}
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.EndDate"></label>
+                    <p class="form-control-static">
+                        @if (Model.Contest.EndDate.HasValue)
+                        {
+                            <text>@Model.Contest.EndDate.Value.ToString("d")</text>}
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </p>
+                </div>
             </div>
             @if (!string.IsNullOrWhiteSpace(Model.Contest.Prizes))
             {
@@ -112,29 +116,31 @@
                     @Model.Contest.ProgressUpdateInterval.ToString("N0") minute(s)
                 </p>
             </div>
-            <div class="form-group">
-                <label asp-for="Contest.LastProgressUpdateOn"></label>
-                <p class="form-control-static">
-                    @if (Model.Contest.LastProgressUpdateOn.HasValue)
-                    {
-                        <text>@Model.Contest.LastProgressUpdateOn</text>}
-                    else
-                    {
-                        <text>TBD</text>
-                    }
-                </p>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contest.NextProgressUpdateOn"></label>
-                <p class="form-control-static">
-                    @if (Model.Contest.NextProgressUpdateOn.HasValue)
-                    {
-                        <text>@Model.Contest.NextProgressUpdateOn</text>}
-                    else
-                    {
-                        <text>TBD</text>
-                    }
-                </p>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.LastProgressUpdateOn"></label>
+                    <p class="form-control-static">
+                        @if (Model.Contest.LastProgressUpdateOn.HasValue)
+                        {
+                            <text>@Model.Contest.LastProgressUpdateOn</text>}
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Contest.NextProgressUpdateOn"></label>
+                    <p class="form-control-static">
+                        @if (Model.Contest.NextProgressUpdateOn.HasValue)
+                        {
+                            <text>@Model.Contest.NextProgressUpdateOn</text>}
+                        else
+                        {
+                            <text>TBD</text>
+                        }
+                    </p>
+                </div>
             </div>
             <div class="form-group">
                 <label>Public Board</label>

@@ -20,33 +20,33 @@
     <p>@Model.Contest.Description</p>
 }
 
-<h2>Details</h2>
-
 <form>
-    <div class="form-group">
-        <label asp-for="Contest.Status"></label>
-        <p class="form-control-static">
-            @if (Model.Contest.Status == ContestStatus.Ready)
-            {
-                <span class="badge badge-secondary">Ready</span>
-            }
-            else if (Model.Contest.Status == ContestStatus.InProgress)
-            {
-                <span class="badge badge-success">In Progress</span>
-            }
-            else if (Model.Contest.Status == ContestStatus.Ended)
-            {
-                <span class="badge badge-info">Ended</span>
-            }
-            else if (Model.Contest.Status == ContestStatus.Canceled)
-            {
-                <span class="badge badge-danger">Canceled</span>
-            }
-        </p>
-    </div>
-    <div class="form-group">
-        <label asp-for="Contest.Type"></label>
-        <p class="form-control-static">@Model.Contest.Type</p>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Contest.Status"></label>
+            <p class="form-control-static">
+                @if (Model.Contest.Status == ContestStatus.Ready)
+                {
+                    <span class="badge badge-secondary">Ready</span>
+                }
+                else if (Model.Contest.Status == ContestStatus.InProgress)
+                {
+                    <span class="badge badge-success">In Progress</span>
+                }
+                else if (Model.Contest.Status == ContestStatus.Ended)
+                {
+                    <span class="badge badge-info">Ended</span>
+                }
+                else if (Model.Contest.Status == ContestStatus.Canceled)
+                {
+                    <span class="badge badge-danger">Canceled</span>
+                }
+            </p>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Contest.Type"></label>
+            <p class="form-control-static">@Model.Contest.Type</p>
+        </div>
     </div>
     @if (Model.Contest.TargetValue.HasValue)
     {
@@ -55,24 +55,32 @@
             <p class="form-control-static">@Model.Contest.TargetValue.Value.ToString("N0")</p>
         </div>
     }
-    @if (Model.Contest.StartDate.HasValue)
-    {
-        <div class="form-group">
+    <div class="form-row">
+        <div class="form-group col-md-6">
             <label asp-for="Contest.StartDate"></label>
             <p class="form-control-static">
-                <text>@Model.Contest.StartDate.Value.ToString("d")</text>
+                @if (Model.Contest.StartDate.HasValue)
+                {
+                    <text>@Model.Contest.StartDate.Value.ToString("d")</text>}
+                else
+                {
+                    <text>TBD</text>
+                }
             </p>
         </div>
-    }
-    @if (Model.Contest.EndDate.HasValue)
-    {
-        <div class="form-group">
+        <div class="form-group col-md-6">
             <label asp-for="Contest.EndDate"></label>
             <p class="form-control-static">
-                <text>@Model.Contest.EndDate.Value.ToString("d")</text>
+                @if (Model.Contest.EndDate.HasValue)
+                {
+                    <text>@Model.Contest.EndDate.Value.ToString("d")</text>}
+                else
+                {
+                    <text>TBD</text>
+                }
             </p>
         </div>
-    }
+    </div>
     @if (Model.Contest.HasPrizes)
     {
         <div class="form-group">
@@ -95,8 +103,6 @@
         </p>
     </div>
 </form>
-
-<h2>Learners</h2>
 
 <div class="row cards d-lg-none d-xl-none">
     @{var rank = 1;}
